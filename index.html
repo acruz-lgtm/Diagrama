@@ -2,793 +2,144 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Diagrama de Flujo - SVG</title>
+    <title>Diagrama Principal de Roles</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js"></script>
+    <script>
+        // Inicializa Mermaid para buscar y renderizar diagramas
+        mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' }); 
+    </script>
     
     <style>
-    /* Estilo para las tablas generales */
-        table {
-            width: 100%;
-            border-collapse: collapse; /* Elimina el doble borde */
-            margin-top: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-        }
-
-        /* Estilo de los encabezados (filas <th>) */
-        th {
-            color: white;
-            text-align: left;
-            padding: 12px 15px;
-            font-weight: bold;
-        }
-
-        /* Estilo de las celdas de datos (filas <td>) */
-        td {
-            padding: 10px 15px;
-            border-bottom: 1px solid #ddd; /* Línea separadora sutil */
-        }
-
-        /* Efecto cebra para mejor lectura (Alternando colores de fila) */
-        tr:nth-child(even) {
-            background-color: #f9f9f9; /* Gris muy claro */
-        }
-
-        /* Estilo de los títulos de las secciones de información */
-        h2, h3 {
-            color: #28253D; /* Color oscuro para el texto */
-            padding-bottom: 5px;
-            margin-top: 30px;
-        }
-
-        /* Ocultar el borde HTML antiguo si lo tenías en la etiqueta table */
-        table[border="1"] {
-            border: none !important;
-        }
-
-        /* 📌 2. CLASES DE COLORES POR GRUPO 📌 */
-    
-        /* Grupo Verde: Roles de Exploración y Feedback */
-        .color-exploracion th, .color-exploracion h2 {
-            background-color: #A5D6A7; /* Verde suave del diagrama (fondo) */
-            color: #000;
-            border-bottom: 2px solid #388E3C; /* Verde oscuro (borde) */
-        }
-
-        /* Grupo Amarillo: Roles de Trabajo Principal */
-        .color-principal th, .color-principal h2 {
-            background-color: #FFF176; /* Amarillo suave del diagrama (fondo) */
-            color: #000;
-            border-bottom: 2px solid #FBC02D; /* Amarillo oscuro (borde) */
-        }
-
-        /* Grupo Azul: Plataformas Centrales */
-        .color-plataforma th, .color-plataforma h2 {
-            background-color: #90CAF9; /* Azul suave del diagrama (fondo) */
-            color: #000;
-            border-bottom: 2px solid #1976D2; /* Azul oscuro (borde) */
-        }
+        body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+        h1 { color: #333; }
+        .diagram-container { margin: 40px auto; max-width: 1200px; width: 100%; }
     </style>
 </head>
-
 <body>
 
-    <h1>Diagrama de Flujo de Roles y Plataformas</h1>
-
-    <img id="diagramaSVG"
-         src="https://acruz-lgtm.github.io/Diagrama/diagrama_final.svg" 
-         alt="Diagrama de Flujo de Roles de Trabajo" 
-         style="width: 100%; max-width: 1600px; height: auto;"
-         usemap="#image-map"> 
-
-    <map name="image-map">
-        <area shape="rect" alt="Desarrollador Frontend" title="Desarrollador Frontend" 
-          onclick="mostrarInfo('box-frontend')"
-          coords="721,213,924,258" 
-          data-original-coords="721,213,924,258">
-          
-        <area shape="rect" alt="Desarrollador Backend" title="Desarrollador Backend" 
-          onclick="mostrarInfo('box-backend')"
-          coords="724,288,921,333" 
-          data-original-coords="724,288,921,333">
-          
-        <area shape="rect" alt="Ingeniero de Datos" title="Ingeniero de Datos" 
-          onclick="mostrarInfo('box-ingeniero')" 
-          coords="724,362,914,555" 
-          data-original-coords="724,362,914,555"> 
+    <h1>Diagrama Principal de Arquitectura de Datos</h1>
     
-        <area shape="rect" alt="Científico de Datos" title="Científico de Datos" 
-          onclick="mostrarInfo('box-cientifico')"
-          coords="56,423,229,468" 
-          data-original-coords="56,423,229,468">
-           
-        <area shape="rect" alt="Arquitecto de Datos" title="Arquitecto de Datos" 
-          onclick="mostrarInfo('box-arquitecto')" 
-          coords="126,452,304,543" 
-          data-original-coords="126,452,304,543">
-          
-        <area shape="rect" alt="Cuentas de Servicio" title="Cuentas de Servicio" 
-          onclick="mostrarInfo('box-cuenta')"
-          coords="58,619,229,664" 
-          data-original-coords="58,619,229,664">
-          
-        <area shape="rect" alt="Analista de Datos" title="Analista de Datos" 
-          onclick="mostrarInfo('box-analista')"
-          coords="65,694,228,739" 
-          data-original-coords="65,694,228,739">
-          
-        <area shape="rect" alt="Punto de Acceso Único al DW" title="Punto de Acceso Único al DW" 
-          href="[URL_PUNTO_DE_ACCESO]" 
-          coords="1125,368,1357,413" 
-          data-original-coords="1125,368,1357,413" target="_blank">
-
-        <area shape="circle" alt="Fuentes Primarias" title="Fuentes Primarias" 
-          href="[URL_FUENTES_PRIMARIAS]" 
-          coords="1760,492,65" 
-          data-original-coords="1760,492,65" target="_blank">
-          
-        <area shape="rect" alt="API de Producción" title="API de Producción" 
-        href="[URL_API_PRODUCCION]" 
-        coords="1627,224,1784,272" 
-        data-original-coords="1627,224,1784,272" target="_blank">
-        
-        <area shape="rect" alt="Plataforma Web / Docs" title="Plataforma Web / Docs" 
-        href="[URL_PLATAFORMA_WEB]" 
-        coords="1618,298,1815,344" 
-        data-original-coords="1618,298,1815,344" target="_blank">
-        
-        <area shape="rect" alt="DW: Raw & Silver - PostgreSQL" title="DW: Raw & Silver - PostgreSQL" 
-        href="[URL_DW_RAW_SILVER]" 
-        coords="1608,374,1840,440" 
-        data-original-coords="1608,374,1840,440" target="_blank">
-        
-        <area shape="rect" alt="Fuentes Primarias" title="Fuentes Primarias" 
-        href="[URL_FUENTES_PRIMARIAS]" 
-        coords="1681,470,1839,515" 
-        data-original-coords="1681,470,1839,515" target="_blank">
-    
-    </map> <button id="btnMostrarTodo" onclick="mostrarTodo()" style="margin: 20px 0; padding: 10px 20px; display: none;">
-    📊 Mostrar Todas las Tablas
-    </button>
-
-    </map>
-    
-    <p>Este diagrama fue incrustado como una imagen vectorial SVG para preservar el layout original.</p>
-
-
-<script>
-    // 📌 FUNCIÓN DE INTERACCIÓN (NUEVA) 📌
-    function mostrarInfo(idMostrar) {
-        // 1. Ocultar todos los cuadros de información
-        var todosLosCuadros = document.querySelectorAll('.info-box');
-        todosLosCuadros.forEach(function(box) {
-            box.style.display = 'none';
-        });
-        
-        // 2. Mostrar el cuadro de información solicitado
-        var cuadroActual = document.getElementById(idMostrar);
-        if (cuadroActual) {
-            cuadroActual.style.display = 'block';
-            
-            // Opcional: Desplazar la página hacia el cuadro de información
-            cuadroActual.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        //3. Mostrar el botón "Mostrar todo" si está oculto
-        var btnMostrarTodo = document.getElementById('btnMostrarTodo');
-        if (btnMostrarTodo) {
-            btnMostrarTodo.style.display = 'block';
-        }
-    }
-
-    //NUENVA FUNCIÓN: CERRAR LA TABLA ACTUAL 
-    function cerrarInfo(idCerrar) {
-        var cuadroActual = document.getElementById(idCerrar);
-        if (cuadroActual) {
-            cuadroActual.style.display ='none';
-        }
-
-        //window.scrollTo({ top: 0, behavior: 'smooth'});
-
-    }
-
-    // FUNCIÓN: MOSTRAR TODAS LAS TABLAS 
-    function mostrarTodo() {
-        var todosLosCuadros = document.querySelectorAll('.info-box');
-        todosLosCuadros.forEach(function(box) {
-            box.style.display = 'block';
-        });
-        
-        // Desplazar hacia el primer cuadro mostrado
-        if (todosLosCuadros.length > 0) {
-             todosLosCuadros[0].scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    }
-
-    // 📌 FUNCIÓN PARA AJUSTAR EL MAPA DE IMAGEN
-    function adjustImageMap() {
-        var img = document.getElementById('diagramaSVG');
-        var map = document.querySelector('map[name="image-map"]');
-        var areas = map ? map.querySelectorAll('area') : [];
-
-        // ⚠️ USANDO EL ANCHO PRECISO DEL VIEWBOX DE TU SVG
-        var originalWidth = 1915.78125; 
-        
-        // Verifica si la imagen y el mapa existen y si la imagen tiene un ancho cargado
-        if (!img || !map || img.clientWidth === 0) {
-            return;
-        }
-
-        var currentWidth = img.clientWidth;
-        var scale = currentWidth / originalWidth;
-
-        areas.forEach(function(area) {
-            // Almacenar las coordenadas originales en un atributo de datos (data-original-coords)
-            var originalCoords = area.getAttribute('data-original-coords');
-            if (!originalCoords) {
-                originalCoords = area.coords;
-                area.setAttribute('data-original-coords', originalCoords);
-            }
-            
-            var coords = originalCoords.split(',');
-            var newCoords = [];
-            
-            // Aplicar la escala a cada coordenada
-            coords.forEach(function(coord) {
-                newCoords.push(Math.round(parseFloat(coord.trim()) * scale));
-            });
-            
-            area.coords = newCoords.join(',');
-        });
-    }
-
-    // 1. Ejecutar inmediatamente al cargar el script (en caso de que la imagen esté en caché)
-    // Usamos un pequeño retraso para asegurar que la imagen tiene su ancho final.
-    setTimeout(adjustImageMap, 50);
-
-    // 2. Ejecutar cuando la imagen termine de cargar
-    var img = document.getElementById('diagramaSVG');
-    if (img) {
-        img.onload = adjustImageMap;
-    }
-    
-    // 3. Ejecutar cuando la ventana cambie de tamaño
-    window.addEventListener('resize', adjustImageMap);
-
-    // 4. Ejecutar cuando el contenido DOM esté completamente cargado (por si falla el onload)
-    document.addEventListener("DOMContentLoaded", adjustImageMap);
-</script>
-
-</body>
-<html>
-
-<div id="box-ingeniero" class="info-box color-principal" style="display: none;">    
-    <button onclick="cerrarInfo('box-ingeniero')" style="float: right; margin-bottom: 10px;">
-        ❌ Cerrar
-    </button>
-
-    <h2 id="info-ingeniero">Información Adicional: Ingeniero de datos</h2>
-    <h3>Swimlane por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil (Actor)</th>
-                <th>Fase 1: Ingestión y "Raw"</th>
-                <th>Fase 2: Modelado y "Silver"</th>
-                <th>Fase 3: Análisis y Modelado</th>
-                <th>Fase 4: API (Backend de Consumo)</th>
-                <th>Fase 5: Plataforma Web (Frontend)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Ingeniero de datos</td>
-                <td>
-                    <p>(Ejecuta ETL)</p> 
-                    <ol style="margin-left: -20px;">
-                        <li>Define modelos raw. </li>
-                        <li>Ejecuta scripts de carga de fuentes primarias.</li>
-                        <li>Administra BBDD y Alembic.</li>
-                    </ol> 
-                </td>
-                <td>
-                    <p>(Ejecuta ETL)</p> 
-                    <ol style="margin-left: -20px;">
-                        <li>Define modelos silver.</li>
-                        <li>Ejecuta scripts de consolidación (ej. nocred_completo).</li>
-                    </ol>
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-    <br>
-        
-    <h3>Permisos por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil</th>
-                <th>Propósito Principal</th>
-                <th>Fuentes Primarias (SQL, API)</th>
-                <th>DWH: raw (Postgres)</th>
-                <th>DWH: silver / gold (Postgres)</th>
-                <th>Código ETL (Git)</th>
-                <th>Servicio ETL (Docker) ⚙️</th>
-                <th>Código Backend (Git) ↔️ API</th>
-                <th>Servicio Backend (Docker) 🚀</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Ingeniero de datos</td>
-                <td>
-                    <p>(Admin)</p>
-                    <ol style="margin-left: -20px;">
-                        <li>Liderar y ejecutar el ETL.</li>
-                    </ol>
-                </td>
-                <td>SÓLO LECTURA (Auditoría)</td>
-                <td>LECTURA Y ESCRITURA</td>
-                <td>LECTURA Y ESCRITURA</td>
-                <td>Push a main</td>
-                <td>EJECUTAR</td>
-                <td>Push a main</td>
-                <td>EJECUTAR (QA)</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div id="box-arquitecto" class="info-box color-exploracion" style="display: none;">   
-    <button onclick="cerrarInfo('box-arquitecto')" style="float: right; margin-bottom: 10px;">
-        ❌ Cerrar
-    </button>
-    
-    <h2 id="info-arquitecto">Información Adicional: Arquitecto de datos</h2>
-    <h3>Swimlane por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil (Actor)</th>
-                <th>Fase 1: Ingestión y "Raw"</th>
-                <th>Fase 2: Modelado y "Silver"</th>
-                <th>Fase 3: Análisis y Modelado</th>
-                <th>Fase 4: API (Backend de Consumo)</th>
-                <th>Fase 5: Plataforma Web (Frontend)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Arquitecto de datos</td>
-                <td>
-                    <p>(Explora Fuentes)</p> 
-                    <ol style="margin-left: -20px;">
-                        <li>Audita fuentes primarias (lectura).</li>
-                        <li>Propone mejoras a queries y scripts ETL.</li>
-                    </ol>
-                </td>
-                <td>
-                    <p>(Diseña)</p> 
-                    <ol style="margin-left: -20px;">
-                        <li>Propone reglas de negocio para silver.</li>
-                    </ol>
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-    <br>
-    <h3>Permisos por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil</th>
-                <th>Propósito Principal</th>
-                <th>Fuentes Primarias (SQL, API)</th>
-                <th>DWH: raw (Postgres)</th>
-                <th>DWH: silver / gold (Postgres)</th>
-                <th>Código ETL (Git)</th>
-                <th>Servicio ETL (Docker) ⚙️</th>
-                <th>Código Backend (Git) ↔️ API</th>
-                <th>Servicio Backend (Docker) 🚀</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Arquitecto de datos</td>
-                <td>
-                    <p>(Dev ETL)</p>
-                    <ol style="margin-left: -20px;">
-                        <LI>Proponer y optimizar ETL.</LI>
-                    </ol> 
-                </td>
-                <td>SÓLO LECTURA (Exploración)</td>
-                <td>SÓLO LECTURA (Dev)</td>
-                <td>SÓLO LECTURA (Dev)/td>
-                <td>Push a feature-branch</td>
-                <td>SIN ACCESO</td>
-                <td>Push a feature-branch</td>
-                <td>EJECUTAR (QA)</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div id="box-analista" class="info-box color-exploracion" style="display: none;">  
-    <button onclick="cerrarInfo('box-analista')" style="float: right; margin-bottom: 10px;">
-        ❌ Cerrar
-    </button>
-    
-    <h2 id="info-analista">Información Adicional: Analista de datos</h2>
-    <h3>Swimlane por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil (Actor)</th>
-                <th>Fase 1: Ingestión y "Raw"</th>
-                <th>Fase 2: Modelado y "Silver"</th>
-                <th>Fase 3: Análisis y Modelado</th>
-                <th>Fase 4: API (Backend de Consumo)</th>
-                <th>Fase 5: Plataforma Web (Frontend)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Analista de datos</td>
-                <td>
-                    <p>(Explora DWH)</p> 
-                    <ol style="margin-left: -20px;">
-                        <li>Usa Notebooks para explorar raw.db.</li>
-                    </ol> 
-                </td>
-                <td>
-                    <p>(Explora DWH)</p>
-                    <ol style="margin-left: -20px;">
-                        <li>Usa Notebooks para explorar silver.db.</li> 
-                        <li>Valida datos cargados.</li>  
-                        <li>Realiza sugerencias.</li> 
-                    </ol>
-                </td>
-                <td>
-                    <p>(Desarrolla)</p> 
-                    <ol style="margin-left: -20px;">
-                    <li>Genera reportes preliminares.</li>
-                    </ol>
-                </td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-    <br>
-
-    <h3>Permisos por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil</th>
-                <th>Propósito Principal</th>
-                <th>Fuentes Primarias (SQL, API)</th>
-                <th>DWH: raw (Postgres)</th>
-                <th>DWH: silver / gold (Postgres)</th>
-                <th>Código ETL (Git)</th>
-                <th>Servicio ETL (Docker) ⚙️</th>
-                <th>Código Backend (Git) ↔️ API</th>
-                <th>Servicio Backend (Docker) 🚀</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Analista de datos</td>
-                <td>
-                    <p>(Análisis)</p> 
-                    <ol style="margin-left: -20px;">
-                        <li>Explorar, modelar, reportear.</li>
-                    </ol>
-                </td>
-                <td>SIN ACCESO</td>
-                <td>SÓLO LECTURA</td>
-                <td>SÓLO LECTURA</td>
-                <td>SÓLO LECTURA</td>
-                <td>SIN ACCESO</td>
-                <td>Push a feature-branch</td>
-                <td>EJECUTAR (QA)</td>
-            </tr>
-        </tbody>
-    </table>
-
-</div>
-
-<div id="box-cientifico" class="info-box color-exploracion" style="display: none;">    
-    <button onclick="cerrarInfo('box-cientifico')" style="float: right; margin-bottom: 10px;">
-        ❌ Cerrar
-    </button>
-    
-    <h2 id="info-cientifico">Información Adicional: Científico de datos</h2>
-    <h3>Swimlane por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil (Actor)</th>
-                <th>Fase 1: Ingestión y "Raw"</th>
-                <th>Fase 2: Modelado y "Silver"</th>
-                <th>Fase 3: Análisis y Modelado</th>
-                <th>Fase 4: API (Backend de Consumo)</th>
-                <th>Fase 5: Plataforma Web (Frontend)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Científico de datos</td>
-                <td></td>
-                <td>
-                    <p>(Ingesta de Modelos)</p>
-                    <ol style="margin-left: -20px;">
-                        <li>Lee datos de silver.db.</li>
-                    </ol>
-                </td>
-                <td>
-                    <p>(Desarrolla)</p> 
-                    <ol style="margin-left: -20px;">
-                        <li>Entrena modelos (clasificación, simulación).</li>
-                        <li>Prueba algoritmos.</li>
-                    </ol> 
-                </td>
-                <td>
-                    <p>(Despliega)</p> 
-                    <ol style="margin-left: -20px;">
-                        <li>Entrega modelos al Backend para ser "servidos" vía API.</li>
-                    </ol>
-                </td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-    <br>
-
-    <h3>Permisos por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil</th>
-                <th>Propósito Principal</th>
-                <th>Fuentes Primarias (SQL, API)</th>
-                <th>DWH: raw (Postgres)</th>
-                <th>DWH: silver / gold (Postgres)</th>
-                <th>Código ETL (Git)</th>
-                <th>Servicio ETL (Docker) ⚙️</th>
-                <th>Código Backend (Git) ↔️ API</th>
-                <th>Servicio Backend (Docker) 🚀</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Científico de datos</td>
-                <td>
-                    <P>(Análisis)</P> 
-                    <ol style="margin-left: -20px;">
-                        <li>Explorar, modelar, reportear.</li>
-                    </ol>
-                </td>
-                <td>SIN ACCESO</td>
-                <td>SÓLO LECTURA</td>
-                <td>SÓLO LECTURA</td>
-                <td>SÓLO LECTURA</td>
-                <td>SIN ACCESO</td>
-                <td>Push a feature-branch</td>
-                <td>EJECUTAR (QA)</td>
-            </tr>
-        </tbody>
-    </table>
-
-</div>
-
-<div id="box-backend" class="info-box color-principal" style="display: none;">   
-    <button onclick="cerrarInfo('box-backend')" style="float: right; margin-bottom: 10px;">
-        ❌ Cerrar
-    </button>
-    
-    <h2 id="info-backend">Información Adicional: Desarrollador Backend</h2>
-    <h3>Swimlane por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil (Actor)</th>
-                <th>Fase 1: Ingestión y "Raw"</th>
-                <th>Fase 2: Modelado y "Silver"</th>
-                <th>Fase 3: Análisis y Modelado</th>
-                <th>Fase 4: API (Backend de Consumo)</th>
-                <th>Fase 5: Plataforma Web (Frontend)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Desarrollador Backend</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    <p>(Construye API)</p> 
-                    <ol style="margin-left: -20px;">
-                        <li>Lee de silver.db.</li>
-                        <li>Crea endpoints en FastAPI.</li>
-                        <li>Implementa seguridad (Tokens).</li>
-                        <li>Estandariza salidas.</li>
-                    </ol>
-                </td>
-                <td>
-                    <p>(Soporta API)</p>
-                    <ol style="margin-left: -20px;">
-                        <li>Mantiene y monitorea la API en producción.</li>
-                    </ol>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <br>
-
-    <h3>Permisos por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil</th>
-                <th>Propósito Principal</th>
-                <th>Fuentes Primarias (SQL, API)</th>
-                <th>DWH: raw (Postgres)</th>
-                <th>DWH: silver / gold (Postgres)</th>
-                <th>Código ETL (Git)</th>
-                <th>Servicio ETL (Docker) ⚙️</th>
-                <th>Código Backend (Git) ↔️ API</th>
-                <th>Servicio Backend (Docker) 🚀</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Desarrollador Backend</td>
-                <td>
-                    <p>(Dev API)</p>
-                    <ol style="margin-left: -20px;">
-                        <li>Estandarizar y asegurar APIs.</li>
-                    </ol>
-                </td>
-                <td>SIN ACCESO</td>
-                <td>SÓLO LECTURA</td>
-                <td>SÓLO LECTURA</td>
-                <td>SÓLO LECTURA</td>
-                <td>SIN ACCESO</td>
-                <td>Push a main</td>
-                <td>EJECUTAR / GESTIONAR (QA/Prod)</td>
-            </tr>
-        </tbody>
-    </table>
-
-</div>    
-
-<div id="box-frontend" class="info-box color-principal" style="display: none;">
-<button onclick="cerrarInfo('box-frontend')" style="float: right; margin-bottom: 10px;">
-        ❌ Cerrar
-    </button>
-
-    <h2 id="info-frontend">Información Adicional: Desarrollador Frontend</h2>
-    <h3>Swimlane por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil (Actor)</th>
-                <th>Fase 1: Ingestión y "Raw"</th>
-                <th>Fase 2: Modelado y "Silver"</th>
-                <th>Fase 3: Análisis y Modelado</th>
-                <th>Fase 4: API (Backend de Consumo)</th>
-                <th>Fase 5: Plataforma Web (Frontend)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Desarrollador Frontend</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    <p>(Consume API) </p>
-                    <ol style="margin-left: -20px;">
-                        <li>Revisa la documentación de la API.</li>
-                        <li>Conecta los componentes de la UI a los endpoints.</li>
-                    </ol>     
-                </td>
-                <td>
-                    <p>(Construye UI)</p>
-                    <ol style="margin-left: -20px;">
-                        <li>Desarrolla tableros en React/Dash.</li>
-                        <li>Publica en la Plataforma Web.</li>
-                    </ol>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <br>
-    
-    <h3>Permisos por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil</th>
-                <th>Propósito Principal</th>
-                <th>Fuentes Primarias (SQL, API)</th>
-                <th>DWH: raw (Postgres)</th>
-                <th>DWH: silver / gold (Postgres)</th>
-                <th>Código ETL (Git)</th>
-                <th>Servicio ETL (Docker) ⚙️</th>
-                <th>Código Backend (Git) ↔️ API</th>
-                <th>Servicio Backend (Docker) 🚀</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Desarrollador Frontend</td>
-                <td>
-                    <p>(Consumidor)</p>
-                    <ol style="margin-left: -20px;">
-                        <li>Construir tableros (UI).</li>
-                    </ol>
-                </td>
-                <td>SIN ACCESO</td>
-                <td>SÓLO LECTURA</td>
-                <td>SÓLO LECTURA</td>
-                <td>n/a</td>
-                <td>n/a</td>
-                <td>n/a</td>
-                <td>N/A (Es el servicio)</td>
-            </tr>
-        </tbody>
-    </table>
-
-</div>
-
-<div id="box-cuenta" class="info-box color-exploracion" style="display: none;">      
-    <button onclick="cerrarInfo('box-cuenta')" style="float: right; margin-bottom: 10px;">
-        ❌ Cerrar
-    </button>
-
-    <h2 id="info-cuenta">Información Adicional: Cuenta de Servicio</h2>
-    <h3>Permisos por Actor</h3>
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th>Perfil</th>
-                <th>Propósito Principal</th>
-                <th>Fuentes Primarias (SQL, API)</th>
-                <th>DWH: raw (Postgres)</th>
-                <th>DWH: silver / gold (Postgres)</th>
-                <th>Código ETL (Git)</th>
-                <th>Servicio ETL (Docker) ⚙️</th>
-                <th>Código Backend (Git) ↔️ API</th>
-                <th>Servicio Backend (Docker) 🚀</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Cuentas de Servicio</td>
-                <td>
-                    <p>(Apps)</p>
-                    <ol style="margin-left: -20px;">
-                        <li>Potenciar aplicaciones</li>
-                    </ol>
-                </td>
-                <td>SIN ACCESO</td>
-                <td>api_user: SÓLO LECTURA</td>
-                <td>api_user: SÓLO LECTURA</td>
-                <td>n/a</td>
-                <td>n/a</td>
-                <td>n/a</td>
-                <td>n/a (en el servicio)</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-</body>
-</html>
+    <div class="diagram-container">
+        <div class="mermaid">
+            ---
+            config:
+                theme: neo
+                layout: elk
+                look: classic
+                ---
+            flowchart TB
+                subgraph subGraph0["FUENTE DE DATOS"]
+                    FP["Fuentes Primarias"]
+                end
+                subgraph subGraph1["ROL DE EXPLORACIÓN"]
+                    AD(["Arquitecto de Datos"])
+                end
+                subgraph subGraph2["ROL PRINCIPAL"]
+                    ID["Ingeniero de Datos"]
+                end
+                subgraph subGraph3["PLATAFORMA CENTRAL"]
+                    DWH["Raw & Silver - PostgreSQL"]
+                end
+                subgraph supGraph4["PLATAFORMA"]
+                    APIS["API de Producción"]
+                end
+                subgraph supGraph5["PLATAFORMA"]
+                    WEB["Plataforma WEB"]
+                end
+                subgraph subGraph6["ROLES DE TRABAJO"]
+                    AN(["Análista de Datos"])
+                    CD(["Científico de Datos"])
+                end
+                subgraph subGraph7["ROL DE INTEGRACIÓN"]
+                    DB["Desarrollador Backend"]
+                end
+                subgraph ROL2["ROL DE PRODUCCIÓN"]
+                    DF["Desarrollador Frontend"]
+                end
+                subgraph subGraph8["CUENTAS DE SERVICIO"]
+                    CUENTA(["Cuenta Externa"])
+                end
+                    FP --> ID & AD
+                    AD -.-> ID
+                    ID --> DWH
+                    DWH --> subGraph6 & DB
+                    subGraph6 -.-> DB & APIS
+                    APIS --> subGraph6 & DF
+                    DB --> APIS
+                    DF --> WEB
+                    WEB --> CUENTA
+                    FP@{ shape: diam}
+                    DWH@{ shape: hex}
+                    APIS@{ shape: trap-b}
+                    WEB@{ shape: trap-t}
+                    DB@{ shape: rect}
+                    DF@{ shape: rect}
+                    style FP fill:#FFFFFF
+                    style AD fill:#FFFFFF
+                    style ID fill:#FFFFFF
+                    style DWH fill:#FFFFFF
+                    style APIS fill:#FFFFFF
+                    style WEB fill:#FFFFFF
+                    style AN fill:#FFFFFF
+                    style CD fill:#FFFFFF
+                    style DB fill:#FFFFFF
+                    style DF fill:#FFFFFF
+                    style CUENTA fill:#FFFFFF
+                    style subGraph6 fill:#C8E6C9
+                    style subGraph0 fill:#FFE0B2
+                    style subGraph1 fill:#C8E6C9
+                    style subGraph2 fill:#FFF9C4
+                    style subGraph3 fill:#BBDEFB
+                    style subGraph7 fill:#FFF9C4
+                    style supGraph4 fill:#BBDEFB
+                    style ROL2 fill:#FFF9C4
+                    style supGraph5 fill:#BBDEFB
+                    style subGraph8 fill:#C8E6C9
+                    linkStyle 0 stroke:#FFD600,fill:none
+                    linkStyle 1 stroke:#00C853,fill:none
+                    linkStyle 2 stroke:#00C853,fill:none
+                    linkStyle 3 stroke:#FFD600,fill:none
+                    linkStyle 4 stroke:#00C853,fill:none
+                    linkStyle 5 stroke:#FFD600,fill:none
+                    linkStyle 6 stroke:#00C853,fill:none
+                    linkStyle 7 stroke:#00C853,fill:none
+                    linkStyle 8 stroke:#00C853,fill:none
+                    linkStyle 9 stroke:#FFD600,fill:none
+                    linkStyle 10 stroke:#FFD600,fill:none
+                    linkStyle 11 stroke:#FFD600,fill:none
+                    linkStyle 12 stroke:#FFD600,fill:none
+                    
+                    %% ===============================================
+                    %% ENLACES DE ZOOM (NAVEGACIÓN A OTROS ARCHIVOS HTML)
+                    %% ===============================================
+                    
+                    %% Al Diagrama 1 (Archivo: diagrama1.html)
+                    click ID "diagrama1.html" "Ver detalle de Ingestión" _self
+                    click AD "diagrama1.html" "Ver detalle de Arquitectura" _self
+                    
+                    %% Al Diagrama 2 (Archivo: diagrama2.html)
+                    click CD "diagrama2.html" "Ver detalle de Análisis" _self
+                    click AN "diagrama2.html" "Ver detalle de Análisis" _self
+                    click DB "diagrama2.html" "Ver detalle de Backend" _self
+                    
+                    %% Al Diagrama 3 (Archivo: diagrama3.html)
+                    click DF "diagrama3.html" "Ver detalle de Producción" _self
+                    click CUENTA "diagrama3.html" "Ver detalle de Integración Externa" _self
+                    
+                    %% ===============================================
+                    %% ENLACES A TABLAS (USANDO ANCLAJES DENTRO DE ESTE MISMO ARCHIVO)
+                    %% ===============================================
+                    
+                    click FP "#info-FP" "Información sobre Fuentes Primarias" _self
+                    click DWH "#info-DWH" "Información sobre DWH" _self
+                    click APIS "#info-APIS" "Información sobre API de Producción" _self
+                    click WEB "#info-WEB" "Información sobre Plataforma WEB" _self
+                            </div>
+                    </div>
+                    
+                    <div id="info-tablas-container">
+                    </div>
+                    
+            </body>
+            </html>
