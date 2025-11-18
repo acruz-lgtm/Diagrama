@@ -22,95 +22,96 @@
     
     <div class="diagram-container">
         <div class="mermaid">
----
-config
-    theme: neo
-    layout: elk
-    look: classic 
----
-flowchart TB
-subgraph subGraph0["FUENTE DE DATOS"]
-FP["Fuentes Primarias"]
-end
-subgraph subGraph1["ROL DE EXPLORACIÓN"]
-AD(["Arquitecto de Datos"])
-end
-subgraph subGraph2["ROL PRINCIPAL"]
-ID["Ingeniero de Datos"]
-end
-subgraph subGraph3["PLATAFORMA CENTRAL"]
-DWH["Raw & Silver - PostgreSQL"]
-end
-subgraph supGraph4["PLATAFORMA"]
-APIS["API de Producción"]
-end
-subgraph supGraph5["PLATAFORMA"]
-WEB["Plataforma WEB"]
-end
-subgraph subGraph6["ROLES DE TRABAJO"]
-AN(["Análista de Datos"])
-CD(["Científico de Datos"])
-end
-subgraph subGraph7["ROL DE INTEGRACIÓN"]
-DB["Desarrollador Backend"]
-end
-subgraph ROL2["ROL DE PRODUCCIÓN"]
-DF["Desarrollador Frontend"]
-end
-subgraph subGraph8["CUENTAS DE SERVICIO"]
-CUENTA(["Cuenta Externa"])
-end
-FP --> ID & AD
-AD -.-> ID
-ID --> DWH
-DWH --> subGraph6 & DB
-subGraph6 -.-> DB & APIS
-APIS --> subGraph6 & DF
-DB --> APIS
-DF --> WEB
-WEB --> CUENTA
-FP@{ shape: diam}
-DWH@{ shape: diam}
-APIS@{ shape: trap-b}
-WEB@{ shape: trap-t}
-DB@{ shape: rect}
-DF@{ shape: rect}
-style FP fill:#FFFFFF
-style AD fill:#FFFFFF
-style ID fill:#FFFFFF
-style DWH fill:#FFFFFF
-style APIS fill:#FFFFFF
-style WEB fill:#FFFFFF
-style AN fill:#FFFFFF
-style CD fill:#FFFFFF
-style DB fill:#FFFFFF
-style DF fill:#FFFFFF
-style CUENTA fill:#FFFFFF
-style subGraph6 fill:#C8E6C9
-style subGraph0 fill:#FFE0B2
-style subGraph1 fill:#C8E6C9
-style subGraph2 fill:#FFF9C4
-style subGraph3 fill:#BBDEFB
-style subGraph7 fill:#FFF9C4
-style supGraph4 fill:#BBDEFB
-style ROL2 fill:#FFF9C4
-style supGraph5 fill:#BBDEFB
-style subGraph8 fill:#C8E6C9
-linkStyle 0 stroke:#FFD600,fill:none
-linkStyle 1 stroke:#00C853,fill:none
-linkStyle 2 stroke:#00C853,fill:none
-linkStyle 3 stroke:#FFD600,fill:none
-linkStyle 4 stroke:#00C853,fill:none
-linkStyle 5 stroke:#FFD600,fill:none
-linkStyle 6 stroke:#00C853,fill:none
-linkStyle 7 stroke:#00C853,fill:none
-linkStyle 8 stroke:#00C853,fill:none
-linkStyle 9 stroke:#FFD600,fill:none
-linkStyle 10 stroke:#FFD600,fill:none
-linkStyle 11 stroke:#FFD600,fill:none
-linkStyle 12 stroke:#FFD600,fill:none
+            ---
+            config
+                theme: neo
+                layout: elk
+                look: classic 
+            ---
+            flowchart TB
+            subgraph subGraph0["FUENTE DE DATOS"]
+            FP["Fuentes Primarias"]
+            end
+            subgraph subGraph1["ROL DE EXPLORACIÓN"]
+            AD(["Arquitecto de Datos"])
+            end
+            subgraph subGraph2["ROL PRINCIPAL"]
+            ID["Ingeniero de Datos"]
+            end
+            subgraph subGraph3["PLATAFORMA CENTRAL"]
+            DWH["Raw & Silver - PostgreSQL"]
+            end
+            subgraph supGraph4["PLATAFORMA"]
+            APIS["API de Producción"]
+            end
+            subgraph supGraph5["PLATAFORMA"]
+            WEB["Plataforma WEB"]
+            end
+            subgraph subGraph6["ROLES DE TRABAJO"]
+            AN(["Análista de Datos"])
+            CD(["Científico de Datos"])
+            end
+            subgraph subGraph7["ROL DE INTEGRACIÓN"]
+            DB["Desarrollador Backend"]
+            end
+            subgraph ROL2["ROL DE PRODUCCIÓN"]
+            DF["Desarrollador Frontend"]
+            end
+            subgraph subGraph8["CUENTAS DE SERVICIO"]
+            CUENTA(["Cuenta Externa"])
+            end
+            FP --> ID & AD
+            AD -.-> ID
+            ID --> DWH
+            DWH --> subGraph6 & DB
+            subGraph6 -.-> DB & APIS
+            APIS --> subGraph6 & DF
+            DB --> APIS
+            DF --> WEB
+            WEB --> CUENTA
+            FP@{ shape: diam}
+            DWH@{ shape: diam}
+            APIS@{ shape: trap-b}
+            WEB@{ shape: trap-t}
+            DB@{ shape: rect}
+            DF@{ shape: rect}
+            style FP fill:#FFFFFF
+            style AD fill:#FFFFFF
+            style ID fill:#FFFFFF
+            style DWH fill:#FFFFFF
+            style APIS fill:#FFFFFF
+            style WEB fill:#FFFFFF
+            style AN fill:#FFFFFF
+            style CD fill:#FFFFFF
+            style DB fill:#FFFFFF
+            style DF fill:#FFFFFF
+            style CUENTA fill:#FFFFFF
+            style subGraph6 fill:#C8E6C9
+            style subGraph0 fill:#FFE0B2
+            style subGraph1 fill:#C8E6C9
+            style subGraph2 fill:#FFF9C4
+            style subGraph3 fill:#BBDEFB
+            style subGraph7 fill:#FFF9C4
+            style supGraph4 fill:#BBDEFB
+            style ROL2 fill:#FFF9C4
+            style supGraph5 fill:#BBDEFB
+            style subGraph8 fill:#C8E6C9
+            linkStyle 0 stroke:#FFD600,fill:none
+            linkStyle 1 stroke:#00C853,fill:none
+            linkStyle 2 stroke:#00C853,fill:none
+            linkStyle 3 stroke:#FFD600,fill:none
+            linkStyle 4 stroke:#00C853,fill:none
+            linkStyle 5 stroke:#FFD600,fill:none
+            linkStyle 6 stroke:#00C853,fill:none
+            linkStyle 7 stroke:#00C853,fill:none
+            linkStyle 8 stroke:#00C853,fill:none
+            linkStyle 9 stroke:#FFD600,fill:none
+            linkStyle 10 stroke:#FFD600,fill:none
+            linkStyle 11 stroke:#FFD600,fill:none
+            linkStyle 12 stroke:#FFD600,fill:none
         </div> 
     </div> 
+    
     <div id="info-tablas-container">
     </div>
         
