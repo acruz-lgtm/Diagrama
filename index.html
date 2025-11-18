@@ -29,53 +29,63 @@ config:
   look: classic
 ---
 flowchart TB
- subgraph subGraph0["FUENTE DE DATOS"]
-        FP["Fuentes Primarias"]
-  end
- subgraph subGraph1["ROL DE EXPLORACIÓN"]
-        AD("Arquitecto de Datos")
-  end
- subgraph subGraph2["ROL PRINCIPAL"]
-        ID["Ingeniero de Datos"]
-  end
- subgraph subGraph3["PLATAFORMA CENTRAL"]
-        DWH["Raw & Silver - PostgreSQL"]
-  end
- subgraph supGraph4["PLATAFORMA"]
-        APIS["API de Producción"]
-  end
- subgraph supGraph5["PLATAFORMA"]
-        WEB["Plataforma WEB"]
-  end
- subgraph subGraph6["ROLES DE TRABAJO"]
-        AN("Análista de Datos")
-        CD("Científico de Datos")
-  end
- subgraph subGraph7["ROL DE INTEGRACIÓN"]
-        DB["Desarrollador Backend"]
-  end
- subgraph ROL2["ROL DE PRODUCCIÓN"]
-        DF["Desarrollador Frontend"]
-  end
- subgraph subGraph8["CUENTAS DE SERVICIO"]
-        CUENTA("Cuenta Externa")
-  end
-    FP --> ID & AD
-    AD -.-> ID
-    ID --> DWH
-    DWH --> subGraph6 & DB
-    subGraph6 -.-> DB & APIS
-    APIS --> subGraph6 & DF
-    DB --> APIS
-    DF --> WEB
-    WEB --> CUENTA
-    FP@{ shape: diam}
-    DWH@{ shape: hex}
-    APIS@{ shape: trap-b}
-    WEB@{ shape: trap-t}
-    DB@{ shape: rect}
-    DF@{ shape: rect}
+subgraph subGraph0["FUENTE DE DATOS"]
+FP["Fuentes Primarias"]
+end
+subgraph subGraph1["ROL DE EXPLORACIÓN"]
+AD(["Arquitecto de Datos"])
+end
+subgraph subGraph2["ROL PRINCIPAL"]
+ID["Ingeniero de Datos"]
+end
+subgraph subGraph3["PLATAFORMA CENTRAL"]
+DWH["Raw & Silver - PostgreSQL"]
+end
+subgraph supGraph4["PLATAFORMA"]
+APIS["API de Producción"]
+end
+subgraph supGraph5["PLATAFORMA"]
+WEB["Plataforma WEB"]
+end
+subgraph subGraph6["ROLES DE TRABAJO"]
+AN(["Análista de Datos"])
+CD(["Científico de Datos"])
+end
+subgraph subGraph7["ROL DE INTEGRACIÓN"]
+DB["Desarrollador Backend"]
+end
+subgraph ROL2["ROL DE PRODUCCIÓN"]
+DF["Desarrollador Frontend"]
+end
+subgraph subGraph8["CUENTAS DE SERVICIO"]
+CUENTA(["Cuenta Externa"])
+end
 
+%% Conexiones básicas sin estilos complejos
+FP --> ID & AD
+AD -.-> ID
+ID --> DWH
+DWH --> subGraph6 & DB
+subGraph6 -.-> DB & APIS
+APIS --> subGraph6 & DF
+DB --> APIS
+DF --> WEB
+WEB --> CUENTA
+
+%% ===============================================
+%% ENLACES (mantener la estructura)
+%% ===============================================
+click ID "diagrama1.html" "Ver detalle de Ingestión" _self
+click AD "diagrama1.html" "Ver detalle de Arquitectura" _self
+click CD "diagrama2.html" "Ver detalle de Análisis" _self
+click AN "diagrama2.html" "Ver detalle de Análisis" _self
+click DB "diagrama2.html" "Ver detalle de Backend" _self
+click DF "diagrama3.html" "Ver detalle de Producción" _self
+click CUENTA "diagrama3.html" "Ver detalle de Integración Externa" _self
+click FP "#info-FP" "Información sobre Fuentes Primarias" _self
+click DWH "#info-DWH" "Información sobre DWH" _self
+click APIS "#info-APIS" "Información sobre API de Producción" _self
+click WEB "#info-WEB" "Información sobre Plataforma WEB" _self
         </div> 
     </div> 
     <div id="info-tablas-container">
