@@ -70,7 +70,7 @@ DB --> APIS
 DF --> WEB
 WEB --> CUENTA
 
-%% DEFINICIÓN DE FORMAS DE NODO
+%% DEFINICIÓN DE FORMAS DE NODO (MUY SENSIBLE)
 FP@{ shape: diam}
 DWH@{ shape: hex}
 APIS@{ shape: trap-b}
@@ -78,7 +78,7 @@ WEB@{ shape: trap-t}
 DB@{ shape: rect}
 DF@{ shape: rect}
 
-%% DEFINICIÓN DE ESTILOS DE COLOR DE NODO Y SUBGRAFO
+%% DEFINICIÓN DE ESTILOS DE COLOR DE NODO Y SUBGRAFO (MUY SENSIBLE)
 style FP fill:#FFFFFF
 style AD fill:#FFFFFF
 style ID fill:#FFFFFF
@@ -101,25 +101,9 @@ style ROL2 fill:#FFF9C4
 style supGraph5 fill:#BBDEFB
 style subGraph8 fill:#C8E6C9
 
-%% DEFINICIÓN DE ESTILOS DE LÍNEA
-linkStyle 0 stroke:#FFD600,fill:none
-linkStyle 1 stroke:#00C853,fill:none
-linkStyle 2 stroke:#00C853,fill:none
-linkStyle 3 stroke:#FFD600,fill:none
-linkStyle 4 stroke:#00C853,fill:none
-linkStyle 5 stroke:#FFD600,fill:none
-linkStyle 6 stroke:#00C853,fill:none
-linkStyle 7 stroke:#00C853,fill:none
-linkStyle 8 stroke:#00C853,fill:none
-linkStyle 9 stroke:#FFD600,fill:none
-linkStyle 10 stroke:#FFD600,fill:none
-linkStyle 11 stroke:#FFD600,fill:none
-linkStyle 12 stroke:#FFD600,fill:none
+%% DEFINICIÓN DE ESTILOS DE LÍNEA (ELIMINADOS TEMPORALMENTE)
 
-%% ===============================================
-%% ENLACES DE ZOOM (NAVEGACIÓN A OTROS ARCHIVOS HTML)
-%% ===============================================
-
+%% ENLACES (Mantenidos)
 click ID "diagrama1.html" "Ver detalle de Ingestión" _self
 click AD "diagrama1.html" "Ver detalle de Arquitectura" _self
 click CD "diagrama2.html" "Ver detalle de Análisis" _self
@@ -127,11 +111,6 @@ click AN "diagrama2.html" "Ver detalle de Análisis" _self
 click DB "diagrama2.html" "Ver detalle de Backend" _self
 click DF "diagrama3.html" "Ver detalle de Producción" _self
 click CUENTA "diagrama3.html" "Ver detalle de Integración Externa" _self
-
-%% ===============================================
-%% ENLACES A TABLAS (USANDO ANCLAJES DENTRO DE ESTE MISMO ARCHIVO)
-%% ===============================================
-
 click FP "#info-FP" "Información sobre Fuentes Primarias" _self
 click DWH "#info-DWH" "Información sobre DWH" _self
 click APIS "#info-APIS" "Información sobre API de Producción" _self
