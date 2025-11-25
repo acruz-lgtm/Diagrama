@@ -2,128 +2,301 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Diagrama Principal de Roles</title>
-
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js"></script>
-    <script>
-        // Inicializa Mermaid para buscar y renderizar diagramas
-        mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' }); 
-    </script>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquitectura de Datos y Roles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Usamos una versión reciente para mejor compatibilidad -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
-        h1 { color: #333; }
-        .diagram-container { margin: 40px auto; max-width: 1200px; width: 100%; }
+        .mermaid-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            min-height: 600px; /* Más alto para tu diagrama vertical */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+        }
+        /* Estilo para indicar que los nodos son clickeables */
+        g.node {
+            cursor: pointer !important;
+        }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 font-sans text-gray-800">
 
-    <h1>Diagrama Principal de Arquitectura de Datos</h1>
-    
-    <div class="diagram-container">
-        <div class="mermaid">
----
-config:
-theme: neo
-layout: elk
-look: classic
----
-flowchart TB
-subgraph subGraph0["FUENTE DE DATOS"]
-FP["Fuentes Primarias"]
-end
-subgraph subGraph1["ROL DE EXPLORACIÓN"]
-AD(["Arquitecto de Datos"])
-end
-subgraph subGraph2["ROL PRINCIPAL"]
-ID["Ingeniero de Datos"]
-end
-subgraph subGraph3["PLATAFORMA CENTRAL"]
-DWH["Raw & Silver - PostgreSQL"]
-end
-subgraph supGraph4["PLATAFORMA"]
-APIS["API de Producción"]
-end
-subgraph supGraph5["PLATAFORMA"]
-WEB["Plataforma WEB"]
-end
-subgraph subGraph6["ROLES DE TRABAJO"]
-AN(["Análista de Datos"])
-CD(["Científico de Datos"])
-end
-subgraph subGraph7["ROL DE INTEGRACIÓN"]
-DB["Desarrollador Backend"]
-end
-subgraph ROL2["ROL DE PRODUCCIÓN"]
-DF["Desarrollador Frontend"]
-end
-subgraph subGraph8["CUENTAS DE SERVICIO"]
-CUENTA(["Cuenta Externa"])
-end
-FP --> ID & AD
-AD -.-> ID
-ID --> DWH
-DWH --> subGraph6 & DB
-subGraph6 -.-> DB & APIS
-APIS --> subGraph6 & DF
-DB --> APIS
-DF --> WEB
-WEB --> CUENTA
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">Mapa de Arquitectura y Roles</h1>
+            <p class="text-gray-600">Navega por el diagrama general y haz clic en los roles (cajas blancas) para ver sus detalles.</p>
+        </header>
 
-%% ===============================================
-%% 📌 ESTILOS DE NODO Y SUBGRAFO (CON LIMPIEZA MÁXIMA) 📌
-%% ===============================================
+        <!-- Contenedor del Diagrama -->
+        <div id="diagram-container" class="mermaid-container">
+            <div class="text-gray-500">Cargando arquitectura...</div>
+        </div>
 
-%% DEFINICIÓN DE FORMAS DE NODO (Sintaxis limpia)
-FP@{shape:diam}
-DWH@{shape:hex}
-APIS@{shape:trap-b}
-WEB@{shape:trap-t}
-DB@{shape:rect}
-DF@{shape:rect}
-
-%% DEFINICIÓN DE ESTILOS DE COLOR DE NODO Y SUBGRAFO
-style FP fill:#FFFFFF
-style AD fill:#FFFFFF
-style ID fill:#FFFFFF
-style DWH fill:#FFFFFF
-style APIS fill:#FFFFFF
-style WEB fill:#FFFFFF
-style AN fill:#FFFFFF
-style CD fill:#FFFFFF
-style DB fill:#FFFFFF
-style DF fill:#FFFFFF
-style CUENTA fill:#FFFFFF
-style subGraph6 fill:#C8E6C9
-style subGraph0 fill:#FFE0B2
-style subGraph1 fill:#C8E6C9
-style subGraph2 fill:#FFF9C4
-style subGraph3 fill:#BBDEFB
-style subGraph7 fill:#FFF9C4
-style supGraph4 fill:#BBDEFB
-style ROL2 fill:#FFF9C4
-style supGraph5 fill:#BBDEFB
-style subGraph8 fill:#C8E6C9
-
-%% DEFINICIÓN DE ESTILOS DE LÍNEA (BLOQUE EXTREMADAMENTE SENSIBLE - ¡ESTÁ COMENTADO!)
-%% NO AÑADAS ESTO HASTA QUE SE CONFIRME QUE EL RESTO FUNCIONA.
-
-%% ENLACES (Mantenidos)
-click ID "diagrama1.html" "Ver detalle de Ingestión" _self
-click AD "diagrama1.html" "Ver detalle de Arquitectura" _self
-click CD "diagrama2.html" "Ver detalle de Análisis" _self
-click AN "diagrama2.html" "Ver detalle de Análisis" _self
-click DB "diagrama2.html" "Ver detalle de Backend" _self
-click DF "diagrama3.html" "Ver detalle de Producción" _self
-click CUENTA "diagrama3.html" "Ver detalle de Integración Externa" _self
-click FP "#info-FP" "Información sobre Fuentes Primarias" _self
-click DWH "#info-DWH" "Información sobre DWH" _self
-click APIS "#info-APIS" "Información sobre API de Producción" _self
-click WEB "#info-WEB" "Información sobre Plataforma WEB" _self
-</div> </div> 
-    
-    <div id="info-tablas-container">
-    </div>
+        <!-- Botón de retorno (oculto inicialmente si estamos en el home, pero útil para volver) -->
+        <div class="mt-6 text-center">
+            <button onclick="renderDiagram('general')" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-6 rounded shadow transition duration-300">
+                Restablecer / Volver al Mapa General
+            </button>
+        </div>
         
+        <!-- Leyenda / Ayuda -->
+        <div class="mt-8 p-4 bg-white rounded shadow border-l-4 border-yellow-400 text-sm text-gray-600 max-w-3xl mx-auto">
+            <h3 class="font-bold text-gray-800 mb-1">Guía de Colores:</h3>
+            <ul class="grid grid-cols-2 gap-2">
+                <li><span class="inline-block w-3 h-3 bg-[#FFE0B2] mr-1 border border-gray-300"></span> Fuentes de Datos</li>
+                <li><span class="inline-block w-3 h-3 bg-[#C8E6C9] mr-1 border border-gray-300"></span> Roles de Análisis/Exploración</li>
+                <li><span class="inline-block w-3 h-3 bg-[#FFF9C4] mr-1 border border-gray-300"></span> Roles de Ingeniería/Integración</li>
+                <li><span class="inline-block w-3 h-3 bg-[#BBDEFB] mr-1 border border-gray-300"></span> Plataforma y Producción</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            securityLevel: 'loose', // Necesario para los clicks
+            flowchart: { 
+                useMaxWidth: false, 
+                htmlLabels: true,
+                curve: 'basis' 
+            }
+        });
+
+        // === DEFINICIÓN DE DIAGRAMAS ===
+        const diagrams = {
+            // TU DIAGRAMA GENERAL ADAPTADO
+            general: `
+                flowchart TB
+                
+                %% --- DEFINICIÓN DE SUBGRAFOS (Áreas) ---
+                
+                subgraph SG_Fuente ["FUENTE DE DATOS"]
+                    direction TB
+                    FP{{"Fuentes Primarias"}}
+                end
+                
+                subgraph SG_Exploracion ["ROL DE EXPLORACIÓN"]
+                    AD(["Arquitecto de Datos"])
+                end
+                
+                subgraph SG_Principal ["ROL PRINCIPAL"]
+                    ID["Ingeniero de Datos"]
+                end
+                
+                subgraph SG_Plataforma ["PLATAFORMA CENTRAL"]
+                    DWH[("Raw & Silver<br/>PostgreSQL")]
+                end
+                
+                subgraph SG_Trabajo ["ROLES DE TRABAJO"]
+                    AN(["Analista de Datos"])
+                    CD(["Científico de Datos"])
+                end
+                
+                subgraph SG_Integracion ["ROL DE INTEGRACIÓN"]
+                    DB["Desarrollador Backend"]
+                end
+                
+                subgraph SG_Prod_Plat ["PLATAFORMA DE PRODUCCIÓN"]
+                    APIS[/"API de Producción"\]
+                end
+                
+                subgraph SG_Prod_Rol ["ROL DE PRODUCCIÓN"]
+                    DF["Desarrollador Frontend"]
+                end
+                
+                subgraph SG_Web ["PLATAFORMA WEB"]
+                    WEB[\"Plataforma WEB"/]
+                end
+                
+                subgraph SG_Cuentas ["CUENTAS DE SERVICIO"]
+                    CUENTA(["Cuenta Externa"])
+                end
+
+                %% --- RELACIONES ---
+                FP --> ID
+                FP --> AD
+                AD -.-> ID
+                ID --> DWH
+                DWH --> SG_Trabajo
+                DWH --> DB
+                
+                AN -.-> DB
+                AN -.-> APIS
+                CD -.-> DB
+                CD -.-> APIS
+                
+                DB --> APIS
+                APIS --> DF
+                APIS -.-> SG_Trabajo
+                
+                DF --> WEB
+                WEB --> CUENTA
+
+                %% --- ESTILOS (COLORES SOLICITADOS) ---
+                
+                %% Colores de Subgrafos
+                style SG_Fuente fill:#FFE0B2,stroke:#FFA726
+                style SG_Exploracion fill:#C8E6C9,stroke:#66BB6A
+                style SG_Principal fill:#FFF9C4,stroke:#FDD835
+                style SG_Plataforma fill:#BBDEFB,stroke:#42A5F5
+                style SG_Trabajo fill:#C8E6C9,stroke:#66BB6A
+                style SG_Integracion fill:#FFF9C4,stroke:#FDD835
+                style SG_Prod_Plat fill:#BBDEFB,stroke:#42A5F5
+                style SG_Prod_Rol fill:#FFF9C4,stroke:#FDD835
+                style SG_Web fill:#BBDEFB,stroke:#42A5F5
+                style SG_Cuentas fill:#C8E6C9,stroke:#66BB6A
+
+                %% Estilos de Nodos (Blancos para resaltar sobre el fondo)
+                classDef whiteNode fill:#FFFFFF,stroke:#333,stroke-width:1px;
+                class FP,AD,ID,DWH,APIS,WEB,AN,CD,DB,DF,CUENTA whiteNode;
+
+                %% --- INTERACTIVIDAD (CLICKS) ---
+                %% Aquí conectamos tus nodos con los detalles
+                
+                click ID call showDetail("ingeniero") "Ver detalle Ingeniero de Datos"
+                click AD call showDetail("arquitecto") "Ver detalle Arquitecto"
+                click AN call showDetail("analista") "Ver detalle Analista"
+                click CD call showDetail("cientifico") "Ver detalle Científico"
+                click DB call showDetail("backend") "Ver detalle Backend"
+                click DF call showDetail("frontend") "Ver detalle Frontend"
+            `,
+
+            // --- DIAGRAMAS DE DETALLE (PLACEHOLDERS) ---
+            
+            ingeniero: `
+                graph LR
+                title[Rol: INGENIERO DE DATOS]
+                style title fill:#FFF9C4,stroke:none
+                
+                User((Ingeniero))
+                T1[Construcción de Pipelines ETL]
+                T2[Limpieza de Datos Raw]
+                T3[Mantenimiento DWH]
+                
+                User --> T1 & T2 & T3
+                style User fill:#FFF9C4,stroke:#FBC02D
+            `,
+            
+            arquitecto: `
+                graph LR
+                title[Rol: ARQUITECTO DE DATOS]
+                style title fill:#C8E6C9,stroke:none
+                
+                User((Arquitecto))
+                T1[Diseño de Modelos de Datos]
+                T2[Gobernanza y Seguridad]
+                T3[Selección de Tecnología]
+                
+                User --> T1 & T2 & T3
+                style User fill:#C8E6C9,stroke:#43A047
+            `,
+
+            analista: `
+                graph LR
+                title[Rol: ANALISTA DE DATOS]
+                style title fill:#C8E6C9,stroke:none
+                
+                User((Analista))
+                T1[Reportes SQL]
+                T2[Dashboards en Tableau/PowerBI]
+                T3[Análisis de KPIs]
+                
+                User --> T1 & T2 & T3
+                style User fill:#C8E6C9,stroke:#43A047
+            `,
+            
+            cientifico: `
+                graph LR
+                title[Rol: CIENTÍFICO DE DATOS]
+                style title fill:#C8E6C9,stroke:none
+                
+                User((Científico))
+                T1[Modelos ML]
+                T2[Predicciones]
+                T3[Python / R]
+                
+                User --> T1 & T2 & T3
+                style User fill:#C8E6C9,stroke:#43A047
+            `,
+            
+            backend: `
+                graph LR
+                title[Rol: DESARROLLADOR BACKEND]
+                style title fill:#FFF9C4,stroke:none
+                
+                User((Backend Dev))
+                T1[Creación de APIs]
+                T2[Conexión a BD]
+                T3[Lógica de Negocio]
+                
+                User --> T1 & T2 & T3
+                style User fill:#FFF9C4,stroke:#FBC02D
+            `,
+            
+            frontend: `
+                graph LR
+                title[Rol: DESARROLLADOR FRONTEND]
+                style title fill:#FFF9C4,stroke:none
+                
+                User((Frontend Dev))
+                T1[Diseño de Interfaz]
+                T2[Consumo de APIs]
+                T3[Experiencia de Usuario]
+                
+                User --> T1 & T2 & T3
+                style User fill:#FFF9C4,stroke:#FBC02D
+            `
+        };
+
+        // Función Global para manejar el click
+        window.showDetail = function(key) {
+            console.log("Mostrando detalle de:", key);
+            renderDiagram(key);
+        };
+
+        // Función de renderizado
+        async function renderDiagram(key) {
+            const container = document.getElementById('diagram-container');
+            const definition = diagrams[key];
+
+            if (!definition) {
+                console.error("Diagrama no encontrado:", key);
+                return;
+            }
+
+            // Feedback visual de carga
+            container.innerHTML = '<div class="flex flex-col items-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div><p class="mt-2 text-gray-500">Generando gráfico...</p></div>';
+
+            try {
+                // Esperamos un poco para que el DOM respire (útil en diagramas grandes)
+                await new Promise(r => setTimeout(r, 50));
+                
+                // Generar ID único
+                const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
+                
+                // Renderizar
+                const { svg } = await mermaid.render(id, definition);
+                container.innerHTML = svg;
+                
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<div class="text-red-600 p-4 border border-red-300 rounded bg-red-50">
+                    <strong>Error de renderizado:</strong><br/>${error.message}
+                </div>`;
+            }
+        }
+
+        // Iniciar con el diagrama general
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDiagram('general');
+        });
+    </script>
 </body>
 </html>
