@@ -65,7 +65,7 @@
         
         <header class="text-center mb-4 shrink-0">
             <h1 class="text-3xl font-bold text-slate-800">Mapa de Arquitectura y Roles</h1>
-            <p id="instruction-text" class="text-slate-500 mt-2">Pasa el mouse para iluminar los roles y haz clic para ver el detalle.</p>
+            <p id="instruction-text" class="text-slate-500 mt-2">Navega por el diagrama general y haz clic en los roles para ver sus detalles.</p>
         </header>
 
     <!-- Botón de Retorno (Solo visible en detalles) -->
@@ -100,7 +100,11 @@
             startOnLoad: false,
             theme: 'base',
             securityLevel: 'loose', // Necesario para los clicks
-            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' 
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'monotoneY',
+            //ESPACIADO: Se aumenta el espacio para que las flechas no crucen las letras 
+            nodeSpacing: 50,
+            rankSpacing: 80, 
+            padding: 15
             }
         });
       
