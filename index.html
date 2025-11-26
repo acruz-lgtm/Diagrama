@@ -172,30 +172,30 @@
 
                 %% --- RELACIONES ---
                 FP --> SA(["Acceso: Auditoría"])
-                SA ==> SG_Principal
+                SA ==> ID
                 FP -.-> SP(["Acceso: Sólo Lectura"]) 
                 SP ==> SG_Exploracion
-                AD -.-> SG_Principal
+                AD -.-> ID 
                 ID --> PAU(["Acceso Único: Gestión"]) 
-                PAU --> DWH
+                PAU --> SG_Plataforma
                 DWH --> SL(["Acceso: Sólo Lectura"])
                 SL --> AN
                 SL --> CD 
-                SL --> DB
+                SL --> SG_Integracion
                 
-                AN -.-> DB
-                CD -.-> DB
+                AN -.-> SG_Integracion
+                CD -.-> SG_Integracion
                 
-                DB --> APIS
+                DB --> SG_Prod_Plat
                 APIS --> ACCE(["Acceso: Sólo Lectura (Ver Endpoints)"])
                 ACCE --> DF 
                 APIS --> ACCESO(["Acceso: Push a feature-branch"])
                 ACCESO --> STRA
                 
                 STRA -.-> DF
-                DF --> WEB
+                DF --> SG_Web
                 WEB --> WB(["Acceso: Sólo a la WEB"])
-                WB --> CUENTA
+                WB --> SG_Cuentas
 
                 %% --- ESTILOS (COLORES SOLICITADOS) ---
                 
