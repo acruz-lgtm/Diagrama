@@ -172,10 +172,10 @@
 
                 %% --- RELACIONES ---
                 FP --> SA(["Acceso: Auditoría"])
-                SA ==> ID
+                SA ==> SG_Principal
                 FP -.-> SP(["Acceso: Sólo Lectura"]) 
-                SP ==> AD
-                AD -.-> ID
+                SP ==> SG_Exploracion
+                AD -.-> SG_Principal
                 ID --> PAU(["Acceso Único: Gestión"]) 
                 PAU --> DWH
                 DWH --> SL(["Acceso: Sólo Lectura"])
