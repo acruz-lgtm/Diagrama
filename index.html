@@ -7,53 +7,91 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Usamos una versión reciente para mejor compatibilidad -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
-    <style>
-        .mermaid-container {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            min-height: 600px; /* Más alto para tu diagrama vertical */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: auto;
-        }
-        /* Estilo para indicar que los nodos son clickeables */
-        g.node {
-            cursor: pointer !important;
-        }
-    </style>
-</head>
-<body class="bg-gray-50 font-sans text-gray-800">
+<style>
+    /* Contenedor principal */
+    .mermaid-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        height: 85vh; /* Altura fija */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* CRUCIAL: flex-start evita que se corte la parte superior */
+        overflow: auto;
+    }
 
-    <div class="container mx-auto px-4 py-8">
-        <header class="text-center mb-6">
-            <h1 class="text-3xl font-bold text-slate-800 mb-2">Mapa de Arquitectura y Roles</h1>
-            <p class="text-gray-600">Navega por el diagrama general y haz clic en los roles (cajas blancas) para ver sus detalles.</p>
+    /* Cursor de mano para todos los nodos */
+    g.node { cursor: pointer !important; }
+
+    /* --- DEFINICIÓN DE TRANSICIONES COMUNES --- */
+    .glowGreen rect, .glowGreen circle, .glowGreen polygon, .glowGreen path,
+    .glowYellow rect, .glowYellow circle, .glowYellow polygon, .glowYellow path,
+    .glowBlue rect, .glowBlue circle, .glowBlue polygon, .glowBlue path {
+        transition: filter 0.3s ease, stroke 0.3s ease;
+    }
+
+    /* --- 1. BRILLO VERDE (Para Arquitectos, Analistas, Científicos) --- */
+    .glowGreen:hover rect, .glowGreen:hover circle, .glowGreen:hover polygon {
+        /* Sombra Verde */
+        filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.9)) !important; 
+        stroke: #2E7D32 !important; /* Borde Verde Oscuro */
+        stroke-width: 2px !important;
+    }
+
+    /* --- 2. BRILLO AMARILLO (Para Ingenieros, Backend, Frontend) --- */
+    .glowYellow:hover rect, .glowYellow:hover circle, .glowYellow:hover polygon {
+        /* Sombra Dorada */
+        filter: drop-shadow(0 0 10px rgba(251, 192, 45, 0.9)) !important;
+        stroke: #F57F17 !important; /* Borde Naranja/Dorado */
+        stroke-width: 2px !important;
+    }
+
+    /* --- 3. BRILLO AZUL (Para Plataforma, Cuentas, etc.) --- */
+    .glowBlue:hover rect, .glowBlue:hover circle, .glowBlue:hover polygon {
+        /* Sombra Azul */
+        filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.9)) !important;
+        stroke: #1565C0 !important; /* Borde Azul Oscuro */
+        stroke-width: 2px !important;
+    }
+
+    .loading { animation: pulse 1.5s infinite; }
+    @keyframes pulse { 50% { opacity: .5; } }
+</style>
+</head>
+<body class="bg-slate-100 font-sans text-gray-800">
+
+    <div class="w-full px-8 py-4 min-h-screen flex flex-col">
+        
+        <header class="text-center mb-4 shrink-0">
+            <h1 class="text-3xl font-bold text-slate-800">Mapa de Arquitectura y Roles</h1>
+            <p id="instruction-text" class="text-slate-500 mt-2">Pasa el mouse para iluminar los roles y haz clic para ver el detalle.</p>
         </header>
+
+    <!-- Botón de Retorno (Solo visible en detalles) -->
+        <div id="back-button-container" class="text-center mb-4 hidden">
+            <button onclick="renderDiagram('general')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transform transition hover:scale-105 flex items-center mx-auto gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd">
+            </svg>
+            Volver al Mapa General
+            </button>
+        </div>
 
         <!-- Contenedor del Diagrama -->
         <div id="diagram-container" class="mermaid-container">
-            <div class="text-gray-500">Cargando arquitectura...</div>
+            <div class="text-gray-400 loading text-xl">Cargando arquitectura...</div>
         </div>
 
-        <!-- Botón de retorno (oculto inicialmente si estamos en el home, pero útil para volver) -->
-        <div class="mt-6 text-center">
-            <button onclick="renderDiagram('general')" class="bg-slate-700 hover:bg-slate-800 text-white font-bold py-2 px-6 rounded shadow transition duration-300">
-                Restablecer / Volver al Mapa General
-            </button>
-        </div>
-        
         <!-- Leyenda / Ayuda -->
-        <div class="mt-8 p-4 bg-white rounded shadow border-l-4 border-yellow-400 text-sm text-gray-600 max-w-3xl mx-auto">
+        <div id="legend" class="mt-8 p-4 bg-white rounded shadow border-l-4 border-yellow-400 text-sm text-gray-600 max-w-3xl mx-auto">
             <h3 class="font-bold text-gray-800 mb-1">Guía de Colores:</h3>
-            <ul class="grid grid-cols-2 gap-2">
-                <li><span class="inline-block w-3 h-3 bg-[#FFE0B2] mr-1 border border-gray-300"></span> Fuentes de Datos</li>
-                <li><span class="inline-block w-3 h-3 bg-[#C8E6C9] mr-1 border border-gray-300"></span> Roles de Análisis/Exploración</li>
-                <li><span class="inline-block w-3 h-3 bg-[#FFF9C4] mr-1 border border-gray-300"></span> Roles de Ingeniería/Integración</li>
-                <li><span class="inline-block w-3 h-3 bg-[#BBDEFB] mr-1 border border-gray-300"></span> Plataforma y Producción</li>
-            </ul>
+            <div class="flex flex-wrap justify-center gap-4">
+                <span class="flex items-center"><span class="w-4 h-4 bg-[#FFE0B2] border border-orange-300 mr-2 rounded"></span> Fuentes de Datos</span>
+                <span class="flex items-center"><span class="w-4 h-4 bg-[#C8E6C9] border border-green-300 mr-2 rounded"></span> Roles de Análisis/Exploración</span>
+                <span class="flex items-center"><span class="w-4 h-4 bg-[#FFF9C4] border border-yellow-300 mr-2 rounded"></span> Roles de Ingeniería/Integración</span>
+                <span class="flex items-center"><span class="w-4 h-4 bg-[#BBDEFB] border border-blue-300 mr-2 rounded"></span> Plataforma y Producción</span>
+            </div>
         </div>
     </div>
 
@@ -62,45 +100,54 @@
             startOnLoad: false,
             theme: 'base',
             securityLevel: 'loose', // Necesario para los clicks
-            flowchart: { 
-                useMaxWidth: false, 
-                htmlLabels: true,
-                curve: 'basis' 
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis' 
             }
         });
-
-        // === DEFINICIÓN DE DIAGRAMAS ===
+      
+        // INCRUTASCIÓN DE DIAGRAMAS ESPECIFICOS ===        
         const diagrams = {
             // TU DIAGRAMA GENERAL ADAPTADO
             general: `
                 flowchart TB
                 
-                %% --- DEFINICIÓN DE SUBGRAFOS (Áreas) ---
+                %% --- DEFINICIÓN DE CLASES POR COLOR ---
+                %% 1. Verde (Análisis)
+                classDef glowGreen fill:#C8E6C9,stroke:#66BB6A,stroke-width:1px
+                %% 2. Amarillo (Ingeniería)
+                classDef glowYellow fill:#FFF9C4,stroke:#FDD835,stroke-width:1px
+                %% 3. Azul (Plataforma/Cuentas)
+                classDef glowBlue fill:#BBDEFB,stroke:#42A5F5,stroke-width:1px
                 
+                %% --- DEFINICIÓN DE SUBGRAFOS (Áreas) ---
                 subgraph SG_Fuente ["FUENTE DE DATOS"]
                     direction TB
-                    FP{"Fuentes Primarias"}
+                    FP[("Fuentes Primarias")]
                 end
                 
                 subgraph SG_Exploracion ["ROL DE EXPLORACIÓN"]
-                    AD(["Arquitecto de Datos"])
+                    AD(["Arquitecto de Datos"]):::glowGreen
                 end
                 
                 subgraph SG_Principal ["ROL PRINCIPAL"]
-                    ID["Ingeniero de Datos"]
+                    ID["Ingeniero de Datos"]:::glowYellow
                 end
                 
                 subgraph SG_Plataforma ["PLATAFORMA CENTRAL"]
                     DWH[("Raw & Silver<br/>PostgreSQL")]
                 end
                 
-                subgraph SG_Trabajo ["ROLES DE EXPLORACIÓN, CONSUMO Y ANÁLISIS"]
-                    AN(["Analista de Datos"])
-                    CD(["Científico de Datos"])
+                subgraph SG_Trabajo ["ROLES DE EXPLORACIÓN"]
+                    AN(["Analista de Datos"]):::glowGreen
+                    CD(["Científico de Datos"]):::glowGreen
                 end
                 
+                subgraph STRA ["ROLES DE CONSUMO Y ANÁLISIS "]
+                    AND(["Analista de datos"]):::glowGreen
+                    CDD(["Científico de datos"]):::glowGreen
+                end
+
                 subgraph SG_Integracion ["ROL DE INTEGRACIÓN"]
-                    DB["Desarrollador Backend"]
+                    DB["Desarrollador Backend"]:::glowYellow
                 end
                 
                 subgraph SG_Prod_Plat ["PLATAFORMA DE PRODUCCIÓN"]
@@ -108,7 +155,7 @@
                 end
                 
                 subgraph SG_Prod_Rol ["ROL DE PRODUCCIÓN"]
-                    DF["Desarrollador Frontend"]
+                    DF["Desarrollador Frontend"]:::glowYellow
                 end
                 
                 subgraph SG_Web ["PLATAFORMA WEB"]
@@ -116,28 +163,35 @@
                 end
                 
                 subgraph SG_Cuentas ["CUENTAS DE SERVICIO"]
-                    CUENTA(["Cuenta Externa"])
+                    CUENTA(["Cuenta Externa"]):::glowBlue
                 end
 
                 %% --- RELACIONES ---
-                FP --> ID
-                FP --> AD
+                FP --> SA(["Acceso: Auditoría"])
+                SA ==> ID
+                FP -.-> SP(["Acceso: Sólo Lectura"]) 
+                SP ==> AD
                 AD -.-> ID
-                ID --> DWH
-                DWH --> SG_Trabajo
-                DWH --> DB
+                ID --> PAU(["Acceso Único: Gestión"]) 
+                PAU --> DWH
+                DWH --> SL(["Acceso: Sólo Lectura"])
+                SL --> AN
+                SL --> CD 
+                SL --> DB
                 
                 AN -.-> DB
-                
                 CD -.-> DB
-            
                 
                 DB --> APIS
-                APIS --> DF
-                APIS -.-> SG_Trabajo
+                APIS --> ACCE(["Acceso: Sólo Lectura (Ver Endpoints)"])
+                ACCE --> DF 
+                APIS --> ACCESO(["Acceso: Push a feature-branch"])
+                ACCESO --> STRA
                 
+                STRA -.-> DF
                 DF --> WEB
-                WEB --> CUENTA
+                WEB --> WB(["Acceso: Sólo a la WEB"])
+                WB --> CUENTA
 
                 %% --- ESTILOS (COLORES SOLICITADOS) ---
                 
@@ -147,6 +201,7 @@
                 style SG_Principal fill:#FFF9C4,stroke:#FDD835
                 style SG_Plataforma fill:#BBDEFB,stroke:#42A5F5
                 style SG_Trabajo fill:#C8E6C9,stroke:#66BB6A
+                style STRA fill:#C8E6C9,stroke:#66BB6A
                 style SG_Integracion fill:#FFF9C4,stroke:#FDD835
                 style SG_Prod_Plat fill:#BBDEFB,stroke:#42A5F5
                 style SG_Prod_Rol fill:#FFF9C4,stroke:#FDD835
@@ -155,7 +210,19 @@
 
                 %% Estilos de Nodos (Blancos para resaltar sobre el fondo)
                 classDef whiteNode fill:#FFFFFF,stroke:#333,stroke-width:1px;
-                class FP,AD,ID,DWH,APIS,WEB,AN,CD,DB,DF,CUENTA whiteNode;
+                class FP,AD,ID,DWH,APIS,WEB,AN,CD,AND,CDD,DB,DF,CUENTA whiteNode;
+                
+                %% Clase de Acceso
+                classDef accessNode fill:#FFCCBC,stroke:#E64A19,stroke-width:2px,color:#000000
+                class SA,SP,PAU,SL,ACCE,ACCESO,WB accessNode
+
+                %% Estilos de letras 
+                %% color: cambia el texto | stroke: cambia el borde | fill: cambia el fondo
+                style FP fill:#FFFFFF,stroke:#E65100,stroke-width:2px,color:#D84315,font-weight:bold
+                %% Estilo para plataformas 
+                style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
+                style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
+                style WEB fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
 
                 %% --- INTERACTIVIDAD (CLICKS) ---
                 %% Aquí conectamos tus nodos con los detalles
@@ -166,93 +233,351 @@
                 click CD call showDetail("cientifico") "Ver detalle Científico"
                 click DB call showDetail("backend") "Ver detalle Backend"
                 click DF call showDetail("frontend") "Ver detalle Frontend"
+                click AND call showDetail("analist") "Ver detalle Analista"
+                click CDD call showDetail("cientifi") "Ver detalle Cientifico"
+                click CUENTA call showDetail("cuenta") "Ver detalle Cuenta"
             `,
 
-            // --- DIAGRAMAS DE DETALLE (PLACEHOLDERS) ---
-            
+            // --- DIAGRAMAS DE DETALLE ---
+            // 2. DIAGRAMA: INGENIERO DE DATOS (Permisos y Tareas)
             ingeniero: `
                 graph LR
                 title[Rol: INGENIERO DE DATOS]
                 style title fill:#FFF9C4,stroke:none
                 
                 User((Ingeniero))
-                T1[Construcción de Pipelines ETL]
-                T2[Limpieza de Datos Raw]
-                T3[Mantenimiento DWH]
                 
-                User --> T1 & T2 & T3
+                subgraph FUENTE DE DATOS
+                    %% ROMBO 
+                    FP[("Fuentes Primarias")]
+                end
+
+                subgraph PLATAFORMA CENTRAL
+                    %% CILINDRO
+                    DWH[("Raw & Silver")]
+                end
+           
+                subgraph Tareas
+                    T1[Ingesta de Fuentes]
+                    T2[Ejecuta Scripts]
+                    T3[Le da mantenimiento al DWH]
+                    T4[Define modelos Silver & Golden]
+                    T5[Ejecuta scripts de consolidación]
+                end
+                
+                subgraph Permisos ["Permisos"]
+                    P1[AUDITORIA]
+                    P2[CREA/ACTUALIZA]
+                end
+                
+                FP --> Permisos
+                Permisos --> User 
+                User --> T1 & T2 & T3 & T4 & T5
+                T4 -.-> DWH 
+                T5 -.-> DWH 
+                
                 style User fill:#FFF9C4,stroke:#FBC02D
+                style FP fill:#FFFFFF,stroke:#E65100,stroke-width:2px,color:#D84315,font-weight:bold
+                style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
             
+            // 3. DIAGRAMA: ARQUITECTO (Permisos y Tareas)
             arquitecto: `
                 graph LR
                 title[Rol: ARQUITECTO DE DATOS]
                 style title fill:#C8E6C9,stroke:none
                 
                 User((Arquitecto))
-                T1[Diseño de Modelos de Datos]
-                T2[Gobernanza y Seguridad]
-                T3[Selección de Tecnología]
                 
-                User --> T1 & T2 & T3
+                subgraph FUENTE DE DATOS
+                    %% ROMBO 
+                    FP[("Fuentes Primarias")]
+                end
+
+                subgraph Tareas
+                    T1[Feedback Estructura]
+                    T2[Exploración]
+                    T3[Audita y propone mejoras al Ingeniero de datos]
+                    T4[Sugiere reglas de negocio para Silver]
+                end
+                
+                subgraph Permisos ["Permisos Generales"]
+                    P1[VISTA DE METADATA]
+                    P2[NO TIENE ACCESO DE ESCRITURA]
+                end
+
+                subgraph PLATAFORMA CENTRAL
+                    %% CILINDRO
+                    DWH[("Raw & Silver")]
+                end
+                
+                %% Relaciones
+                FP --> P1
+                Permisos --> User
+                User --> T1 & T2 & T3 & T4
+                T4 -.-> DWH
+        
+                %% Estilos
                 style User fill:#C8E6C9,stroke:#43A047
+                style FP fill:#FFFFFF,stroke:#E65100,stroke-width:2px,color:#D84315,font-weight:bold
+                style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
 
+            // 4. DIAGRAMA: ANALISTA (Permisos y Tareas)
             analista: `
                 graph LR
                 title[Rol: ANALISTA DE DATOS]
                 style title fill:#C8E6C9,stroke:none
                 
                 User((Analista))
-                T1[Reportes SQL]
-                T2[Dashboards en Tableau/PowerBI]
-                T3[Análisis de KPIs]
+
+                subgraph PLATAFORMA CENTRAL
+                    %% CILINDRO
+                    DWH[("Raw & Silver")]
+                end
                 
-                User --> T1 & T2 & T3
+                subgraph Tareas
+                    T1[Realiza reportes de la base Silver]
+                    T2[Diseña y crea Dashboards]
+                    T3[Elabora análisis de KPI]
+                    T4[Prueba y valida las variables y métricas del SQL]
+                    T5[Realiza sugerencias al Desarrollador Backend]
+                end
+                
+                subgraph Permisos ["Permisos DWH"]
+                    P1[SÓLO LECTURA/VISUALIZACIÓN]
+                end
+                
+                DWH --> P1
+                P1 --> User 
+                User --> T1 & T2 & T3 & T4 & T5
+                
                 style User fill:#C8E6C9,stroke:#43A047
+                style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
             
+            // 5. DIAGRAMA: CIENTÍFICO (Permisos y Tareas)
             cientifico: `
                 graph LR
                 title[Rol: CIENTÍFICO DE DATOS]
                 style title fill:#C8E6C9,stroke:none
                 
                 User((Científico))
-                T1[Modelos ML]
-                T2[Predicciones]
-                T3[Python / R]
+
+                subgraph PLATAFORMA CENTRAL
+                    %% CILINDRO
+                    DWH[("Raw & Silver")]
+                end
                 
-                User --> T1 & T2 & T3
+                subgraph Tareas
+                    T1[Prueba algoritmos]
+                    T2[Realiza modelado de datos]
+                    T3[Diseña experimentos-A/B Testing]
+                    T4[Valida métricas clave de negocio]
+                    T5[Feedback al Desarrollador Backend]
+
+                end
+                
+                subgraph Permisos ["Permisos DWH"]
+                    P1[SOLO LECTURA/VISUALIZACIÓN]
+                end
+                
+                DWH --> P1
+                P1 --> User
+                User --> T1 & T2 & T3 & T4 & T5
                 style User fill:#C8E6C9,stroke:#43A047
+                style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
             
+            // 6. DIAGRAMA: BACKEND (Permisos y Tareas)
             backend: `
                 graph LR
                 title[Rol: DESARROLLADOR BACKEND]
                 style title fill:#FFF9C4,stroke:none
                 
                 User((Backend Dev))
-                T1[Creación de APIs]
-                T2[Conexión a BD]
-                T3[Lógica de Negocio]
+        
+                subgraph SG_PLATAFORMA ["PLATAFORMA CENTRAL"]
+                    %% CILINDRO
+                    DWH[("Raw & Silver")]
+                end
                 
-                User --> T1 & T2 & T3
+                subgraph Permiso ["Permisos"]
+                    P1[SÓLO LECTURA]
+                end 
+
+                subgraph Tareas_Silver ["Tareas"]
+                    T1[Configura y Crea]
+                end
+
+                subgraph PLATAFORMA DE PRODUCCIÓN 
+                    %%Cilindro 
+                    APIS[("API de Producción")]
+                end
+
+                subgraph Tareas API
+                    Y1[Crear Endpoints]
+                    Y2[Implenta Tokens]
+                    Y3[Mantiene y monitorea la API]
+                    Y4[Estandariza salidas]
+                    Y5[Gestiona diferentes entornos]
+                end
+                
+                subgraph Permisos ["Permisos"]
+                    J1[DEPLOY]
+                    J2[PUSH A MAIN]
+                end
+                
+                %% Relaciones
+                DWH --> Permiso
+                Permiso --> User
+                User --> T1 
+                T1 --> APIS
+                APIS --> Permisos
+                Permisos --> Y1 & Y2 & Y3 & Y4 & Y5
+
                 style User fill:#FFF9C4,stroke:#FBC02D
+                style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
+                style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
             
+            // 7. DIAGRAMA: FRONTEND (Permisos y Tareas)
             frontend: `
                 graph LR
                 title[Rol: DESARROLLADOR FRONTEND]
                 style title fill:#FFF9C4,stroke:none
                 
                 User((Frontend Dev))
-                T1[Diseño de Interfaz]
-                T2[Consumo de APIs]
-                T3[Experiencia de Usuario]
+
+                subgraph PLATAFORMA DE PRODUCCIÓN 
+                    %%Cilindro 
+                    APIS[("API de Producción")]
+                end
+
+                subgraph Permiso ["Permisos"]
+                    P1[SÓLO LECTURA: VER ENDPOINTS]
+                end
                 
+                subgraph Tarea
+                    T1[Revisa la documentación de la API]
+                    T2[Conecta los componentes de la UI]
+                    T3[Construye UI]
+                end
+                
+                subgraph SG_Web ["PLATAFORMA WEB"]
+                    WEB[("Plataforma WEB")]
+                end
+                
+                subgraph Permisos ["Permisos"]
+                    J1[CONSUME & GESTIONA]
+                end
+
+                subgraph Tareas ["Tareas"]
+                    Y1[Desarrolla tableros en React/Dash]
+                    Y2[Publica en la plataforma]
+                end
+                
+                APIS --> P1
+                P1 --> User 
                 User --> T1 & T2 & T3
+                T3 -.-> WEB
+                WEB --> J1
+                J1 --> Y1 & Y2
                 style User fill:#FFF9C4,stroke:#FBC02D
-            `
+                style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
+                style WEB fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
+            `,
+
+            //8. DIAGRAMA: Analista de datos 
+            analist: `
+                graph LR
+                title[Rol: Analista de datos]
+                style title fill:#FFF9C4,stroke:none
+                
+                User((Analista))
+
+                subgraph PLATAFORMA DE PRODUCCIÓN 
+                    %%Cilindro 
+                    APIS[("API de Producción")]
+                end
+                
+                subgraph Permiso ["Permisos"]
+                    P1["PUSH A FEATURE-BRANCH"]
+                end
+                
+                subgraph Tareas
+                    T1[Revisa que los endpoints sean consistentes]
+                    T2[Genera reportes preeliminares]
+                    T3[Verifica que los endpoints sean lógicos y fáciles de entender para otros consumidores]
+                    T4[Propone la creación o modificación de APIs al Backend]
+                end
+                
+                APIS --> P1
+                P1 --> User
+                User --> T1 & T2 & T3 & T4
+                style User fill:#C8E6C9,stroke:#43A047
+                style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
+            `,
+
+            //9. DIAGRAMA: Científico de datos 
+            cientifi: `
+                graph LR
+                title[Rol: Científico de datos]
+                style title fill:#FFF9C4,stroke:none
+                
+                User((Cientifico))
+
+                subgraph PLATAFORMA DE PRODUCCIÓN 
+                    %%Cilindro 
+                    APIS[("API de Producción")]
+                end
+                
+                subgraph Permiso ["Permisos"]
+                    P1["PUSH A FEATURE-BRANCH"]
+                end
+                
+                subgraph Tareas
+                    T1[Realiza simulaciones con las versiones piloto]
+                    T2[Prueba las APIs para medir la latencia al solicitar grandes volúmenes de datos]
+                    T3[Genera modelos de similitud y evaluación]
+                    T4[Feedback detallado al Desarrollador Backend]
+                end
+                
+                APIS --> P1
+                P1 --> User
+                User --> T1 & T2 & T3 & T4
+                style User fill:#C8E6C9,stroke:#43A047
+                style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
+            `,
+
+            //10. DIAGRAMA CUENTA EXTERNA
+            cuenta:  `
+                graph LR
+                title[Rol: Cuenta Externa]
+                style title fill:#FFF9C4,stroke:none
+                
+                User((Cuenta))
+
+                subgraph SG_Web ["PLATAFORMA WEB"]
+                    WEB[("Plataforma WEB")]
+                end
+                
+                subgraph Permiso ["Permisos"]
+                    P1["SÓLO LECTURA"]
+                end
+                
+                subgraph Tareas
+                    T1[Visualiza la plataforma WEB]
+                    T2[Realiza comentarios a los desarrolladores]
+                    T3[Utiliza la plataforma para consumo propio]
+                end
+               
+                WEB --> P1
+                P1 --> User 
+                User --> T1 & T2 & T3
+                style User fill:#C8E6C9,stroke:#43A047
+                style WEB fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
+            `,
         };
 
         // Función Global para manejar el click
@@ -264,26 +589,48 @@
         // Función de renderizado
         async function renderDiagram(key) {
             const container = document.getElementById('diagram-container');
-            const definition = diagrams[key];
+            const backBtn = document.getElementById('back-button-container');
+            const legend = document.getElementById('legend'); // Ahora esto funcionará porque pusimos el ID en el HTML
+            const instruction = document.getElementById('instruction-text');
 
-            if (!definition) {
+            // Validación de seguridad por si la llave no existe
+            if (!diagrams[key]) {
                 console.error("Diagrama no encontrado:", key);
                 return;
+            }
+
+            // Definimos la variable que faltaba
+            const definition = diagrams[key];
+
+            // Lógica de interfaz (Mostrar/Ocultar botón de regreso)
+            if (key === 'general') {
+                backBtn.classList.add('hidden');
+                if(legend) legend.classList.remove('hidden'); // Check de seguridad
+                instruction.textContent = 'Pasa el mouse sobre los roles para iluminarlos y haz clic para entrar.';
+            } else {
+                backBtn.classList.remove('hidden');
+                if(legend) legend.classList.add('hidden'); // Check de seguridad
+                instruction.textContent = 'Viendo detalles del rol. Haz clic en "Volver" para regresar.';
             }
 
             // Feedback visual de carga
             container.innerHTML = '<div class="flex flex-col items-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div><p class="mt-2 text-gray-500">Generando gráfico...</p></div>';
 
             try {
-                // Esperamos un poco para que el DOM respire (útil en diagramas grandes)
+                // Esperamos un poco para que el DOM respire
                 await new Promise(r => setTimeout(r, 50));
                 
-                // Generar ID único
+                // Generar ID único para evitar conflictos de caché de Mermaid
                 const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
                 
-                // Renderizar
-                const { svg } = await mermaid.render(id, definition);
+                // Renderizar (Ahora 'definition' ya existe)
+                const { svg, bindFunctions } = await mermaid.render(id, definition);
                 container.innerHTML = svg;
+
+                // Vinculamos los eventos (clicks)
+                if (bindFunctions) {
+                    bindFunctions(container);
+                }
                 
             } catch (error) {
                 console.error(error);
@@ -291,8 +638,8 @@
                     <strong>Error de renderizado:</strong><br/>${error.message}
                 </div>`;
             }
-        }
-
+        }   
+        
         // Iniciar con el diagrama general
         document.addEventListener('DOMContentLoaded', () => {
             renderDiagram('general');
