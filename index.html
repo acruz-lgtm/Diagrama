@@ -58,13 +58,28 @@
     .loading { animation: pulse 1.5s infinite; }
     @keyframes pulse { 50% { opacity: .5; } }
 
-    /* Estilo para cuando JavaScript activa el grupo */
-    .forced-glow rect, 
-    .forced-glow circle, 
-    .forced-glow path, 
-    .forced-glow polygon {
-        filter: drop-shadow(0 0 10px rgba(255, 64, 129, 0.9)) !important; /* Brillo Rosa/Rojo para diferenciar */
-        stroke: #FF4081 !important;
+    /* --- LUCES ESPECÍFICAS POR GRUPO --- */
+
+    /* 1. LUZ AZUL (Para Crédito) */
+    .glow-blue rect, .glow-blue circle, .glow-blue polygon, .glow-blue path {
+        filter: drop-shadow(0 0 10px rgba(33, 150, 243, 1)) !important;
+        stroke: #2196F3 !important;
+        stroke-width: 3px !important;
+        transition: all 0.2s ease;
+    }
+
+    /* 2. LUZ NARANJA (Para CRM/Upnify) */
+    .glow-orange rect, .glow-orange circle, .glow-orange polygon, .glow-orange path {
+        filter: drop-shadow(0 0 10px rgba(255, 152, 0, 1)) !important;
+        stroke: #FF9800 !important;
+        stroke-width: 3px !important;
+        transition: all 0.2s ease;
+    }
+
+    /* 3. LUZ GRIS/PLATA (Para Archivos Base) */
+    .glow-gray rect, .glow-gray circle, .glow-gray polygon, .glow-gray path {
+        filter: drop-shadow(0 0 10px rgba(158, 158, 158, 1)) !important;
+        stroke: #9E9E9E !important;
         stroke-width: 3px !important;
         transition: all 0.2s ease;
     }
@@ -111,7 +126,7 @@
             startOnLoad: false,
             theme: 'base',
             securityLevel: 'loose', // Necesario para los clicks
-            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'monotoneY',
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'stepAfter',
             //ESPACIADO: Se aumenta el espacio para que las flechas no crucen las letras 
             nodeSpacing: 50,
             rankSpacing: 80, 
@@ -598,9 +613,9 @@
             //DIAGRAMA DE FUENTES 
             base_raw: `
                 flowchart TD
-                classDef groupBase fill:#fff,stroke:none
-                classDef groupCredito fill:#fff,stroke:none
-                classDef groupCRM fill:#fff,stroke:none
+                classDef groupBase opacity:1
+                classDef groupCredito opacity:1
+                classDef groupCRM opacity:1
 
                 subgraph P1 ["Paso 1: Inicialización"]
                     direction TB
@@ -644,18 +659,18 @@
                 C3 --> E1
                 C3 --> E2
 
-                style A fill:#F5F5F5,stroke:#616161,stroke-width:2px
-                style B fill:#F5F5F5,stroke:#616161,stroke-width:2px
-                style C1 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
-                style D1 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
-                style D2 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
-                style F fill:#BBDEFB,stroke:#0D47A1,stroke-width:2px
-                style C2 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
-                style C3 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
-                style C4 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
-                style C5 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
-                style E1 fill:#FFE0B2,stroke:#E65100,stroke-width:2px
-                style E2 fill:#FFE0B2,stroke:#E65100,stroke-width:2px
+                style A fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#000
+                style B fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#000
+                style C1 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#000
+                style D1 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#000
+                style D2 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#000
+                style F fill:#BBDEFB,stroke:#0D47A1,stroke-width:2px,color:#000
+                style C2 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#000
+                style C3 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#000
+                style C4 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#000
+                style C5 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#000
+                style E1 fill:#FFE0B2,stroke:#E65100,stroke-width:2px,color:#000
+                style E2 fill:#FFE0B2,stroke:#E65100,stroke-width:2px,color:#000
                 style P1 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
                 style P2 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
                 style P3 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
@@ -674,6 +689,13 @@
         function setupGroupHighlight(container) {
             // 1. Buscamos todos los nodos en el diagrama actual
             const nodes = container.querySelectorAll('.node');
+
+            //Mapa de colores: depende de la fuente de datos 
+            const colorMap = {
+                'groupCredito': 'glow-blue',
+                'groupCRM': 'glow-orange',
+                'groupBase': 'glow_gray'
+            };
 
             nodes.forEach(node => {
                 // 2. Revisamos las clases de cada nodo
