@@ -61,28 +61,35 @@
     /* --- LUCES ESPECÍFICAS POR GRUPO --- */
 
     /* 1. LUZ AZUL (Para Crédito) */
-    g.node.glow-blue rect, .glow-blue circle, .glow-blue polygon, .glow-blue path {
-        filter: drop-shadow(0 0 10px rgba(33, 150, 243, 1)) !important;
-        stroke: #2196F3 !important;
+    .glow-blue {
+        filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.8)) !important;
+    }
+    .glow-blue > * { 
+        stroke: #2196F3 !important; /* Borde se pone azul */
         stroke-width: 3px !important;
-        transition: all 0.2s ease;
+        fill: #E3F2FD !important; /* Opcional: El fondo se tiñe un poco de azul muy suave */
     }
 
     /* 2. LUZ NARANJA (Para CRM/Upnify) */
-    g.node.glow-orange rect, .glow-orange circle, .glow-orange polygon, .glow-orange path {
-        filter: drop-shadow(0 0 10px rgba(255, 152, 0, 1)) !important;
-        stroke: #FF9800 !important;
+    .glow-orange {
+        filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important;
+    }
+    .glow-orange > * {
+        stroke: #FF9800 !important; /* Borde se pone naranja */
         stroke-width: 3px !important;
-        transition: all 0.2s ease;
+        fill: #FFF3E0 !important; /* Fondo suave naranja */
     }
 
     /* 3. LUZ GRIS/PLATA (Para Archivos Base) */
-    g.node.glow-gray rect, .glow-gray circle, .glow-gray polygon, .glow-gray path {
-        filter: drop-shadow(0 0 10px rgba(158, 158, 158, 1)) !important;
-        stroke: #9E9E9E !important;
-        stroke-width: 3px !important;
-        transition: all 0.2s ease;
+    .glow-gray {
+        filter: drop-shadow(0 0 10px rgba(97, 97, 97, 0.8)) !important;
     }
+    .glow-gray > * {
+        stroke: #616161 !important; /* Borde se pone gris oscuro */
+        stroke-width: 3px !important;
+        fill: #F5F5F5 !important;
+    }
+
 </style>
 </head>
 <body class="bg-slate-100 font-sans text-gray-800">
@@ -659,18 +666,9 @@
                 C3 --> E1
                 C3 --> E2
 
-                style A fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#000
-                style B fill:#F5F5F5,stroke:#616161,stroke-width:2px,color:#000
-                style C1 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#000
-                style D1 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#000
-                style D2 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#000
-                style F fill:#BBDEFB,stroke:#0D47A1,stroke-width:2px,color:#000
-                style C2 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#000
-                style C3 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#000
-                style C4 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#000
-                style C5 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#000
-                style E1 fill:#FFE0B2,stroke:#E65100,stroke-width:2px,color:#000
-                style E2 fill:#FFE0B2,stroke:#E65100,stroke-width:2px,color:#000
+                %%Color neutro para los nodos 
+                classDef neutral fill:#FFFFFF,stroke:#9E9E9E,stroke-width:1px,color:#333
+                class A,B,C1,C2,C3,C4,C5,D1,D2,E1,E2,F neutral
                 style P1 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
                 style P2 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
                 style P3 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
