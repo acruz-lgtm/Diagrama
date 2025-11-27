@@ -57,6 +57,17 @@
 
     .loading { animation: pulse 1.5s infinite; }
     @keyframes pulse { 50% { opacity: .5; } }
+
+    /* Estilo para cuando JavaScript activa el grupo */
+    .forced-glow rect, 
+    .forced-glow circle, 
+    .forced-glow path, 
+    .forced-glow polygon {
+        filter: drop-shadow(0 0 10px rgba(255, 64, 129, 0.9)) !important; /* Brillo Rosa/Rojo para diferenciar */
+        stroke: #FF4081 !important;
+        stroke-width: 3px !important;
+        transition: all 0.2s ease;
+    }
 </style>
 </head>
 <body class="bg-slate-100 font-sans text-gray-800">
@@ -582,6 +593,74 @@
                 style User fill:#C8E6C9,stroke:#43A047
                 style WEB fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
+
+            //DIAGRAMA DE FUENTES 
+            base_raw: `
+                flowchart TD
+                classDef groupBase fill:#fff,stroke:none
+                classDef groupCredito fill:#fff,stroke:none
+                classDef groupCRM fill:#fff,stroke:none
+
+                subgraph P1 ["Paso 1: Inicialización"]
+                    direction TB
+                    A[("Archivos Auxiliares<br/>(Excel/CSV)")]:::groupBase
+                    B[("Carga: raw.geo_*<br/>raw.inventario")]:::groupBase
+                end
+                
+                subgraph P2 ["Paso 2: Ingesta de Datos Maestros"]
+                    direction TB
+                    C1[("raw.creditos_as")]:::groupCredito
+                    C2[("raw.upnify_prospectos")]:::groupCRM
+                    C3[("raw.upnify_oportunidades")]:::groupCRM
+                    C4[("raw.upnify_ventas")]:::groupCRM
+                    C5[("raw.upnify_productos")]:::groupCRM
+                end
+                
+                subgraph P3 ["Paso 3: Detalle y dependencias del crédito"]
+                    direction TB
+                    D1[("raw.bitacora_judicial")]:::groupCredito
+                    D2[("raw.creditos_historica")]:::groupCredito
+                end
+                
+                subgraph P4 ["Paso 4: Detalle y detalle CRM"]
+                    direction TB
+                    E1[("raw.upnify_seguimientos")]:::groupCRM
+                    E2[("raw.upnify_prod_oportunidades")]:::groupCRM
+                end
+                
+                subgraph P5 ["Paso 5: Reconstrucción Histórica"]
+                    direction TB
+                    F[("raw.reportes_mora21")]:::groupCredito
+                end
+
+                A --> B
+                B --> C1
+                B --> C2 & C3 & C4 & C5
+                C1 --> D1
+                C1 --> D2
+                D1 & D2 --> F
+                C2 --> E1
+                C3 --> E1
+                C3 --> E2
+
+                style A fill:#F5F5F5,stroke:#616161,stroke-width:2px
+                style B fill:#F5F5F5,stroke:#616161,stroke-width:2px
+                style C1 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
+                style D1 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
+                style D2 fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
+                style F fill:#BBDEFB,stroke:#0D47A1,stroke-width:2px
+                style C2 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
+                style C3 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
+                style C4 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
+                style C5 fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
+                style E1 fill:#FFE0B2,stroke:#E65100,stroke-width:2px
+                style E2 fill:#FFE0B2,stroke:#E65100,stroke-width:2px
+                style P1 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
+                style P2 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
+                style P3 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
+                style P4 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
+                style P5 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
+                `        
         };
 
         // Función Global para manejar el click
@@ -635,12 +714,50 @@
                 if (bindFunctions) {
                     bindFunctions(container);
                 }
+            
+                // ESTA LÍNEA ES LA QUE ACTIVA LA LUZ
+                setupGroupHighlight(container); 
+                if (bindFunctions) bindFunctions(container);
                 
             } catch (error) {
                 console.error(error);
                 container.innerHTML = `<div class="text-red-600 p-4 border border-red-300 rounded bg-red-50">
                     <strong>Error de renderizado:</strong><br/>${error.message}
                 </div>`;
+            }
+
+
+            // Función para activar el iluminado en grupo
+            function setupGroupHighlight(container) {
+                // 1. Buscamos todos los nodos en el diagrama actual
+                const nodes = container.querySelectorAll('.node');
+
+                nodes.forEach(node => {
+                    // 2. Revisamos las clases de cada nodo
+                    node.classList.forEach(className => {
+                        // 3. Si la clase empieza con 'group' (ej: groupVentas)
+                        if (className.startsWith('group')) {
+                            
+                            // EVENTO MOUSE OVER (Entrar)
+                            node.addEventListener('mouseenter', () => {
+                                // Buscar TODOS los elementos con esa misma clase
+                                const related = container.querySelectorAll('.' + className);
+                                related.forEach(el => {
+                                    // Forzamos el brillo añadiendo la clase CSS del Paso 1
+                                    el.classList.add('forced-glow');
+                                });
+                            });
+
+                            // EVENTO MOUSE OUT (Salir)
+                            node.addEventListener('mouseleave', () => {
+                                const related = container.querySelectorAll('.' + className);
+                                related.forEach(el => {
+                                    el.classList.remove('forced-glow');
+                                });
+                            });
+                        }
+                    });
+                });
             }
         }   
         
