@@ -21,6 +21,15 @@
         overflow: auto;
     }
 
+    /* CLASE PARA HACER PEQUEÑO EL GENERAL */
+    .general-view {
+        align-items: center !important; /* Centrar verticalmente */
+    }
+    .general-view svg {
+        max-width: 65% !important; /* <--- ESTO LO HACE MÁS PEQUEÑO VISUALMENTE */
+        height: auto !important;
+    }
+
     /* Cursor de mano para todos los nodos */
     g.node { cursor: pointer !important; }
         /*Transción para prender/apagar*/
@@ -52,7 +61,7 @@
     }
 
     /* --- 3. BRILLO AZUL (Para Plataforma, Cuentas, etc.) --- */
-    .glowBlue:hover rect, .glowBlue:hover circle, .glowBlue:hover polygon {
+    .glowBlue:hover rect, .glowBlue:hover circle, .glowBlue:hover polygon, .glowBlue:hover path, .glowBlue:hover ellipse {
         /* Sombra Azul */
         filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.9)) !important;
         stroke: #1565C0 !important; /* Borde Azul Oscuro */
@@ -745,10 +754,12 @@
             if (key === 'general') {
                 backBtn.classList.add('hidden');
                 if(legend) legend.classList.remove('hidden'); // Check de seguridad
-                instruction.textContent = 'Pasa el mouse sobre los roles para iluminarlos y haz clic para entrar.';
+                container.classList.add('general-view'); //Clase más pequeño
+                instruction.textContent = 'Navega por el diagrama general y haz clic en los roles para ver sus detalles.';
             } else {
                 backBtn.classList.remove('hidden');
                 if(legend) legend.classList.add('hidden'); // Check de seguridad
+                container.classList.remove('general-view');
                 instruction.textContent = 'Viendo detalles del rol. Haz clic en "Volver" para regresar.';
             }
 
