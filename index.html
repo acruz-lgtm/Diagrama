@@ -82,13 +82,13 @@
     }
 
     /* 3. LUZ GRIS/PLATA (Para Archivos Base) */
-    .glow-gray {
+    .glow-purple {
         filter: drop-shadow(0 0 10px rgba(97, 97, 97, 0.8)) !important;
     }
-    .glow-gray path, .glow-gray rect, .glow-gray circle, .glow-gray ellipse, .glow-gray polygon {
-        stroke: #616161 !important; /* Borde se pone gris oscuro */
-        stroke-width: 3px !important;
-        fill: #F5F5F5 !important;
+    .glow-purple path, .glow-purple rect, .glow-purple circle, .glow-purple ellipse, .glow-purple polygon {
+        stroke: #9C27B0 !important; /* Borde se pone gris oscuro */
+        stroke-width: 4px !important;
+        fill: #F3E5F5 !important;
     }
 
     .loading { animation: pulse 1.5s infinite; }
@@ -138,9 +138,9 @@
             securityLevel: 'loose', // Necesario para los clicks
             flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'stepAfter',
             //ESPACIADO: Se aumenta el espacio para que las flechas no crucen las letras 
-            nodeSpacing: 50,
-            rankSpacing: 80, 
-            padding: 15
+            nodeSpacing: 80,
+            rankSpacing: 180, 
+            padding: 25
             }
         });
       
@@ -671,11 +671,11 @@
                 %%Color neutro para los nodos 
                 classDef neutral fill:#FFFFFF,stroke:#9E9E9E,stroke-width:1px,color:#333
                 class A,B,C1,C2,C3,C4,C5,D1,D2,E1,E2,F neutral
-                style P1 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
-                style P2 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
-                style P3 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
-                style P4 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
-                style P5 fill:#FFFFFF,stroke:#ddd,stroke-dasharray: 5 5
+                style P1 fill:#fff,stroke:#999,stroke-width:3px,stroke-dasharray: 5 5
+                style P2 fill:#fff,stroke:#999,stroke-width:3px,stroke-dasharray: 5 5
+                style P3 fill:#fff,stroke:#999,stroke-width:3px,stroke-dasharray: 5 5
+                style P4 fill:#fff,stroke:#999,stroke-width:3px,stroke-dasharray: 5 5
+                style P5 fill:#fff,stroke:#999,stroke-width:3px,stroke-dasharray: 5 5
                 `        
         };
 
@@ -694,7 +694,7 @@
             const colorMap = {
                 'groupCredito': 'glow-blue',
                 'groupCRM': 'glow-orange',
-                'groupBase': 'glow-gray'
+                'groupBase': 'glow-purple'
             };
 
             nodes.forEach(node => {
