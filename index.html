@@ -702,7 +702,8 @@
                 // 2. Revisamos las clases de cada nodo
                 node.classList.forEach(className => {
                     // 3. Si la clase empieza con 'group' (ej: groupVentas)
-                    if (className.startsWith('group')) {
+                    if (colorMap[className]) {
+                        const activeColorClass = colorMap[className];
                         
                         // EVENTO MOUSE OVER (Entrar)
                         node.addEventListener('mouseenter', () => {
@@ -710,7 +711,7 @@
                             const related = container.querySelectorAll('.' + className);
                             related.forEach(el => {
                                 // Forzamos el brillo añadiendo la clase CSS del Paso 1
-                                el.classList.add('glowClass');
+                                el.classList.add('activeColorClass');
                             });
                         });
 
@@ -718,7 +719,7 @@
                         node.addEventListener('mouseleave', () => {
                             const related = container.querySelectorAll('.' + className);
                             related.forEach(el => {
-                                el.classList.remove('glowClass');
+                                el.classList.remove('activeColorClass');
                             });
                         });
                     }
