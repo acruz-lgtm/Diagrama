@@ -75,7 +75,7 @@
     .glow-orange {
         filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important;
     }
-    .glow-orange > * {
+    .glow-orange path, .glow-orange rect, .glow-orange circle, .glow-orange ellipse, .glow-orange polygon {
         stroke: #FF9800 !important; /* Borde se pone naranja */
         stroke-width: 3px !important;
         fill: #FFF3E0 !important; /* Fondo suave naranja */
@@ -85,7 +85,7 @@
     .glow-gray {
         filter: drop-shadow(0 0 10px rgba(97, 97, 97, 0.8)) !important;
     }
-    .glow-gray > * {
+    .glow-gray path, .glow-gray rect, .glow-gray circle, .glow-gray ellipse, .glow-gray polygon {
         stroke: #616161 !important; /* Borde se pone gris oscuro */
         stroke-width: 3px !important;
         fill: #F5F5F5 !important;
@@ -666,8 +666,7 @@
                 C1 --> D2
                 D1 & D2 --> P5
                 C2 --> E1
-                C3 --> E1
-                C3 --> P4
+                C3 --> E1 & E2
 
                 %%Color neutro para los nodos 
                 classDef neutral fill:#FFFFFF,stroke:#9E9E9E,stroke-width:1px,color:#333
@@ -711,7 +710,7 @@
                             const related = container.querySelectorAll('.' + className);
                             related.forEach(el => {
                                 // Forzamos el brillo añadiendo la clase CSS del Paso 1
-                                el.classList.add('activeColorClass');
+                                el.classList.add(activeColorClass);
                             });
                         });
 
@@ -719,7 +718,7 @@
                         node.addEventListener('mouseleave', () => {
                             const related = container.querySelectorAll('.' + className);
                             related.forEach(el => {
-                                el.classList.remove('activeColorClass');
+                                el.classList.remove(activeColorClass);
                             });
                         });
                     }
