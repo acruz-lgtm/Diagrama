@@ -23,6 +23,10 @@
 
     /* Cursor de mano para todos los nodos */
     g.node { cursor: pointer !important; }
+        /*Transción para prender/apagar*/
+    g.node, g.node > * {
+        transition: all 0.4s ease;
+    }
 
     /* --- DEFINICIÓN DE TRANSICIONES COMUNES --- */
     .glowGreen rect, .glowGreen circle, .glowGreen polygon, .glowGreen path,
@@ -55,9 +59,6 @@
         stroke-width: 2px !important;
     }
 
-    .loading { animation: pulse 1.5s infinite; }
-    @keyframes pulse { 50% { opacity: .5; } }
-
     /* --- LUCES ESPECÍFICAS POR GRUPO --- */
 
     /* 1. LUZ AZUL (Para Crédito) */
@@ -89,11 +90,9 @@
         stroke-width: 3px !important;
         fill: #F5F5F5 !important;
     }
-    /*Transción para prender/apagar*/
-    g.node, g.node > * {
-        transition: all 0.4s ease;
-    }
 
+    .loading { animation: pulse 1.5s infinite; }
+    @keyframes pulse { 50% { opacity: .5; } }
 </style>
 </head>
 <body class="bg-slate-100 font-sans text-gray-800">
@@ -665,10 +664,10 @@
                 B --> C2 & C3 & C4 & C5
                 C1 --> D1
                 C1 --> D2
-                D1 & D2 --> F
+                D1 & D2 --> P5
                 C2 --> E1
                 C3 --> E1
-                C3 --> E2
+                C3 --> P4
 
                 %%Color neutro para los nodos 
                 classDef neutral fill:#FFFFFF,stroke:#9E9E9E,stroke-width:1px,color:#333
@@ -696,7 +695,7 @@
             const colorMap = {
                 'groupCredito': 'glow-blue',
                 'groupCRM': 'glow-orange',
-                'groupBase': 'glow_gray'
+                'groupBase': 'glow-gray'
             };
 
             nodes.forEach(node => {
@@ -711,7 +710,7 @@
                             const related = container.querySelectorAll('.' + className);
                             related.forEach(el => {
                                 // Forzamos el brillo añadiendo la clase CSS del Paso 1
-                                el.classList.add('forced-glow');
+                                el.classList.add('glowClass');
                             });
                         });
 
@@ -719,7 +718,7 @@
                         node.addEventListener('mouseleave', () => {
                             const related = container.querySelectorAll('.' + className);
                             related.forEach(el => {
-                                el.classList.remove('forced-glow');
+                                el.classList.remove('glowClass');
                             });
                         });
                     }
