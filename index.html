@@ -669,6 +669,38 @@
             renderDiagram(key);
         };
 
+        // Función para activar el iluminado en grupo
+        function setupGroupHighlight(container) {
+            // 1. Buscamos todos los nodos en el diagrama actual
+            const nodes = container.querySelectorAll('.node');
+
+            nodes.forEach(node => {
+                // 2. Revisamos las clases de cada nodo
+                node.classList.forEach(className => {
+                    // 3. Si la clase empieza con 'group' (ej: groupVentas)
+                    if (className.startsWith('group')) {
+                        
+                        // EVENTO MOUSE OVER (Entrar)
+                        node.addEventListener('mouseenter', () => {
+                            // Buscar TODOS los elementos con esa misma clase
+                            const related = container.querySelectorAll('.' + className);
+                            related.forEach(el => {
+                                // Forzamos el brillo añadiendo la clase CSS del Paso 1
+                                el.classList.add('forced-glow');
+                            });
+                        });
+
+                        // EVENTO MOUSE OUT (Salir)
+                        node.addEventListener('mouseleave', () => {
+                            const related = container.querySelectorAll('.' + className);
+                            related.forEach(el => {
+                                el.classList.remove('forced-glow');
+                            });
+                        });
+                    }
+                });
+            });
+        }
         // Función de renderizado
         async function renderDiagram(key) {
             const container = document.getElementById('diagram-container');
@@ -682,7 +714,7 @@
                 return;
             }
 
-            // Definimos la variable que faltaba
+            // Definimos 
             const definition = diagrams[key];
 
             // Lógica de interfaz (Mostrar/Ocultar botón de regreso)
@@ -705,59 +737,22 @@
                 
                 // Generar ID único para evitar conflictos de caché de Mermaid
                 const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
-                
                 // Renderizar (Ahora 'definition' ya existe)
                 const { svg, bindFunctions } = await mermaid.render(id, definition);
+                //1. Inserta el SVG
                 container.innerHTML = svg;
-
-                // Vinculamos los eventos (clicks)
+                //2. Se activan las luces del SVG 
+                setupGroupHighlight(container); 
+                //3. Vinculamos los clicks
                 if (bindFunctions) {
                     bindFunctions(container);
                 }
-            
-                // ESTA LÍNEA ES LA QUE ACTIVA LA LUZ
-                setupGroupHighlight(container); 
-                if (bindFunctions) bindFunctions(container);
                 
             } catch (error) {
                 console.error(error);
                 container.innerHTML = `<div class="text-red-600 p-4 border border-red-300 rounded bg-red-50">
                     <strong>Error de renderizado:</strong><br/>${error.message}
                 </div>`;
-            }
-
-
-            // Función para activar el iluminado en grupo
-            function setupGroupHighlight(container) {
-                // 1. Buscamos todos los nodos en el diagrama actual
-                const nodes = container.querySelectorAll('.node');
-
-                nodes.forEach(node => {
-                    // 2. Revisamos las clases de cada nodo
-                    node.classList.forEach(className => {
-                        // 3. Si la clase empieza con 'group' (ej: groupVentas)
-                        if (className.startsWith('group')) {
-                            
-                            // EVENTO MOUSE OVER (Entrar)
-                            node.addEventListener('mouseenter', () => {
-                                // Buscar TODOS los elementos con esa misma clase
-                                const related = container.querySelectorAll('.' + className);
-                                related.forEach(el => {
-                                    // Forzamos el brillo añadiendo la clase CSS del Paso 1
-                                    el.classList.add('forced-glow');
-                                });
-                            });
-
-                            // EVENTO MOUSE OUT (Salir)
-                            node.addEventListener('mouseleave', () => {
-                                const related = container.querySelectorAll('.' + className);
-                                related.forEach(el => {
-                                    el.classList.remove('forced-glow');
-                                });
-                            });
-                        }
-                    });
-                });
             }
         }   
         
