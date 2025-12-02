@@ -15,12 +15,17 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 20px;
             height: 85vh; /* Altura fija */
-            display: grid;
-            place-items: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
             overflow: auto;
         }
         .mermaid-container svg { 
-           margin: auto; max-width: none !important; height: auto !important;}
+            display: block;
+            margin: 0; max-width: none !important; width: auto !important;
+            flex: none;
+        }
 
         /* Cursor de mano para todos los nodos */
         g.node { cursor: pointer !important; }
