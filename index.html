@@ -15,11 +15,14 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 30px;
             height: 85vh; /* Altura fija */
-            display: grid;
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
             overflow: auto;
         }
         .mermaid-container svg { 
-            margin: auto; max-width: none !important; width: auto !important;
+            margin: 0; max-width: none !important; width: auto !important; flex: none;
         }
 
         /* Cursor de mano para todos los nodos */
@@ -57,8 +60,8 @@
         }
 
         /* 2. LUZ NARANJA (Para CRM/Upnify) */
-        .glow-orange { filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; }
-        .glow-orange :is(path, rect, circle, ellipse, polygon) {
+        .glow-red { filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; }
+        .glow-red :is(path, rect, circle, ellipse, polygon) {
             stroke: #FF9800 !important; stroke-width: 3px !important; fill: #FFF3E0 !important; /* Fondo suave naranja */
         }
 
@@ -604,7 +607,7 @@
                     'nodeSpacing': 40, 
                     'rankSpacing': 60, 
                     'curve': 'basis', 
-                    'padding': 30
+                    'padding': 50
                 }
             } }%%
                 flowchart TD
@@ -698,7 +701,7 @@
             //Mapa de colores: depende de la fuente de datos 
             const colorMap = {
                 'groupCredito': 'glow-blue',
-                'groupCRM': 'glow-orange',
+                'groupCRM': 'glow-red',
                 'groupBase': 'glow-purple'
             };
 
