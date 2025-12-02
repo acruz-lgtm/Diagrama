@@ -17,9 +17,11 @@
             height: 85vh; /* Altura fija */
             display: grid;
             overflow: auto;
+            text-align: center;
         }
         .mermaid-container svg { 
-            margin: auto; max-width: none !important; width: auto !important;
+            max-width: none !important;
+            height: auto;
         }
 
         /* Cursor de mano para todos los nodos */
@@ -742,6 +744,26 @@
                 const { svg, bindFunctions } = await mermaid.render(id, definition);
                 //1. Inserta el SVG
                 container.innerHTML = svg;
+                // Parche del SCROLL 
+                const svgElement = container.querySelector('svg');
+                if (svgElement) {
+                    // Obtenemos el tamaño real definido en el viewBox (ej: "0 0 2000 500")
+                    const viewBox = svgElement.getAttribute('viewBox');
+            
+                    if (viewBox) {
+                        const parts = viewBox.split(' ');
+                        const width = parts[2]; // El tercer número es el ancho real
+                        
+                        // FORZAMOS EL ANCHO EN PIXELES
+                        // Esto hace que el contenedor detecte que el contenido es gigante
+                        // y active las barras de desplazamiento sí o sí.
+                        svgElement.style.width = width + 'px';
+                        
+                        // Opcional: Si quieres centrarlo cuando sobra espacio
+                        svgElement.style.margin = '0 auto';
+                        svgElement.style.display = 'block';
+                    }
+                }
                 //2. Se activan las luces del SVG 
                 setupGroupHighlight(container); 
                 //3. Vinculamos los clicks
