@@ -129,7 +129,7 @@
         // INCRUTASCIÓN DE DIAGRAMAS ESPECIFICOS ===        
         const diagrams = {
             // TU DIAGRAMA GENERAL ADAPTADO
-            general: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 60, 'rankSpacing': 90, 'curve': 'basis'}} }%%
+            general: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 60, 'rankSpacing': 70, 'curve': 'basis'}} }%%
                 flowchart TB
                 
                 %% --- DEFINICIÓN DE CLASES POR COLOR ---
@@ -210,7 +210,7 @@
                 APIS --> ACCESO(["Acceso: Push a feature-branch"])
                 ACCESO --> STRA
                 
-                STRA -.-> DF
+                STRA -.--> DF
                 DF --> SG_Web
                 WEB --> WB(["Acceso: Sólo a la WEB"])
                 WB --> SG_Cuentas
