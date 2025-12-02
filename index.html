@@ -210,7 +210,8 @@
                 APIS --> ACCESO(["Acceso: Push a feature-branch"])
                 ACCESO --> STRA
                 
-                STRA --> DF
+                AND -.-> DF
+                CDD -.-> DF
                 DF --> SG_Web
                 WEB --> WB(["Acceso: Sólo a la WEB"])
                 WB --> SG_Cuentas
@@ -294,7 +295,7 @@
                 end
                 
                 FP --> Permisos
-                Permisos --> User 
+                P1 & P2 --> User 
                 User --> T1 & T2 & T3 & T4 & T5
                 T4 -.-> DWH 
                 T5 -.-> DWH 
