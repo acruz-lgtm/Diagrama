@@ -19,7 +19,8 @@
             place-items: start center;
             overflow: auto;
         }
-        .mermaid-container svg { max-width: none !important; height: auto !important;}
+        .mermaid-container svg { 
+           margin: auto; max-width: none !important; height: auto !important;}
 
         /* Cursor de mano para todos los nodos */
         g.node { cursor: pointer !important; }
@@ -123,7 +124,7 @@
         // INCRUTASCIÓN DE DIAGRAMAS ESPECIFICOS ===        
         const diagrams = {
             // TU DIAGRAMA GENERAL ADAPTADO
-            general: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 50, 'rankSpacing': 55, 'curve': 'basis'}} }%%
+            general: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 30, 'rankSpacing': 55, 'curve': 'basis'}} }%%
                 flowchart TB
                 
                 %% --- DEFINICIÓN DE CLASES POR COLOR ---
@@ -184,7 +185,7 @@
 
                 %% --- RELACIONES ---
                 FP --> SA(["Acceso: Auditoría"])
-                SA ==> SG_Principal
+                SA ==> ID
                 FP -.-> SP(["Acceso: Sólo Lectura"]) 
                 SP ==> SG_Exploracion
                 AD -.-> ID 
@@ -597,7 +598,7 @@
             `,
 
             //DIAGRAMA DE FUENTES 
-            base_raw: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 50, 'rankSpacing': 80, 'curve': 'basis'}} }%%
+            base_raw: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 30, 'rankSpacing': 60, 'curve': 'basis'}} }%%
                 flowchart TD
                 classDef groupBase opacity:1
                 classDef groupCredito opacity:1
