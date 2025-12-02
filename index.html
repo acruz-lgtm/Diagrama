@@ -16,7 +16,7 @@
             padding: 20px;
             height: 85vh; /* Altura fija */
             display: grid;
-            place-items: start center;
+            place-items: start;
             overflow: auto;
         }
         .mermaid-container svg { 
@@ -598,7 +598,7 @@
             `,
 
             //DIAGRAMA DE FUENTES 
-            base_raw: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 30, 'rankSpacing': 60, 'curve': 'basis'}} }%%
+            base_raw: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 30, 'rankSpacing': 60, 'curve': 'linear'}} }%%
                 flowchart TD
                 classDef groupBase opacity:1
                 classDef groupCredito opacity:1
