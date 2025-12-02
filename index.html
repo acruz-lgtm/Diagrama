@@ -17,11 +17,9 @@
             height: 85vh; /* Altura fija */
             display: grid;
             overflow: auto;
-            text-align: center;
         }
         .mermaid-container svg { 
-            max-width: none !important;
-            height: auto;
+            margin: auto; max-width: none !important; width: auto !important;
         }
 
         /* Cursor de mano para todos los nodos */
@@ -600,12 +598,24 @@
             `,
 
             //DIAGRAMA DE FUENTES 
-            base_raw: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 30, 'rankSpacing': 60, 'curve': 'basis'}} }%%
+            base_raw: `%%{init: {
+                'theme': 'base', 
+                'flowchart': {
+                    'nodeSpacing': 40, 
+                    'rankSpacing': 80, 
+                    'curve': 'step', 
+                    'padding': 25
+                }
+            } }%%
                 flowchart TD
+                
+                %% CLASES (Se mantienen igual)
                 classDef groupBase opacity:1
                 classDef groupCredito opacity:1
                 classDef groupCRM opacity:1
-
+                
+                %% --- DEFINICIÓN DE SUBGRAFOS ---
+                
                 subgraph P1 ["Paso 1: Inicialización"]
                     direction TB
                     A[("Archivos Auxiliares<br/>(Excel/CSV)")]:::groupBase
@@ -638,25 +648,41 @@
                     F[("raw.reportes_mora21")]:::groupCredito
                 end
 
+                %% --- RELACIONES (Conexiones limpias) ---
                 A --> B
                 B --> C1
                 B --> C2 & C3 & C4 & C5
                 C1 --> D1
                 C1 --> D2
-                D1 & D2 --> P5
+                D1 & D2 --> F
                 C2 --> E1
                 C3 --> E1 & E2
 
-                %%Color neutro para los nodos 
-                classDef neutral fill:#FFFFFF,stroke:#9E9E9E,stroke-width:1px,color:#333
+                %% --- ESTILOS VISUALES MEJORADOS ---
+                
+                %% Nodos neutros (Blancos con borde gris suave)
+                classDef neutral fill:#FFFFFF,stroke:#B0BEC5,stroke-width:1px,color:#37474F
                 class A,B,C1,C2,C3,C4,C5,D1,D2,E1,E2,F neutral
-                style P1 fill:#fff,stroke:#999,stroke-width:3px,stroke-dasharray: 5 5
-                style P2 fill:#fff,stroke:#999,stroke-width:3px,stroke-dasharray: 5 5
-                style P3 fill:#fff,stroke:#999,stroke-width:3px,stroke-dasharray: 5 5
-                style P4 fill:#fff,stroke:#999,stroke-width:3px,stroke-dasharray: 5 5
-                style P5 fill:#fff,stroke:#999,stroke-width:3px,stroke-dasharray: 5 5
-                `        
-        };
+
+                %% ESTILOS DE LOS CUADROS (Pasteles + Bordes Redondeados)
+                %% rx:5,ry:5 redondea las esquinas.
+                
+                %% P1: Gris azulado muy tenue (Neutro)
+                style P1 fill:#F5F7F8,stroke:#CFD8DC,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
+                
+                %% P2: Azul cian muy pálido (Datos Maestros / Fresco)
+                style P2 fill:#E0F7FA,stroke:#80DEEA,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
+                
+                %% P3: Índigo lavanda muy suave (Crédito / Serio)
+                style P3 fill:#E8EAF6,stroke:#9FA8DA,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
+                
+                %% P4: Naranja crema muy suave (CRM / Cálido)
+                style P4 fill:#FFF3E0,stroke:#FFCC80,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
+                
+                %% P5: Verde lima muy pálido (Histórico / Finalización)
+                style P5 fill:#F1F8E9,stroke:#C5E1A5,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
+            `,
+        }
 
         // Función Global para manejar el click
         window.showDetail = function(key) {
@@ -744,26 +770,6 @@
                 const { svg, bindFunctions } = await mermaid.render(id, definition);
                 //1. Inserta el SVG
                 container.innerHTML = svg;
-                // Parche del SCROLL 
-                const svgElement = container.querySelector('svg');
-                if (svgElement) {
-                    // Obtenemos el tamaño real definido en el viewBox (ej: "0 0 2000 500")
-                    const viewBox = svgElement.getAttribute('viewBox');
-            
-                    if (viewBox) {
-                        const parts = viewBox.split(' ');
-                        const width = parts[2]; // El tercer número es el ancho real
-                        
-                        // FORZAMOS EL ANCHO EN PIXELES
-                        // Esto hace que el contenedor detecte que el contenido es gigante
-                        // y active las barras de desplazamiento sí o sí.
-                        svgElement.style.width = width + 'px';
-                        
-                        // Opcional: Si quieres centrarlo cuando sobra espacio
-                        svgElement.style.margin = '0 auto';
-                        svgElement.style.display = 'block';
-                    }
-                }
                 //2. Se activan las luces del SVG 
                 setupGroupHighlight(container); 
                 //3. Vinculamos los clicks
