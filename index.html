@@ -7,91 +7,69 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Usamos una versión reciente para mejor compatibilidad -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
-<style>
-    /* Contenedor principal */
-    .mermaid-container {
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        height: 85vh; /* Altura fija */
-        display: flex;
-        justify-content: center;
-        align-items: flex-start; /* CRUCIAL: flex-start evita que se corte la parte superior */
-        overflow: auto;
-    }
+    <style>
+        /* Contenedor principal */
+        .mermaid-container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: 85vh; /* Altura fija */
+            display: grid;
+            place-items: start center;
+            overflow: auto;
+        }
+        .mermaid-container svg { max-width: none !important;}
 
-    /* Cursor de mano para todos los nodos */
-    g.node { cursor: pointer !important; }
-        /*Transción para prender/apagar*/
-    g.node, g.node > * {
-        transition: all 0.4s ease;
-    }
-
-    /* --- DEFINICIÓN DE TRANSICIONES COMUNES --- */
-    .glowGreen rect, .glowGreen circle, .glowGreen polygon, .glowGreen path,
-    .glowYellow rect, .glowYellow circle, .glowYellow polygon, .glowYellow path,
-    .glowBlue rect, .glowBlue circle, .glowBlue polygon, .glowBlue path {
-        transition: filter 0.3s ease, stroke 0.3s ease;
-    }
-
-    /* --- 1. BRILLO VERDE (Para Arquitectos, Analistas, Científicos) --- */
-    .glowGreen:hover rect, .glowGreen:hover circle, .glowGreen:hover polygon {
-        /* Sombra Verde */
-        filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.9)) !important; 
-        stroke: #2E7D32 !important; /* Borde Verde Oscuro */
-        stroke-width: 2px !important;
-    }
-
-    /* --- 2. BRILLO AMARILLO (Para Ingenieros, Backend, Frontend) --- */
-    .glowYellow:hover rect, .glowYellow:hover circle, .glowYellow:hover polygon {
-        /* Sombra Dorada */
-        filter: drop-shadow(0 0 10px rgba(251, 192, 45, 0.9)) !important;
-        stroke: #F57F17 !important; /* Borde Naranja/Dorado */
-        stroke-width: 2px !important;
-    }
-
-    /* --- 3. BRILLO AZUL (Para Plataforma, Cuentas, etc.) --- */
-        .glowBlue:hover rect, .glowBlue:hover circle, .glowBlue:hover polygon, .glowBlue:hover path, .glowBlue:hover ellipse {
-            filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.9)) !important; 
-            stroke: #1565C0 !important; stroke-width: 2px !important;
+        /* Cursor de mano para todos los nodos */
+        g.node { cursor: pointer !important; }
+            /*Transción para prender/apagar*/
+        g.node, g.node > * {
+            transition: all 0.4s ease;
         }
 
-    /* --- LUCES ESPECÍFICAS POR GRUPO --- */
+        /* --- 1. BRILLO VERDE (Para Arquitectos, Analistas, Científicos) --- */
+        .glowGreen:hover :is(rect, circle, polygon, path, ellipse) {
+            filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.9)) !important; 
+            stroke: #2E7D32 !important; /* Borde Verde Oscuro */
+            stroke-width: 2px !important;
+        }
 
-    /* 1. LUZ AZUL (Para Crédito) */
-    .glow-blue {
-        filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.8)) !important;
-    }
-    .glow-blue  path, .glow-blue rect, .glow-blue circle, .glow-blue ellipse, .glow-blue polygon {
-        stroke: #2196F3 !important; /* Borde se pone azul */
-        stroke-width: 3px !important;
-        fill: #E3F2FD !important; /* Opcional: El fondo se tiñe un poco de azul muy suave */
-    }
+        /* --- 2. BRILLO AMARILLO (Para Ingenieros, Backend, Frontend) --- */
+        .glowYellow:hover :is(rect, circle, polygon, path, ellipse) {
+            filter: drop-shadow(0 0 10px rgba(251, 192, 45, 0.9)) !important;
+            stroke: #F57F17 !important; /* Borde Naranja/Dorado */
+            stroke-width: 2px !important;
+        }
 
-    /* 2. LUZ NARANJA (Para CRM/Upnify) */
-    .glow-orange {
-        filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important;
-    }
-    .glow-orange path, .glow-orange rect, .glow-orange circle, .glow-orange ellipse, .glow-orange polygon {
-        stroke: #FF9800 !important; /* Borde se pone naranja */
-        stroke-width: 3px !important;
-        fill: #FFF3E0 !important; /* Fondo suave naranja */
-    }
+        /* --- 3. BRILLO AZUL (Para Plataforma, Cuentas, etc.) --- */
+            .glowBlue:hover :is(rect, circle, polygon, path, ellipse) {
+                filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.9)) !important; 
+                stroke: #1565C0 !important; stroke-width: 2px !important;
+            }
 
-    /* 3. LUZ GRIS/PLATA (Para Archivos Base) */
-    .glow-purple {
-        filter: drop-shadow(0 0 15px rgba(156, 39, 176, 0.9)) !important;
-    }
-    .glow-purple path, .glow-purple rect, .glow-purple circle, .glow-purple ellipse, .glow-purple polygon {
-        stroke: #9C27B0 !important; /* Borde Morado intenso */
-        stroke-width: 4px !important;
-        fill: #F3E5F5 !important; /* Fondo morado claro */
-    }
+        /* --- LUCES ESPECÍFICAS POR GRUPO --- */
+        /* 1. LUZ AZUL (Para Crédito) */
+        .glow-blue { filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.8)) !important; }
+        .glow-blue :is(rect, circle, polygon, path, ellipse) {
+            stroke: #2196F3 !important; stroke-width: 3px !important; fill: #E3F2FD !important; /* Opcional: El fondo se tiñe un poco de azul muy suave */
+        }
 
-    .loading { animation: pulse 1.5s infinite; }
-    @keyframes pulse { 50% { opacity: .5; } }
-</style>
+        /* 2. LUZ NARANJA (Para CRM/Upnify) */
+        .glow-orange { filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; }
+        .glow-orange :is(path, rect, circle, ellipse, polygon) {
+            stroke: #FF9800 !important; stroke-width: 3px !important; fill: #FFF3E0 !important; /* Fondo suave naranja */
+        }
+
+        /* 3. LUZ MORADO (Para Archivos Base) */
+        .glow-purple { filter: drop-shadow(0 0 15px rgba(156, 39, 176, 0.9)) !important; }
+        .glow-purple :is(path, rect, circle, ellipse, polygon) {
+            stroke: #9C27B0 !important; stroke-width: 4px !important; fill: #F3E5F5 !important; /* Fondo morado claro */
+        }
+
+        .loading { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 50% { opacity: .5; } }
+    </style>
 </head>
 <body class="bg-slate-100 font-sans text-gray-800">
 
