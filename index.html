@@ -17,12 +17,14 @@
             height: 85vh; /* Altura fija */
 
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+            justify-content: center;
+            align-items: center;
             overflow: auto;
         }
         .mermaid-container svg { 
-            margin: 0; max-width: none !important; width: auto !important; flex: none;
+            max-width: 150% !important;
+            height: auto !important;
+            display: block;
         }
 
         /* Cursor de mano para todos los nodos */
@@ -127,7 +129,7 @@
         // INCRUTASCIÓN DE DIAGRAMAS ESPECIFICOS ===        
         const diagrams = {
             // TU DIAGRAMA GENERAL ADAPTADO
-            general: `%%{init: {'theme': 'base', 'flowchart': {'useMaxWidth': false, 'nodeSpacing': 30, 'rankSpacing': 45, 'curve': 'basis'}} }%%
+            general: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 60, 'rankSpacing': 60, 'curve': 'basis'}} }%%
                 flowchart TB
                 
                 %% --- DEFINICIÓN DE CLASES POR COLOR ---
@@ -606,7 +608,7 @@
                 'flowchart': {
                     'nodeSpacing': 40, 
                     'rankSpacing': 60, 
-                    'curve': 'basis', 
+                    'curve': 'step', 
                     'padding': 50
                 }
             } }%%
