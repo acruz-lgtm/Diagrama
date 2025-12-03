@@ -655,14 +655,13 @@
                     CATALOGOS[("Catálogos Geográficos")]:::groupArchi
                 end
 
-                subgraph PLATA ["Plataforma Central"]
-                    DWH["Raw & Silver<br/>PostgreSQL"]
+                User2((Plataforma Central<br/>DWH Raw & Silver<br/>PostgreSQL))
                 end
 
                 User --> APIS & BASES & ARCHI
-                APIS --> DWH
-                BASES --> DWH
-                ARCHI --> DWH 
+                APIS --> User2
+                BASES --> User2
+                ARCHI --> User2
                 
             `,
             base_raw: `%%{init: {
