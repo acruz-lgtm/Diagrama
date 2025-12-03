@@ -62,8 +62,8 @@
         }
 
         /* 2. LUZ NARANJA (Para CRM/Upnify) */
-        .glow-red { filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; }
-        .glow-red :is(path, rect, circle, ellipse, polygon) {
+        .glow-orange { filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; }
+        .glow-orange :is(path, rect, circle, ellipse, polygon) {
             stroke: #FF9800 !important; stroke-width: 3px !important; fill: #FFF3E0 !important; /* Fondo suave naranja */
         }
 
@@ -73,6 +73,13 @@
             stroke: #9C27B0 !important; stroke-width: 4px !important; fill: #F3E5F5 !important; /* Fondo morado claro */
         }
 
+        /* Luz Roja */
+        .glow-red {
+            filter: drop-shadow(0 0 10px rgba(244, 67, 54, 0.9)) !important;
+        }        
+        .glow-red :is(path, rect, circle, ellipse, polygon) {
+        stroke: #D32F2F !important; stroke-width: 3px !important;  fill: #FFEBEE !important;  
+        }
         .loading { animation: pulse 1.5s infinite; }
         @keyframes pulse { 50% { opacity: .5; } }
     </style>
@@ -457,7 +464,8 @@
                 User --> T1 
                 T1 --> APIS
                 APIS --> Permisos
-                Permisos --> Y1 & Y2 & Y3 & Y4 & Y5
+                J1 --> Y1 & Y2 & Y3 
+                J1 --> Y4 & Y5
 
                 style User fill:#FFF9C4,stroke:#FBC02D
                 style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
@@ -607,7 +615,7 @@
                 'theme': 'base', 
                 'flowchart': {
                     'nodeSpacing': 40, 
-                    'rankSpacing': 60, 
+                    'rankSpacing': 70, 
                     'curve': 'basis', 
                     'padding': 50 }
             } }%%
