@@ -92,9 +92,9 @@
         }
 
         /* 6. Luz rosa */
-        .glow-pink { filter: drop-shadow(0 0 10px rgba(248, 47, 158, 0.8)) !important; }
+        .glow-pink { filter: drop-shadow(0 0 10px rgba(253, 87, 178, 0.952)) !important; }
         .glow-pink :is(path, rect, circle, ellipse, polygon) {
-            stroke: #ca3185 !important; stroke-width: 2% !important; fill: #ca3185 !important;
+            stroke: #db61a4 !important; stroke-width: 2% !important; fill: #db61a4 !important;
         }
 
         .loading { animation: pulse 1.5s infinite; }
@@ -661,6 +661,10 @@
                 APIS --> User2
                 BASES --> User2
                 ARCHI --> User2
+              
+                %% Nodos neutros (Blancos con borde gris suave)
+                classDef neutral fill:#FFFFFF,stroke:#B0BEC5,stroke-width:1px,color:#37474F
+                class APIS,BASES,ARCHI neutral
                 
             `,
             base_raw: `%%{init: {
