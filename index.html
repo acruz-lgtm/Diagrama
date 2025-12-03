@@ -49,10 +49,16 @@
         }
 
         /* --- 3. BRILLO AZUL (Para Plataforma, Cuentas, etc.) --- */
-            .glowBlue:hover :is(rect, circle, polygon, path, ellipse) {
-                filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.9)) !important; 
-                stroke: #1565C0 !important; stroke-width: 2px !important;
-            }
+        .glowBlue:hover :is(rect, circle, polygon, path, ellipse) {
+            filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.9)) !important; 
+            stroke: #1565C0 !important; stroke-width: 2px !important;
+        }
+
+        /* --- 4. BRILLO NARANJA (FUENTES PRIMARIAS) --- */
+        .glowOrange:hover :is(rect, circle, polygon, path, ellipse) {
+            filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; 
+            stroke: #FF9800 !important; stroke-width: 3px !important;
+        }
 
         /* --- LUCES ESPECÍFICAS POR GRUPO --- */
         /* 1. LUZ AZUL (Para Crédito) */
@@ -74,12 +80,23 @@
         }
 
         /* Luz Roja */
-        .glow-red {
-            filter: drop-shadow(0 0 10px rgba(244, 67, 54, 0.9)) !important;
-        }        
+        .glow-red { filter: drop-shadow(0 0 10px rgba(244, 67, 54, 0.9)) !important;  }        
         .glow-red :is(path, rect, circle, ellipse, polygon) {
-        stroke: #D32F2F !important; stroke-width: 3px !important;  fill: #FFEBEE !important;  
+            stroke: #D32F2F !important; stroke-width: 3px !important;  fill: #FFEBEE !important;  
         }
+
+        /* 5. Luz verde */
+        .glow-green { filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.9)) !important;  }
+        .glow-green :is(path, rect, circle, ellipse, polygon) {
+            stroke: #2E7D32 !important; stroke-width: 2px !important; fill: #2E7D32 !important;
+        }
+
+        /* 6. Luz rosa */
+        .glow-pink { filter: drop-shadow(0 0 10px rgba(248, 47, 158, 0.8)) !important; }
+        .glow-pink :is(path, rect, circle, ellipse, polygon) {
+            stroke: #ca3185 !important; stroke-width: 2% !important; fill: #ca3185 !important;
+        }
+
         .loading { animation: pulse 1.5s infinite; }
         @keyframes pulse { 50% { opacity: .5; } }
     </style>
@@ -150,7 +167,7 @@
                 %% --- DEFINICIÓN DE SUBGRAFOS (Áreas) ---
                 subgraph SG_Fuente ["FUENTE DE DATOS"]
                     direction TB
-                    FP[("Fuentes Primarias")]
+                    FP[("Fuentes Primarias")]:::glowOrange
                 end
                 
                 subgraph SG_Exploracion ["ROL DE EXPLORACIÓN"]
@@ -267,6 +284,7 @@
                 click CDD call showDetail("cientifi") "Ver detalle Cientifico"
                 click CUENTA call showDetail("cuenta") "Ver detalle Cuenta"
                 click DWH call showDetail("base_raw") "Ver detalle Base Raw"
+                click FP call showDetail("fuente_prim") "Ver detalle Base Raw"
             `,
 
             // --- DIAGRAMAS DE DETALLE ---
@@ -611,6 +629,42 @@
             `,
 
             //DIAGRAMA DE FUENTES 
+            fuente_prim: `
+                flowchart TD
+                title[Fuente: Fuentes Primarias]
+                style title fill:#FFF9C4,stroke:none
+                
+                %% CLASES (Se mantienen igual)
+                classDef groupApis opacity:1
+                classDef groupBases opacity:1
+                classDef groupArchi opacity:1
+
+                User((Fuentes Primarias))
+
+                subgraph APIS ["APIs Transaccionales"]
+                    UPNIPY[("Upnify<br/>(SalesUp)")]:::groupApis
+                end
+                
+                subgraph BASES ["Bases de Datos Operacionales"]
+                    ADAMA[("AdamantineSuite")]:::groupBases
+                    CISHF[("CISHF")]:::groupBases
+                end
+
+                subgraph ARCHI ["Archivos"]
+                    COBRANZA[("Reportes de Cobranza Residencial")]:::groupArchi
+                    CATALOGOS[("Catálogos Geográficos")]:::groupArchi
+                end
+
+                subgraph PLATA ["Plataforma Central"]
+                    DWH["Raw & Silver<br/>PostgreSQL"]
+                end
+
+                User --> APIS & BASES & ARCHI
+                APIS --> DHW
+                BASES --> DHW
+                ARCHI --> DHW 
+                
+            `,
             base_raw: `%%{init: {
                 'theme': 'base', 
                 'flowchart': {
@@ -620,6 +674,8 @@
                     'padding': 50 }
             } }%%
                 flowchart TD
+                title[Fuente: Plataforma Central]
+                style title fill:#FFF9C4,stroke:none
                 
                 %% CLASES (Se mantienen igual)
                 classDef groupBase opacity:1
@@ -643,13 +699,13 @@
                     C5[("raw.upnify_productos")]:::groupCRM
                 end
                 
-                subgraph P3 ["Paso 3: Detalle y dependencias del crédito"]
+                subgraph P3 ["Paso 3: Dependencias del crédito"]
                     direction TB
                     D1[("raw.bitacora_judicial")]:::groupCredito
                     D2[("raw.creditos_historica")]:::groupCredito
                 end
                 
-                subgraph P4 ["Paso 4: Detalle y detalle CRM"]
+                subgraph P4 ["Paso 4: Detalle CRM"]
                     direction TB
                     E1[("raw.upnify_seguimientos")]:::groupCRM
                     E2[("raw.upnify_prod_oportunidades")]:::groupCRM
@@ -666,9 +722,9 @@
                 B --> C2 & C3 & C4 & C5
                 C1 --> D1
                 C1 --> D2
-                D1 & D2 --> F
                 C2 --> E1
                 C3 --> E1 & E2
+                D1 & D2 --> F
 
                 %% --- ESTILOS VISUALES MEJORADOS ---
                 
@@ -711,7 +767,10 @@
             const colorMap = {
                 'groupCredito': 'glow-blue',
                 'groupCRM': 'glow-red',
-                'groupBase': 'glow-purple'
+                'groupBase': 'glow-purple',
+                'groupApis': 'glow-pink',
+                'groupBases': 'glow-purple',
+                'groupArchi': 'glow-green'
             };
 
             nodes.forEach(node => {
