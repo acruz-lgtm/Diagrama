@@ -1,7 +1,6 @@
 // --- 2. DATOS PARA ECHARTS (NUEVO: TRADUCCIÓN DE TU MINDMAP) ---
 // Variable de datos con colores manuales para asegurar que las líneas se pinten
 const echartDataFuentes = {
-    title: "Fuentes Primarias",
     name: "Fuentes\nPrimarias",
     // Nodo Central (Azul)
     itemStyle: { color: '#0000FF', borderColor: '#fff', shadowBlur: 10 },
@@ -13,7 +12,7 @@ const echartDataFuentes = {
             children: [
                 // --- RAMA ADAMANTINE (ROSA) ---
                 {
-                    name: "AdamantineSuite\nCréditos",
+                    name: "Adamantine Suite\nCréditos",
                     itemStyle: { color: '#F48FB1' }, 
                     // Configuración del Padre
                     emphasis: {
@@ -82,7 +81,7 @@ const echartDataFuentes = {
                 },
                 // --- RAMA CISHF (ROJO) ---
                 {
-                    name: "CISHF\Base de Datos",
+                    name: "CISHF\nBase de Datos",
                     itemStyle: { color: '#EF9A9A' },
                     emphasis: {
                         itemStyle: { color: '#F44336', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#F44336' },
@@ -220,9 +219,10 @@ const mermaidDiagrams = {
     general: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 60, 'rankSpacing': 60, 'curve': 'basis'}} }%%
         flowchart TB
         classDef glowGreen fill:#C8E6C9,stroke:#66BB6A,stroke-width:1px
-        classDef glowYellow fill:#FFF9C4,stroke:#FDD835,stroke-width:1px
-        classDef glowBlue fill:#BBDEFB,stroke:#42A5F5,stroke-width:1px
-        
+        classDef glowYellow fill:#FFFDE7,stroke:#FBC02D,stroke-width:2px,color:#F57F17
+        classDef glowBlue fill:#E3F2FD,stroke:#2196F3,stroke-width:2px,color:#0D47A1
+        classDef glowOrange fill:#FFF3E0,stroke:#FF9800,stroke-width:2px,color:#E65100
+
         subgraph SG_Fuente ["FUENTE DE DATOS"]
             direction TB
             FP[("Fuentes Primarias")]:::glowOrange
@@ -297,28 +297,34 @@ const mermaidDiagrams = {
         WEB --> WB(["Acceso: Sólo a la WEB"])
         WB --> SG_Cuentas
 
-        style SG_Fuente fill:#FFE0B2,stroke:#FFA726
-        style SG_Exploracion fill:#C8E6C9,stroke:#66BB6A
-        style SG_Principal fill:#FFF9C4,stroke:#FDD835
-        style SG_Plataforma fill:#BBDEFB,stroke:#42A5F5
-        style SG_Trabajo fill:#C8E6C9,stroke:#66BB6A
-        style STRA fill:#C8E6C9,stroke:#66BB6A
-        style SG_Integracion fill:#FFF9C4,stroke:#FDD835
-        style SG_Prod_Plat fill:#BBDEFB,stroke:#42A5F5
-        style SG_Prod_Rol fill:#FFF9C4,stroke:#FDD835
-        style SG_Web fill:#BBDEFB,stroke:#42A5F5
-        style SG_Cuentas fill:#C8E6C9,stroke:#66BB6A
+        %% --- ESTILOS DE FONDO (SUBGRAFOS) ---
+        %% Usamos tonos muy suaves para no competir con los nodos
+
+        %% Naranja Suave
+        style SG_Fuente fill:#FFF8E1,stroke:#FFE0B2,stroke-width:1px,stroke-dasharray: 5 5
+        
+        %% Verde Suave
+        style SG_Exploracion fill:#F1F8E9,stroke:#C8E6C9,stroke-width:1px,stroke-dasharray: 5 5
+        style SG_Trabajo fill:#F1F8E9,stroke:#C8E6C9,stroke-width:1px,stroke-dasharray: 5 5
+        style STRA fill:#F1F8E9,stroke:#C8E6C9,stroke-width:1px,stroke-dasharray: 5 5
+        
+        %% Amarillo Suave
+        style SG_Principal fill:#FFFDE7,stroke:#FFF59D,stroke-width:1px,stroke-dasharray: 5 5
+        style SG_Integracion fill:#FFFDE7,stroke:#FFF59D,stroke-width:1px,stroke-dasharray: 5 5
+        style SG_Prod_Rol fill:#FFFDE7,stroke:#FFF59D,stroke-width:1px,stroke-dasharray: 5 5
+        
+        %% Azul Suave
+        style SG_Plataforma fill:#E1F5FE,stroke:#B3E5FC,stroke-width:1px,stroke-dasharray: 5 5
+        style SG_Prod_Plat fill:#E1F5FE,stroke:#B3E5FC,stroke-width:1px,stroke-dasharray: 5 5
+        style SG_Web fill:#E1F5FE,stroke:#B3E5FC,stroke-width:1px,stroke-dasharray: 5 5
+        style SG_Cuentas fill:#E1F5FE,stroke:#B3E5FC,stroke-width:1px,stroke-dasharray: 5 5
+
+        %% Clase para los nodos intermedios de acceso (Rojizo/Naranja suave para alertas)
+        classDef accessNode fill:#FBE9E7,stroke:#FF5722,stroke-width:1px,color:#BF360C
+        class SA,SP,PAU,SL,ACCE,ACCESO,WB accessNode
 
         classDef whiteNode fill:#FFFFFF,stroke:#333,stroke-width:1px;
         class FP,AD,ID,DWH,APIS,WEB,AN,CD,AND,CDD,DB,DF,CUENTA whiteNode;
-        
-        classDef accessNode fill:#FFCCBC,stroke:#E64A19,stroke-width:2px,color:#000000
-        class SA,SP,PAU,SL,ACCE,ACCESO,WB accessNode
-
-        style FP fill:#FFFFFF,stroke:#E65100,stroke-width:2px,color:#D84315,font-weight:bold
-        style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
-        style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
-        style WEB fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
 
         click ID call showDetail("ingeniero") "Ver detalle Ingeniero de Datos"
         click AD call showDetail("arquitecto") "Ver detalle Arquitecto"
