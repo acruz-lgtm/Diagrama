@@ -288,10 +288,10 @@
         const echartDataDWH = {
             nodes: [
                 // --- NIVEL 1: FUENTES ORIGINALES (ENTRADAS) ---
-                { name: 'Archivos Auxiliares\n(Excel/CSV)', itemStyle: { color: '#90A4AE' } }, // Gris Azulado
+                { name: 'Archivos Auxiliares\n(Excel/CSV)', itemStyle: { color: '#FFCC80', borderColor: '#EF6C00' } }, // Gris Azulado
                 
                 // --- NIVEL 2: STAGING / CARGA INICIAL ---
-                { name: 'Carga: raw.geo_*\nraw.inventario', itemStyle: { color: '#64B5F6' } }, // Azul Claro
+                { name: 'Carga: raw.geo_*\nraw.inventario', itemStyle: { color: '#FFF59D', borderColor: '#FBC02D'} }, // Azul Claro
                 
                 // --- NIVEL 3: DATOS MAESTROS (MAIN RAW) ---
                 { name: 'raw.upnify_prospectos', itemStyle: { color: '#CE93D8' } }, // Morado (CRM)
@@ -301,13 +301,13 @@
                 { name: 'raw.creditos_as', itemStyle: { color: '#F48FB1' } }, // Rosa (Créditos)
                 
                 // --- NIVEL 4: DETALLES Y DEPENDENCIAS ---
-                { name: 'raw.upnify_seguimientos', itemStyle: { color: '#BA68C8' } }, // Morado oscuro
-                { name: 'raw.upnify_prod_oportunidades', itemStyle: { color: '#BA68C8' } },
-                { name: 'raw.bitacora_judicial', itemStyle: { color: '#F06292' } }, // Rosa oscuro
-                { name: 'raw.creditos_historica', itemStyle: { color: '#F06292' } },
+                { name: 'raw.upnify_seguimientos', itemStyle: { color: '#AB47BC'} }, // Morado oscuro
+                { name: 'raw.upnify_prod_oportunidades', itemStyle: { color: '#AB47BC' } },
+                { name: 'raw.bitacora_judicial', itemStyle: { color: '#EC407A' } }, // Rosa oscuro
+                { name: 'raw.creditos_historica', itemStyle: { color: '#EC407A'} },
                 
                 // --- NIVEL 5: CONSOLIDACIÓN FINAL (SALIDA) ---
-                { name: 'raw.reportes_mora21', itemStyle: { color: '#4DB6AC' } } // Verde Azulado (Final)
+                { name: 'raw.reportes_mora21', itemStyle: { color: '#90CAF9', borderColor: '#1565C0'} } // Azul como la plataforma (Final)
             ],
             links: [
                 // Flujo Paso 1 -> Paso 2
