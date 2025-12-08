@@ -218,10 +218,10 @@ const echartDataDWH = {
 const mermaidDiagrams = {
     general: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 60, 'rankSpacing': 60, 'curve': 'basis'}} }%%
         flowchart TB
-        classDef glowGreen fill:#C8E6C9,stroke:#66BB6A,stroke-width:1px
-        classDef glowYellow fill:#FFFDE7,stroke:#FBC02D,stroke-width:2px,color:#F57F17
-        classDef glowBlue fill:#E3F2FD,stroke:#2196F3,stroke-width:2px,color:#0D47A1
-        classDef glowOrange fill:#FFF3E0,stroke:#FF9800,stroke-width:2px,color:#E65100
+        classDef glowGreen fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+        classDef glowYellow fill:#FFF9C4,stroke:#FBC02D,stroke-width:2px,color:#F57F17
+        classDef glowBlue fill:#BBDEFB,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+        classDef glowOrange fill:#FFE0B2,stroke:#EF6C00,stroke-width:2px,color:#E65100
 
         subgraph SG_Fuente ["FUENTE DE DATOS"]
             direction TB
@@ -298,33 +298,36 @@ const mermaidDiagrams = {
         WB --> SG_Cuentas
 
         %% --- ESTILOS DE FONDO (SUBGRAFOS) ---
-        %% Usamos tonos muy suaves para no competir con los nodos
+        %% Naranja
+        style SG_Fuente fill:#FFF3E0,stroke:#FFB74D,stroke-width:2px,stroke-dasharray: 5 5
+        
+        %% Verde
+        style SG_Exploracion fill:#E8F5E9,stroke:#81C784,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Trabajo fill:#E8F5E9,stroke:#81C784,stroke-width:2px,stroke-dasharray: 5 5
+        style STRA fill:#E8F5E9,stroke:#81C784,stroke-width:2px,stroke-dasharray: 5 5
+        
+        %% Amarillo
+        style SG_Principal fill:#FFFDE7,stroke:#FFF176,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Integracion fill:#FFFDE7,stroke:#FFF176,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Prod_Rol fill:#FFFDE7,stroke:#FFF176,stroke-width:2px,stroke-dasharray: 5 5
+        
+        %% Azul
+        style SG_Plataforma fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Prod_Plat fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Web fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Cuentas fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
 
-        %% Naranja Suave
-        style SG_Fuente fill:#FFF8E1,stroke:#FFE0B2,stroke-width:1px,stroke-dasharray: 5 5
-        
-        %% Verde Suave
-        style SG_Exploracion fill:#F1F8E9,stroke:#C8E6C9,stroke-width:1px,stroke-dasharray: 5 5
-        style SG_Trabajo fill:#F1F8E9,stroke:#C8E6C9,stroke-width:1px,stroke-dasharray: 5 5
-        style STRA fill:#F1F8E9,stroke:#C8E6C9,stroke-width:1px,stroke-dasharray: 5 5
-        
-        %% Amarillo Suave
-        style SG_Principal fill:#FFFDE7,stroke:#FFF59D,stroke-width:1px,stroke-dasharray: 5 5
-        style SG_Integracion fill:#FFFDE7,stroke:#FFF59D,stroke-width:1px,stroke-dasharray: 5 5
-        style SG_Prod_Rol fill:#FFFDE7,stroke:#FFF59D,stroke-width:1px,stroke-dasharray: 5 5
-        
-        %% Azul Suave
-        style SG_Plataforma fill:#E1F5FE,stroke:#B3E5FC,stroke-width:1px,stroke-dasharray: 5 5
-        style SG_Prod_Plat fill:#E1F5FE,stroke:#B3E5FC,stroke-width:1px,stroke-dasharray: 5 5
-        style SG_Web fill:#E1F5FE,stroke:#B3E5FC,stroke-width:1px,stroke-dasharray: 5 5
-        style SG_Cuentas fill:#E1F5FE,stroke:#B3E5FC,stroke-width:1px,stroke-dasharray: 5 5
-
-        %% Clase para los nodos intermedios de acceso (Rojizo/Naranja suave para alertas)
-        classDef accessNode fill:#FBE9E7,stroke:#FF5722,stroke-width:1px,color:#BF360C
+        %% Nodos intermedios (Alertas) - Más rojizos para destacar
+        classDef accessNode fill:#FFCCBC,stroke:#D84315,stroke-width:1px,color:#BF360C
         class SA,SP,PAU,SL,ACCE,ACCESO,WB accessNode
 
         classDef whiteNode fill:#FFFFFF,stroke:#333,stroke-width:1px;
         class FP,AD,ID,DWH,APIS,WEB,AN,CD,AND,CDD,DB,DF,CUENTA whiteNode;
+
+        style FP fill:#FFFFFF,stroke:#E65100,stroke-width:2px,color:#D84315,font-weight:bold
+        style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
+        style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
+        style WEB fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
 
         click ID call showDetail("ingeniero") "Ver detalle Ingeniero de Datos"
         click AD call showDetail("arquitecto") "Ver detalle Arquitecto"
