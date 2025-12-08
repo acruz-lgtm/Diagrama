@@ -218,10 +218,9 @@ const echartDataDWH = {
 const mermaidDiagrams = {
     general: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 60, 'rankSpacing': 60, 'curve': 'basis'}} }%%
         flowchart TB
-        classDef glowGreen fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
-        classDef glowYellow fill:#FFF9C4,stroke:#FBC02D,stroke-width:2px,color:#F57F17
-        classDef glowBlue fill:#BBDEFB,stroke:#1565C0,stroke-width:2px,color:#0D47A1
-        classDef glowOrange fill:#FFE0B2,stroke:#EF6C00,stroke-width:2px,color:#E65100
+        classDef glowGreen fill:#C8E6C9,stroke:#66BB6A,stroke-width:1px
+        classDef glowYellow fill:#FFF9C4,stroke:#FDD835,stroke-width:1px
+        classDef glowBlue fill:#BBDEFB,stroke:#42A5F5,stroke-width:1px
 
         subgraph SG_Fuente ["FUENTE DE DATOS"]
             direction TB
@@ -297,32 +296,23 @@ const mermaidDiagrams = {
         WEB --> WB(["Acceso: Sólo a la WEB"])
         WB --> SG_Cuentas
 
-        %% --- ESTILOS DE FONDO (SUBGRAFOS) ---
-        %% Naranja
-        style SG_Fuente fill:#FFF3E0,stroke:#FFB74D,stroke-width:2px,stroke-dasharray: 5 5
-        
-        %% Verde
-        style SG_Exploracion fill:#E8F5E9,stroke:#81C784,stroke-width:2px,stroke-dasharray: 5 5
-        style SG_Trabajo fill:#E8F5E9,stroke:#81C784,stroke-width:2px,stroke-dasharray: 5 5
-        style STRA fill:#E8F5E9,stroke:#81C784,stroke-width:2px,stroke-dasharray: 5 5
-        
-        %% Amarillo
-        style SG_Principal fill:#FFFDE7,stroke:#FFF176,stroke-width:2px,stroke-dasharray: 5 5
-        style SG_Integracion fill:#FFFDE7,stroke:#FFF176,stroke-width:2px,stroke-dasharray: 5 5
-        style SG_Prod_Rol fill:#FFFDE7,stroke:#FFF176,stroke-width:2px,stroke-dasharray: 5 5
-        
-        %% Azul
-        style SG_Plataforma fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
-        style SG_Prod_Plat fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
-        style SG_Web fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
-        style SG_Cuentas fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
-
-        %% Nodos intermedios (Alertas) - Más rojizos para destacar
-        classDef accessNode fill:#FFCCBC,stroke:#D84315,stroke-width:1px,color:#BF360C
-        class SA,SP,PAU,SL,ACCE,ACCESO,WB accessNode
+        style SG_Fuente fill:#FFE0B2,stroke:#FFA726
+        style SG_Exploracion fill:#C8E6C9,stroke:#66BB6A
+        style SG_Principal fill:#FFF9C4,stroke:#FDD835
+        style SG_Plataforma fill:#BBDEFB,stroke:#42A5F5
+        style SG_Trabajo fill:#C8E6C9,stroke:#66BB6A
+        style STRA fill:#C8E6C9,stroke:#66BB6A
+        style SG_Integracion fill:#FFF9C4,stroke:#FDD835
+        style SG_Prod_Plat fill:#BBDEFB,stroke:#42A5F5
+        style SG_Prod_Rol fill:#FFF9C4,stroke:#FDD835
+        style SG_Web fill:#BBDEFB,stroke:#42A5F5
+        style SG_Cuentas fill:#C8E6C9,stroke:#66BB6A
 
         classDef whiteNode fill:#FFFFFF,stroke:#333,stroke-width:1px;
         class FP,AD,ID,DWH,APIS,WEB,AN,CD,AND,CDD,DB,DF,CUENTA whiteNode;
+        
+        classDef accessNode fill:#FFCCBC,stroke:#E64A19,stroke-width:2px,color:#000000
+        class SA,SP,PAU,SL,ACCE,ACCESO,WB accessNode
 
         style FP fill:#FFFFFF,stroke:#E65100,stroke-width:2px,color:#D84315,font-weight:bold
         style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
