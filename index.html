@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arquitectura de Datos y Roles</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Usamos una versión reciente para mejor compatibilidad -->
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+
     <style>
         /* Contenedor principal */
         .mermaid-container {
@@ -15,12 +17,21 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 30px;
             height: 85vh; /* Altura fija */
-
+            width: 100%;
+            position: relative; /* Necesario para posicionar elementos absolutos si fuera el caso */
+            overflow: hidden; /* Cambiado a hidden para que ECharts maneje el zoom si es necesario */
+        }
+        
+        /* Ajuste para que Mermaid siga centrada y con scroll si es necesario */
+        .mermaid-scroll-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            overflow: auto;
         }
+
         .mermaid-container svg { 
             max-width: 120% !important;
             height: auto !important;
@@ -29,73 +40,38 @@
 
         /* Cursor de mano para todos los nodos */
         g.node { cursor: pointer !important; }
-            /*Transción para prender/apagar*/
-        g.node, g.node > * {
-            transition: all 0.4s ease;
-        }
+        g.node, g.node > * { transition: all 0.4s ease; }
 
-        /* --- 1. BRILLO VERDE (Para Arquitectos, Analistas, Científicos) --- */
+        /* --- TUS ESTILOS DE MERMAID (Se mantienen igual) --- */
         .glowGreen:hover :is(rect, circle, polygon, path, ellipse) {
             filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.9)) !important; 
-            stroke: #2E7D32 !important; /* Borde Verde Oscuro */
-            stroke-width: 2px !important;
+            stroke: #2E7D32 !important; stroke-width: 2px !important;
         }
-
-        /* --- 2. BRILLO AMARILLO (Para Ingenieros, Backend, Frontend) --- */
         .glowYellow:hover :is(rect, circle, polygon, path, ellipse) {
             filter: drop-shadow(0 0 10px rgba(251, 192, 45, 0.9)) !important;
-            stroke: #F57F17 !important; /* Borde Naranja/Dorado */
-            stroke-width: 2px !important;
+            stroke: #F57F17 !important; stroke-width: 2px !important;
         }
-
-        /* --- 3. BRILLO AZUL (Para Plataforma, Cuentas, etc.) --- */
         .glowBlue:hover :is(rect, circle, polygon, path, ellipse) {
             filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.9)) !important; 
             stroke: #1565C0 !important; stroke-width: 2px !important;
         }
-
-        /* --- 4. BRILLO NARANJA (FUENTES PRIMARIAS) --- */
         .glowOrange:hover :is(rect, circle, polygon, path, ellipse) {
             filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; 
             stroke: #FF9800 !important; stroke-width: 3px !important;
         }
 
-        /* --- LUCES ESPECÍFICAS POR GRUPO --- */
-        /* 1. LUZ AZUL (Para Crédito) */
+        /* --- LUCES ESPECÍFICAS MERMAID --- */
         .glow-blue { filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.8)) !important; }
-        .glow-blue :is(rect, circle, polygon, path, ellipse) {
-            stroke: #2196F3 !important; stroke-width: 3px !important; fill: #E3F2FD !important; /* Opcional: El fondo se tiñe un poco de azul muy suave */
-        }
+        .glow-blue :is(rect, circle, polygon, path, ellipse) { stroke: #2196F3 !important; stroke-width: 3px !important; fill: #E3F2FD !important; }
 
-        /* 2. LUZ NARANJA (Para CRM/Upnify) */
         .glow-orange { filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; }
-        .glow-orange :is(path, rect, circle, ellipse, polygon) {
-            stroke: #FF9800 !important; stroke-width: 3px !important; fill: #FFF3E0 !important; /* Fondo suave naranja */
-        }
+        .glow-orange :is(path, rect, circle, ellipse, polygon) { stroke: #FF9800 !important; stroke-width: 3px !important; fill: #FFF3E0 !important; }
 
-        /* 3. LUZ MORADO (Para Archivos Base) */
         .glow-purple { filter: drop-shadow(0 0 15px rgba(156, 39, 176, 0.9)) !important; }
-        .glow-purple :is(path, rect, circle, ellipse, polygon) {
-            stroke: #9C27B0 !important; stroke-width: 4px !important; fill: #F3E5F5 !important; /* Fondo morado claro */
-        }
+        .glow-purple :is(path, rect, circle, ellipse, polygon) { stroke: #9C27B0 !important; stroke-width: 4px !important; fill: #F3E5F5 !important; }
 
-        /* Luz Roja */
-        .glow-red { filter: drop-shadow(0 0 10px rgba(244, 67, 54, 0.9)) !important;  }        
-        .glow-red :is(path, rect, circle, ellipse, polygon) {
-            stroke: #D32F2F !important; stroke-width: 3px !important;  fill: #FFEBEE !important;  
-        }
-
-        /* 5. Luz verde */
-        .glow-green { filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.9)) !important;  }
-        .glow-green :is(path, rect, circle, ellipse, polygon) {
-            stroke-width: 2px !important; fill: #37b83d !important;
-        }
-
-        /* 6. Luz rosa */
-        .glow-pink { filter: drop-shadow(0 0 10px rgba(253, 87, 178, 0.952)) !important; }
-        .glow-pink :is(path, rect, circle, ellipse, polygon) {
-            stroke-width: 2% !important; fill: #f56eb8 !important;
-        }
+        .glow-pink { filter: drop-shadow(0 0 10px rgba(233, 30, 99, 0.9)) !important; }
+        .glow-pink :is(path, rect, circle, ellipse, polygon) { stroke: #f0afd3 !important; stroke-width: 2% !important; fill: #fff0f5 !important; }
 
         .loading { animation: pulse 1.5s infinite; }
         @keyframes pulse { 50% { opacity: .5; } }
@@ -110,61 +86,266 @@
             <p id="instruction-text" class="text-slate-500 mt-2">Navega por el diagrama general y haz clic en los roles para ver sus detalles.</p>
         </header>
 
-    <!-- Botón de Retorno (Solo visible en detalles) -->
         <div id="back-button-container" class="text-center mb-4 hidden">
             <button onclick="renderDiagram('general')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full shadow-lg transform transition hover:scale-105 flex items-center mx-auto gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd">
+            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"></path>
             </svg>
             Volver al Mapa General
             </button>
         </div>
 
-        <!-- Contenedor del Diagrama -->
         <div id="diagram-container" class="mermaid-container">
-            <div class="text-gray-400 loading text-xl">Cargando arquitectura...</div>
-        </div>
+            </div>
 
-        <!-- Leyenda / Ayuda -->
         <div id="legend" class="mt-8 p-4 bg-white rounded shadow border-l-4 border-yellow-400 text-sm text-gray-600 max-w-3xl mx-auto">
             <h3 class="font-bold text-gray-800 mb-1">Guía de Colores:</h3>
             <div class="flex flex-wrap justify-center gap-4">
                 <span class="flex items-center"><span class="w-4 h-4 bg-[#FFE0B2] border border-orange-300 mr-2 rounded"></span> Fuentes de Datos</span>
-                <span class="flex items-center"><span class="w-4 h-4 bg-[#C8E6C9] border border-green-300 mr-2 rounded"></span> Roles de Análisis/Exploración</span>
-                <span class="flex items-center"><span class="w-4 h-4 bg-[#FFF9C4] border border-yellow-300 mr-2 rounded"></span> Roles de Ingeniería/Integración</span>
-                <span class="flex items-center"><span class="w-4 h-4 bg-[#BBDEFB] border border-blue-300 mr-2 rounded"></span> Plataforma y Producción</span>
+                <span class="flex items-center"><span class="w-4 h-4 bg-[#C8E6C9] border border-green-300 mr-2 rounded"></span> Roles de Análisis</span>
+                <span class="flex items-center"><span class="w-4 h-4 bg-[#FFF9C4] border border-yellow-300 mr-2 rounded"></span> Ingeniería</span>
+                <span class="flex items-center"><span class="w-4 h-4 bg-[#BBDEFB] border border-blue-300 mr-2 rounded"></span> Plataforma</span>
             </div>
         </div>
     </div>
 
     <script>
+        // --- 1. CONFIGURACIÓN MERMAID ---
         mermaid.initialize({
             startOnLoad: false,
             theme: 'base',
-            securityLevel: 'loose', // Necesario para los clicks
-            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis',
-            //ESPACIADO: Se aumenta el espacio para que las flechas no crucen las letras 
-            nodeSpacing: 35,
-            rankSpacing: 40, 
-            padding: 15
-            }
+            securityLevel: 'loose',
+            flowchart: { useMaxWidth: false, htmlLabels: true, curve: 'basis', nodeSpacing: 35, rankSpacing: 40, padding: 15 }
         });
-      
-        // INCRUTASCIÓN DE DIAGRAMAS ESPECIFICOS ===        
-        const diagrams = {
-            // TU DIAGRAMA GENERAL ADAPTADO
+
+        // --- 2. DATOS PARA ECHARTS (NUEVO: TRADUCCIÓN DE TU MINDMAP) ---
+        // Variable de datos con colores manuales para asegurar que las líneas se pinten
+        const echartDataFuentes = {
+            title: "Fuentes Primarias",
+            name: "Fuentes\nPrimarias",
+            // Nodo Central (Azul)
+            itemStyle: { color: '#0000FF', borderColor: '#fff', shadowBlur: 10 },
+            label: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
+            children: [
+                {
+                    name: "APIs y Bases de Datos\nOperacionales",
+                    itemStyle: { color: '#FFF176' },
+                    children: [
+                        // --- RAMA ADAMANTINE (ROSA) ---
+                        {
+                            name: "AdamantineSuite\nCréditos",
+                            itemStyle: { color: '#F48FB1' }, 
+                            // Configuración del Padre
+                            emphasis: {
+                                itemStyle: { color: '#E91E63', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#E91E63' },
+                                label: { backgroundColor: '#FCE4EC', borderColor: '#E91E63', borderWidth: 1, color: '#880E4F', fontWeight: 'bold' }
+                            },
+                            // HIJOS: Aquí definimos que sus líneas sean ROSAS siempre
+                            children: [
+                                { 
+                                    name: "raw.creditos_as",
+                                    itemStyle: { color: '#F48FB1' }, // Bolita rosa
+                                    lineStyle: { color: '#F48FB1', width: 2 } // LÍNEA ROSA
+                                },
+                                { 
+                                    name: "raw.creditos\n_historica",
+                                    itemStyle: { color: '#F48FB1' },
+                                    lineStyle: { color: '#F48FB1', width: 2 }
+                                },
+                                { 
+                                    name: "raw.bitacora\n_judicial",
+                                    itemStyle: { color: '#F48FB1' },
+                                    lineStyle: { color: '#F48FB1', width: 2 }
+                                }
+                            ]
+                        },
+                        // --- RAMA UPNIFY (MORADO) ---
+                        {
+                            name: "Upnify CRM\ny Ventas",
+                            itemStyle: { color: '#CE93D8' },
+                            emphasis: {
+                                itemStyle: { color: '#9C27B0', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#E040FB' },
+                                label: { backgroundColor: '#F3E5F5', borderColor: '#9C27B0', borderWidth: 1, color: '#4A148C', fontWeight: 'bold' }
+                            },
+                            children: [
+                                { 
+                                    name: "raw.upnify\n_ventas",
+                                    itemStyle: { color: '#CE93D8' }, // Bolita morada
+                                    lineStyle: { color: '#CE93D8', width: 2 } // LÍNEA MORADA
+                                },
+                                { 
+                                    name: "raw.upnify\n_prospectos",
+                                    itemStyle: { color: '#CE93D8' },
+                                    lineStyle: { color: '#CE93D8', width: 2 }
+                                },
+                                { 
+                                    name: "raw.upnify\n_oportunidades",
+                                    itemStyle: { color: '#CE93D8' },
+                                    lineStyle: { color: '#CE93D8', width: 2 }
+                                },
+                                { 
+                                    name: "raw.upnify\n_productos",
+                                    itemStyle: { color: '#CE93D8' },
+                                    lineStyle: { color: '#CE93D8', width: 2 }
+                                },
+                                { 
+                                    name: "raw.upnify\n_seguimientos",
+                                    itemStyle: { color: '#CE93D8' },
+                                    lineStyle: { color: '#CE93D8', width: 2 }
+                                },
+                                { 
+                                    name: "raw.upnify\n_prod_oportunidades",
+                                    itemStyle: { color: '#CE93D8' },
+                                    lineStyle: { color: '#CE93D8', width: 2 }
+                                }
+                            ]
+                        },
+                        // --- RAMA CISHF (ROJO) ---
+                        {
+                            name: "CISHF\Base de Datos",
+                            itemStyle: { color: '#EF9A9A' },
+                            emphasis: {
+                                itemStyle: { color: '#F44336', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#F44336' },
+                                label: { backgroundColor: '#FFEBEE', borderColor: '#F44336', borderWidth: 1, color: '#B71C1C', fontWeight: 'bold' }
+                            },
+                            children: [
+                                { 
+                                    name: "raw.reportes\n_mora21",
+                                    itemStyle: { color: '#EF9A9A' },
+                                    lineStyle: { color: '#EF9A9A', width: 2 } // LÍNEA ROJA
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "ArchivosLocales\ny Reportes",
+                    itemStyle: { color: '#AED581' },
+                    children: [
+                        // --- RAMA COBRANZA (AZUL) ---
+                        {
+                            name: "Reportes de\nCobranza",
+                            itemStyle: { color: '#90CAF9' },
+                            emphasis: {
+                                itemStyle: { color: '#2196F3', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#2196F3' },
+                                label: { backgroundColor: '#E3F2FD', borderColor: '#2196F3', borderWidth: 1, color: '#0D47A1', fontWeight: 'bold' }
+                            },
+                            children: [
+                                { 
+                                    name: "raw.negociaciones",
+                                    itemStyle: { color: '#90CAF9' },
+                                    lineStyle: { color: '#90CAF9', width: 2 } // LÍNEA AZUL
+                                },
+                                { 
+                                    name: "raw.flujos\n_residenciales",
+                                    itemStyle: { color: '#90CAF9' },
+                                    lineStyle: { color: '#90CAF9', width: 2 }
+                                },
+                                { 
+                                    name: "raw.consolidado",
+                                    itemStyle: { color: '#90CAF9' },
+                                    lineStyle: { color: '#90CAF9', width: 2 }
+                                },
+                                { 
+                                    name: "raw.inmuebles",
+                                    itemStyle: { color: '#90CAF9' },
+                                    lineStyle: { color: '#90CAF9', width: 2 }
+                                }
+                            ]
+                        },
+                        // --- RAMA CATALOGOS (VERDE) ---
+                        {
+                            name: "Catálogos\nCSV Excel",
+                            itemStyle: { color: '#A5D6A7' }, 
+                            emphasis: {
+                                itemStyle: { color: '#4CAF50', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#4CAF50' },
+                                label: { backgroundColor: '#E8F5E9', borderColor: '#4CAF50', borderWidth: 1, color: '#1B5E20', fontWeight: 'bold' }
+                            },
+                            children: [
+                                { 
+                                    name: "raw.inventario",
+                                    itemStyle: { color: '#A5D6A7' },
+                                    lineStyle: { color: '#A5D6A7', width: 2 } // LÍNEA VERDE
+                                },
+                                { 
+                                    name: "raw.geo\n_codigo_postal",
+                                    itemStyle: { color: '#A5D6A7' },
+                                    lineStyle: { color: '#A5D6A7', width: 2 }
+                                },
+                                { 
+                                    name: "raw.geo\n_entidades",
+                                    itemStyle: { color: '#A5D6A7' },
+                                    lineStyle: { color: '#A5D6A7', width: 2 }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // DATOS PARA EL DWH (SANKEY DIAGRAM)
+        const echartDataDWH = {
+            nodes: [
+                // --- NIVEL 1: FUENTES ORIGINALES (ENTRADAS) ---
+                { name: 'Archivos Auxiliares\n(Excel/CSV)', itemStyle: { color: '#90A4AE' } }, // Gris Azulado
+                
+                // --- NIVEL 2: STAGING / CARGA INICIAL ---
+                { name: 'Carga: raw.geo_*\nraw.inventario', itemStyle: { color: '#64B5F6' } }, // Azul Claro
+                
+                // --- NIVEL 3: DATOS MAESTROS (MAIN RAW) ---
+                { name: 'raw.upnify_prospectos', itemStyle: { color: '#CE93D8' } }, // Morado (CRM)
+                { name: 'raw.upnify_oportunidades', itemStyle: { color: '#CE93D8' } },
+                { name: 'raw.upnify_ventas', itemStyle: { color: '#CE93D8' } },
+                { name: 'raw.upnify_productos', itemStyle: { color: '#CE93D8' } },
+                { name: 'raw.creditos_as', itemStyle: { color: '#F48FB1' } }, // Rosa (Créditos)
+                
+                // --- NIVEL 4: DETALLES Y DEPENDENCIAS ---
+                { name: 'raw.upnify_seguimientos', itemStyle: { color: '#BA68C8' } }, // Morado oscuro
+                { name: 'raw.upnify_prod_oportunidades', itemStyle: { color: '#BA68C8' } },
+                { name: 'raw.bitacora_judicial', itemStyle: { color: '#F06292' } }, // Rosa oscuro
+                { name: 'raw.creditos_historica', itemStyle: { color: '#F06292' } },
+                
+                // --- NIVEL 5: CONSOLIDACIÓN FINAL (SALIDA) ---
+                { name: 'raw.reportes_mora21', itemStyle: { color: '#4DB6AC' } } // Verde Azulado (Final)
+            ],
+            links: [
+                // Flujo Paso 1 -> Paso 2
+                { source: 'Archivos Auxiliares\n(Excel/CSV)', target: 'Carga: raw.geo_*\nraw.inventario', value: 5 },
+                
+                // Flujo Paso 2 -> Paso 3 (Distribución)
+                { source: 'Carga: raw.geo_*\nraw.inventario', target: 'raw.upnify_prospectos', value: 1 },
+                { source: 'Carga: raw.geo_*\nraw.inventario', target: 'raw.upnify_oportunidades', value: 1 },
+                { source: 'Carga: raw.geo_*\nraw.inventario', target: 'raw.upnify_ventas', value: 1 },
+                { source: 'Carga: raw.geo_*\nraw.inventario', target: 'raw.upnify_productos', value: 1 },
+                { source: 'Carga: raw.geo_*\nraw.inventario', target: 'raw.creditos_as', value: 2 }, // Valor doble porque alimenta a dos
+                
+                // Flujo Paso 3 -> Paso 4 (Dependencias CRM)
+                { source: 'raw.upnify_prospectos', target: 'raw.upnify_seguimientos', value: 1 },
+                { source: 'raw.upnify_oportunidades', target: 'raw.upnify_seguimientos', value: 1 },
+                { source: 'raw.upnify_oportunidades', target: 'raw.upnify_prod_oportunidades', value: 1 },
+                
+                // Flujo Paso 3 -> Paso 4 (Dependencias Crédito)
+                { source: 'raw.creditos_as', target: 'raw.bitacora_judicial', value: 1 },
+                { source: 'raw.creditos_as', target: 'raw.creditos_historica', value: 1 },
+                
+                // Flujo Paso 4 -> Paso 5 (Consolidación Final)
+                { source: 'raw.bitacora_judicial', target: 'raw.reportes_mora21', value: 1 },
+                { source: 'raw.creditos_historica', target: 'raw.reportes_mora21', value: 1 }
+            ]
+        };
+
+        // Variable global para guardar la instancia del gráfico ECharts
+        let myChartInstance = null;
+
+        // --- 3. DEFINICIÓN DE DIAGRAMAS MERMAID EXISTENTES ---
+        const mermaidDiagrams = {
             general: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 60, 'rankSpacing': 60, 'curve': 'basis'}} }%%
                 flowchart TB
-                
-                %% --- DEFINICIÓN DE CLASES POR COLOR ---
-                %% 1. Verde (Análisis)
                 classDef glowGreen fill:#C8E6C9,stroke:#66BB6A,stroke-width:1px
-                %% 2. Amarillo (Ingeniería)
                 classDef glowYellow fill:#FFF9C4,stroke:#FDD835,stroke-width:1px
-                %% 3. Azul (Plataforma/Cuentas)
                 classDef glowBlue fill:#BBDEFB,stroke:#42A5F5,stroke-width:1px
                 
-                %% --- DEFINICIÓN DE SUBGRAFOS (Áreas) ---
                 subgraph SG_Fuente ["FUENTE DE DATOS"]
                     direction TB
                     FP[("Fuentes Primarias")]:::glowOrange
@@ -212,7 +393,6 @@
                     CUENTA(["Cuenta Externa"]):::glowBlue
                 end
 
-                %% --- RELACIONES ---
                 FP --> SA(["Acceso: Auditoría"])
                 SA ==> ID
                 FP -.-> SP(["Acceso: Sólo Lectura"]) 
@@ -240,9 +420,6 @@
                 WEB --> WB(["Acceso: Sólo a la WEB"])
                 WB --> SG_Cuentas
 
-                %% --- ESTILOS (COLORES SOLICITADOS) ---
-                
-                %% Colores de Subgrafos
                 style SG_Fuente fill:#FFE0B2,stroke:#FFA726
                 style SG_Exploracion fill:#C8E6C9,stroke:#66BB6A
                 style SG_Principal fill:#FFF9C4,stroke:#FDD835
@@ -255,25 +432,17 @@
                 style SG_Web fill:#BBDEFB,stroke:#42A5F5
                 style SG_Cuentas fill:#C8E6C9,stroke:#66BB6A
 
-                %% Estilos de Nodos (Blancos para resaltar sobre el fondo)
                 classDef whiteNode fill:#FFFFFF,stroke:#333,stroke-width:1px;
                 class FP,AD,ID,DWH,APIS,WEB,AN,CD,AND,CDD,DB,DF,CUENTA whiteNode;
                 
-                %% Clase de Acceso
                 classDef accessNode fill:#FFCCBC,stroke:#E64A19,stroke-width:2px,color:#000000
                 class SA,SP,PAU,SL,ACCE,ACCESO,WB accessNode
 
-                %% Estilos de letras 
-                %% color: cambia el texto | stroke: cambia el borde | fill: cambia el fondo
                 style FP fill:#FFFFFF,stroke:#E65100,stroke-width:2px,color:#D84315,font-weight:bold
-                %% Estilo para plataformas 
                 style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
                 style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
                 style WEB fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
 
-                %% --- INTERACTIVIDAD (CLICKS) ---
-                %% Aquí conectamos tus nodos con los detalles
-                
                 click ID call showDetail("ingeniero") "Ver detalle Ingeniero de Datos"
                 click AD call showDetail("arquitecto") "Ver detalle Arquitecto"
                 click AN call showDetail("analista") "Ver detalle Analista"
@@ -284,28 +453,18 @@
                 click CDD call showDetail("cientifi") "Ver detalle Cientifico"
                 click CUENTA call showDetail("cuenta") "Ver detalle Cuenta"
                 click DWH call showDetail("base_raw") "Ver detalle Base Raw"
-                click FP call showDetail("fuente_prim") "Ver detalle Base Raw"
+                click FP call showDetail("fuente_prim") "Ver detalle Fuentes Primarias"
             `,
-
-            // --- DIAGRAMAS DE DETALLE ---
-            // 2. DIAGRAMA: INGENIERO DE DATOS (Permisos y Tareas)
-            ingeniero: `
-                graph LR
+            ingeniero: `graph LR
                 title[Rol: INGENIERO DE DATOS]
                 style title fill:#FFF9C4,stroke:none
-                
                 User((Ingeniero))
-                
                 subgraph FUENTE DE DATOS
-                    %% ROMBO 
                     FP[("Fuentes Primarias")]
                 end
-
                 subgraph PLATAFORMA CENTRAL
-                    %% CILINDRO
                     DWH[("Raw & Silver")]
                 end
-           
                 subgraph Tareas
                     T1[Ingesta de Fuentes]
                     T2[Ejecuta Scripts]
@@ -313,78 +472,54 @@
                     T4[Define modelos Silver & Golden]
                     T5[Ejecuta scripts de consolidación]
                 end
-                
                 subgraph Permisos ["Permisos"]
                     P1[AUDITORIA]
                     P2[CREA/ACTUALIZA]
                 end
-                
                 FP --> Permisos
                 P1 & P2 --> User 
                 User --> T1 & T2 & T3 & T4 & T5
                 T4 -.-> DWH 
                 T5 -.-> DWH 
-                
                 style User fill:#FFF9C4,stroke:#FBC02D
                 style FP fill:#FFFFFF,stroke:#E65100,stroke-width:2px,color:#D84315,font-weight:bold
                 style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
-            
-            // 3. DIAGRAMA: ARQUITECTO (Permisos y Tareas)
-            arquitecto: `
-                graph LR
+            arquitecto: `graph LR
                 title[Rol: ARQUITECTO DE DATOS]
                 style title fill:#C8E6C9,stroke:none
-                
                 User((Arquitecto))
-                
                 subgraph FUENTE DE DATOS
-                    %% ROMBO 
                     FP[("Fuentes Primarias")]
                 end
-
                 subgraph Tareas
                     T1[Feedback Estructura]
                     T2[Exploración]
                     T3[Audita y propone mejoras al Ingeniero de datos]
                     T4[Sugiere reglas de negocio para Silver]
                 end
-                
                 subgraph Permisos ["Permisos Generales"]
                     P1[VISTA DE METADATA]
                     P2[NO TIENE ACCESO DE ESCRITURA]
                 end
-
                 subgraph PLATAFORMA CENTRAL
-                    %% CILINDRO
                     DWH[("Raw & Silver")]
                 end
-                
-                %% Relaciones
                 FP --> P1
                 Permisos --> User
                 User --> T1 & T2 & T3 & T4
                 T4 -.-> DWH
-        
-                %% Estilos
                 style User fill:#C8E6C9,stroke:#43A047
                 style FP fill:#FFFFFF,stroke:#E65100,stroke-width:2px,color:#D84315,font-weight:bold
                 style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
-
-            // 4. DIAGRAMA: ANALISTA (Permisos y Tareas)
-            analista: `
-                graph LR
+            analista: `graph LR
                 title[Rol: ANALISTA DE DATOS]
                 style title fill:#C8E6C9,stroke:none
-                
                 User((Analista))
-
                 subgraph PLATAFORMA CENTRAL
-                    %% CILINDRO
                     DWH[("Raw & Silver")]
                 end
-                
                 subgraph Tareas
                     T1[Realiza reportes de la base Silver]
                     T2[Diseña y crea Dashboards]
@@ -392,78 +527,54 @@
                     T4[Prueba y valida las variables y métricas del SQL]
                     T5[Realiza sugerencias al Desarrollador Backend]
                 end
-                
                 subgraph Permisos ["Permisos DWH"]
                     P1[SÓLO LECTURA/VISUALIZACIÓN]
                 end
-                
                 DWH --> P1
                 P1 --> User 
                 User --> T1 & T2 & T3 & T4 & T5
-                
                 style User fill:#C8E6C9,stroke:#43A047
                 style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
-            
-            // 5. DIAGRAMA: CIENTÍFICO (Permisos y Tareas)
-            cientifico: `
-                graph LR
+            cientifico: `graph LR
                 title[Rol: CIENTÍFICO DE DATOS]
                 style title fill:#C8E6C9,stroke:none
-                
                 User((Científico))
-
                 subgraph PLATAFORMA CENTRAL
-                    %% CILINDRO
                     DWH[("Raw & Silver")]
                 end
-                
                 subgraph Tareas
                     T1[Prueba algoritmos]
                     T2[Realiza modelado de datos]
                     T3[Diseña experimentos-A/B Testing]
                     T4[Valida métricas clave de negocio]
                     T5[Feedback al Desarrollador Backend]
-
                 end
-                
                 subgraph Permisos ["Permisos DWH"]
                     P1[SOLO LECTURA/VISUALIZACIÓN]
                 end
-                
                 DWH --> P1
                 P1 --> User
                 User --> T1 & T2 & T3 & T4 & T5
                 style User fill:#C8E6C9,stroke:#43A047
                 style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
-            
-            // 6. DIAGRAMA: BACKEND (Permisos y Tareas)
-            backend: `
-                graph LR
+            backend: `graph LR
                 title[Rol: DESARROLLADOR BACKEND]
                 style title fill:#FFF9C4,stroke:none
-                
                 User((Backend Dev))
-        
                 subgraph SG_PLATAFORMA ["PLATAFORMA CENTRAL"]
-                    %% CILINDRO
                     DWH[("Raw & Silver")]
                 end
-                
                 subgraph Permiso ["Permisos"]
                     P1[SÓLO LECTURA]
                 end 
-
                 subgraph Tareas_Silver ["Tareas"]
                     T1[Configura y Crea]
                 end
-
                 subgraph PLATAFORMA DE PRODUCCIÓN 
-                    %%Cilindro 
                     APIS[("API de Producción")]
                 end
-
                 subgraph Tareas API
                     Y1[Crear Endpoints]
                     Y2[Implenta Tokens]
@@ -471,12 +582,9 @@
                     Y4[Estandariza salidas]
                     Y5[Gestiona diferentes entornos]
                 end
-                
                 subgraph Permisos ["Permisos"]
                     J1[PUSH A MAIN]
                 end
-                
-                %% Relaciones
                 DWH --> Permiso
                 P1 --> User
                 User --> T1 
@@ -484,48 +592,35 @@
                 APIS --> Permisos
                 J1 --> Y1 & Y2 & Y3 
                 J1 --> Y4 & Y5
-
                 style User fill:#FFF9C4,stroke:#FBC02D
                 style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
                 style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
-            
-            // 7. DIAGRAMA: FRONTEND (Permisos y Tareas)
-            frontend: `
-                graph LR
+            frontend: `graph LR
                 title[Rol: DESARROLLADOR FRONTEND]
                 style title fill:#FFF9C4,stroke:none
-                
                 User((Frontend Dev))
-
                 subgraph PLATAFORMA DE PRODUCCIÓN 
-                    %%Cilindro 
                     APIS[("API de Producción")]
                 end
-
                 subgraph Permiso ["Permisos"]
                     P1[SÓLO LECTURA: VER ENDPOINTS]
                 end
-                
                 subgraph Tarea
                     T1[Revisa la documentación de la API]
                     T2[Conecta los componentes de la UI]
                     T3[Construye UI]
                 end
-                
                 subgraph SG_Web ["PLATAFORMA WEB"]
                     WEB[("Plataforma WEB")]
                 end
-                
                 subgraph Permisos ["Permisos"]
                     J1[CONSUME & GESTIONA]
                 end
-
                 subgraph Tareas ["Tareas"]
                     Y1[Desarrolla tableros en React/Dash]
                     Y2[Publica en la plataforma]
                 end
-                
                 APIS --> P1
                 P1 --> User 
                 User --> T1 & T2 & T3
@@ -536,136 +631,70 @@
                 style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
                 style WEB fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
-
-            //8. DIAGRAMA: Analista de datos 
-            analist: `
-                graph LR
+            analist: `graph LR
                 title[Rol: Analista de datos]
                 style title fill:#FFF9C4,stroke:none
-                
                 User((Analista))
-
                 subgraph PLATAFORMA DE PRODUCCIÓN 
-                    %%Cilindro 
                     APIS[("API de Producción")]
                 end
-                
                 subgraph Permiso ["Permisos"]
                     P1["PUSH A FEATURE-BRANCH"]
                 end
-                
                 subgraph Tareas
                     T1[Revisa que los endpoints sean consistentes]
                     T2[Genera reportes preeliminares]
                     T3[Verifica que los endpoints sean lógicos y fáciles de entender para otros consumidores]
                     T4[Propone la creación o modificación de APIs al Backend]
                 end
-                
                 APIS --> P1
                 P1 --> User
                 User --> T1 & T2 & T3 & T4
                 style User fill:#C8E6C9,stroke:#43A047
                 style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
-
-            //9. DIAGRAMA: Científico de datos 
-            cientifi: `
-                graph LR
+            cientifi: `graph LR
                 title[Rol: Científico de datos]
                 style title fill:#FFF9C4,stroke:none
-                
                 User((Cientifico))
-
                 subgraph PLATAFORMA DE PRODUCCIÓN 
-                    %%Cilindro 
                     APIS[("API de Producción")]
                 end
-                
                 subgraph Permiso ["Permisos"]
                     P1["PUSH A FEATURE-BRANCH"]
                 end
-                
                 subgraph Tareas
                     T1[Realiza simulaciones con las versiones piloto]
                     T2[Prueba las APIs para medir la latencia al solicitar grandes volúmenes de datos]
                     T3[Genera modelos de similitud y evaluación]
                     T4[Feedback detallado al Desarrollador Backend]
                 end
-                
                 APIS --> P1
                 P1 --> User
                 User --> T1 & T2 & T3 & T4
                 style User fill:#C8E6C9,stroke:#43A047
                 style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
             `,
-
-            //10. DIAGRAMA CUENTA EXTERNA
-            cuenta:  `
-                graph LR
+            cuenta:  `graph LR
                 title[Rol: Cuenta Externa]
                 style title fill:#FFF9C4,stroke:none
-                
                 User((Cuenta))
-
                 subgraph SG_Web ["PLATAFORMA WEB"]
                     WEB[("Plataforma WEB")]
                 end
-                
                 subgraph Permiso ["Permisos"]
                     P1["SÓLO LECTURA"]
                 end
-                
                 subgraph Tareas
                     T1[Visualiza la plataforma WEB]
                     T2[Realiza comentarios a los desarrolladores]
                     T3[Utiliza la plataforma para consumo propio]
                 end
-               
                 WEB --> P1
                 P1 --> User 
                 User --> T1 & T2 & T3
                 style User fill:#C8E6C9,stroke:#43A047
                 style WEB fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
-            `,
-
-            //DIAGRAMA DE FUENTES 
-            fuente_prim: `
-                flowchart TD
-                title[Fuente: Fuentes Primarias]
-                style title fill:#FFF9C4,stroke:none
-                
-                %% CLASES (Se mantienen igual)
-                classDef groupApis opacity:1
-                classDef groupBases opacity:1
-                classDef groupArchi opacity:1
-
-                User((Fuentes Primarias))
-
-                subgraph APIS ["APIs Transaccionales"]
-                    UPNIPY[("Upnify<br/>(SalesUp)")]:::groupApis
-                end
-                
-                subgraph BASES ["Bases de Datos Operacionales"]
-                    ADAMA[("AdamantineSuite")]:::groupBases
-                    CISHF[("CISHF")]:::groupBases
-                end
-
-                subgraph ARCHI ["Archivos"]
-                    COBRANZA[("Reportes de Cobranza Residencial")]:::groupArchi
-                    CATALOGOS[("Catálogos Geográficos")]:::groupArchi
-                end
-
-                User2((Plataforma Central<br/>DWH Raw & Silver<br/>PostgreSQL))
-
-                User --> APIS & BASES & ARCHI
-                APIS --> User2
-                BASES --> User2
-                ARCHI --> User2
-              
-                %% Nodos neutros (Blancos con borde gris suave)
-                classDef neutral fill:#FFFFFF,stroke:#B0BEC5,stroke-width:1px,color:#37474F
-                class APIS,BASES,ARCHI neutral
-                
             `,
             base_raw: `%%{init: {
                 'theme': 'base', 
@@ -678,20 +707,15 @@
                 flowchart TD
                 title[Fuente: Plataforma Central]
                 style title fill:#FFF9C4,stroke:none
-                
-                %% CLASES (Se mantienen igual)
                 classDef groupBase opacity:1
                 classDef groupCredito opacity:1
                 classDef groupCRM opacity:1
-                
-                %% --- DEFINICIÓN DE SUBGRAFOS ---
                 
                 subgraph P1 ["Paso 1: Inicialización"]
                     direction TB
                     A[("Archivos Auxiliares<br/>(Excel/CSV)")]:::groupBase
                     B[("Carga: raw.geo_*<br/>raw.inventario")]:::groupBase
                 end
-                
                 subgraph P2 ["Paso 2: Ingesta de Datos Maestros"]
                     direction TB
                     C1[("raw.creditos_as")]:::groupCredito
@@ -700,25 +724,20 @@
                     C4[("raw.upnify_ventas")]:::groupCRM
                     C5[("raw.upnify_productos")]:::groupCRM
                 end
-                
                 subgraph P3 ["Paso 3: Dependencias del crédito"]
                     direction TB
                     D1[("raw.bitacora_judicial")]:::groupCredito
                     D2[("raw.creditos_historica")]:::groupCredito
                 end
-                
                 subgraph P4 ["Paso 4: Detalle CRM"]
                     direction TB
                     E1[("raw.upnify_seguimientos")]:::groupCRM
                     E2[("raw.upnify_prod_oportunidades")]:::groupCRM
                 end
-                
                 subgraph P5 ["Paso 5: Reconstrucción Histórica"]
                     direction TB
                     F[("raw.reportes_mora21")]:::groupCredito
                 end
-
-                %% --- RELACIONES (Conexiones limpias) ---
                 A --> B
                 B --> C1
                 B --> C2 & C3 & C4 & C5
@@ -728,31 +747,16 @@
                 C3 --> E1 & E2
                 D1 & D2 --> F
 
-                %% --- ESTILOS VISUALES MEJORADOS ---
-                
-                %% Nodos neutros (Blancos con borde gris suave)
                 classDef neutral fill:#FFFFFF,stroke:#B0BEC5,stroke-width:1px,color:#37474F
                 class A,B,C1,C2,C3,C4,C5,D1,D2,E1,E2,F neutral
 
-                %% ESTILOS DE LOS CUADROS (Pasteles + Bordes Redondeados)
-                %% rx:5,ry:5 redondea las esquinas.
-                
-                %% P1: Gris azulado muy tenue (Neutro)
                 style P1 fill:#F5F7F8,stroke:#CFD8DC,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
-                
-                %% P2: Azul cian muy pálido (Datos Maestros / Fresco)
                 style P2 fill:#E0F7FA,stroke:#80DEEA,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
-                
-                %% P3: Índigo lavanda muy suave (Crédito / Serio)
                 style P3 fill:#E8EAF6,stroke:#9FA8DA,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
-                
-                %% P4: Naranja crema muy suave (CRM / Cálido)
                 style P4 fill:#FFF3E0,stroke:#FFCC80,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
-                
-                %% P5: Verde lima muy pálido (Histórico / Finalización)
                 style P5 fill:#F1F8E9,stroke:#C5E1A5,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
             `,
-        }
+        };
 
         // Función Global para manejar el click
         window.showDetail = function(key) {
@@ -760,15 +764,241 @@
             renderDiagram(key);
         };
 
-        // Función para activar el iluminado en grupo
-        function setupGroupHighlight(container) {
-            // 1. Buscamos todos los nodos en el diagrama actual
-            const nodes = container.querySelectorAll('.node');
+        // --- 4. FUNCIÓN RENDERIZADO PRINCIPAL (MODIFICADA) ---
+        async function renderDiagram(key) {
+            const container = document.getElementById('diagram-container');
+            const backBtn = document.getElementById('back-button-container');
+            const legend = document.getElementById('legend'); 
+            const instruction = document.getElementById('instruction-text');
 
-            //Mapa de colores: depende de la fuente de datos 
+            // 1. Interfaz
+            if (key === 'general') {
+                backBtn.classList.add('hidden');
+                if(legend) legend.classList.remove('hidden');
+                instruction.textContent = 'Navega por el diagrama general y haz clic en los roles para ver sus detalles.';
+            } else {
+                backBtn.classList.remove('hidden');
+                if(legend) legend.classList.add('hidden');
+                instruction.textContent = 'Viendo detalles. Haz clic en "Volver" para regresar.';
+            }
+
+            // 2. Limpieza previa
+            if (myChartInstance) {
+                myChartInstance.dispose();
+                myChartInstance = null;
+            }
+            container.innerHTML = ""; // Limpiar cualquier SVG de Mermaid
+
+            // --- CASO A: ECHARTS (FUENTES PRIMARIAS) ---
+            if (key === 'fuente_prim') {
+                const chartDiv = document.createElement('div');
+                chartDiv.style.width = '100%';
+                chartDiv.style.height = '100%';
+                container.appendChild(chartDiv);
+                
+                myChartInstance = echarts.init(chartDiv);
+                
+                const option = {
+                title: {
+                text: 'Gráfico de Red de Fuentes Primarias',
+                left: 'center',
+                textStyle: { color: '#333' }
+                    },
+                tooltip: { trigger: 'item', triggerOn: 'mousemove' },
+                series: [{
+                    type: 'tree',
+                    data: [echartDataFuentes], // Usamos los datos nuevos
+                    
+                    roam: true, 
+                    top: '10%', bottom: '10%', left: '10%', right: '10%',
+                    layout: 'radial',
+                    symbol: 'circle',
+                    symbolSize: 12, 
+                    animationDurationUpdate: 500,
+                    
+                    // Estilos de Etiquetas
+                    label: {
+                        position: 'top',
+                        verticalAlign: 'middle',
+                        align: 'center',
+                        fontSize: 11,
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)', 
+                        borderColor: '#ccc',
+                        borderWidth: 0,
+                        borderRadius: 4,
+                        padding: [3, 5],
+                        distance: 8
+                    },
+                    
+                    leaves: {
+                        label: {
+                            position: 'right',
+                            verticalAlign: 'middle',
+                            align: 'left',
+                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                            padding: [2, 4],
+                            borderRadius: 3
+                        }
+                    },
+
+                    // Énfasis: "Prender" la ruta
+                    emphasis: {
+                        focus: 'descendant', // IMPORTANTE: Esto apaga lo que no estás tocando
+                        blurScope: 'coordinateSystem', 
+                        
+                        // Al hacer hover en un hijo (tabla), forzamos que brille
+                        itemStyle: {
+                            shadowBlur: 20,
+                            shadowColor: 'rgba(0,0,0,0.5)'
+                        },
+                        lineStyle: {
+                            width: 5 // La línea se hace más gorda al pasar el mouse
+                        },
+                        label: {
+                            fontWeight: 'bold'
+                        }
+                    }
+                    
+                    // NOTA: Ya no ponemos "lineStyle: { color: ... }" global aquí, cada hijo ya trae su propio color.
+                }]
+            };
+                myChartInstance.setOption(option); // Asegúrate que esta variable 'option' exista aquí
+                
+                window.addEventListener('resize', () => myChartInstance.resize());
+
+            // --- CASO B: ECHARTS (DWH / SANKEY - NUEVO) ---
+            } else if (key === 'base_raw') {
+                
+                const chartDiv = document.createElement('div');
+                chartDiv.style.width = '100%';
+                chartDiv.style.height = '100%';
+                container.appendChild(chartDiv);
+                
+                myChartInstance = echarts.init(chartDiv);
+
+                const optionSankey = {
+                    title: {
+                        text: 'Flujo de Consolidación DWH (Raw & Silver)',
+                        left: 'center',
+                        textStyle: { color: '#333' }
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        triggerOn: 'mousemove'
+                    },
+                    series: [{
+                        type: 'sankey',
+                        data: echartDataDWH.nodes,
+                        links: echartDataDWH.links,
+                        
+                        // Diseño
+                        left: '5%', right: '17%', top: '10%', bottom: '10%',
+                        nodeWidth: 20,
+                        nodeGap: 16,
+                        layoutIterations: 32, // Optimiza para que los cruces se vean bonitos
+                        
+                        // Estilo de los Nodos (Cajitas)
+                        itemStyle: {
+                            borderWidth: 1,
+                            borderColor: '#aaa'
+                        },
+                        
+                        // Estilo de las Líneas (Flujo)
+                        lineStyle: {
+                            color: 'gradient', // Gradiente automático bonito
+                            curveness: 0.5,
+                            opacity: 0.4 // Semitransparente para ver cruces
+                        },
+                        
+                        // Etiquetas
+                        label: {
+                            position: 'right',
+                            color: '#000',
+                            fontSize: 12,
+                            fontWeight: 'bold',
+                            formatter: '{b}' // Muestra el nombre
+                        },
+                        
+                        // --- LA MAGIA: ILUMINAR RUTA ---
+                        emphasis: {
+                            focus: 'adjacency', // Al tocar uno, se iluminan sus padres y sus hijos
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0,0,0,0.5)'
+                            },
+                            lineStyle: {
+                                opacity: 0.8, // La línea se pone sólida
+                                width: 3
+                            }
+                        }
+                    }]
+                };
+
+                myChartInstance.setOption(optionSankey);
+                window.addEventListener('resize', () => myChartInstance.resize());
+
+            // --- CASO C: MERMAID
+
+            } else {
+                // 1. Limpieza: Si había un chart de ECharts, lo destruimos para liberar memoria
+                if (myChartInstance) {
+                    myChartInstance.dispose();
+                    myChartInstance = null;
+                }
+
+                // 2. Validación Mermaid
+                if (!mermaidDiagrams[key]) {
+                    console.error("Diagrama no encontrado:", key);
+                    return;
+                }
+
+                const definition = mermaidDiagrams[key];
+                
+                // 3. Loading
+                container.innerHTML = '<div class="flex flex-col items-center justify-center h-full"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div><p class="mt-2 text-gray-500">Generando gráfico...</p></div>';
+
+                try {
+                    await new Promise(r => setTimeout(r, 50));
+                    const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
+                    
+                    // Render Mermaid
+                    const { svg, bindFunctions } = await mermaid.render(id, definition);
+                    
+                    // Inyectar HTML creando un wrapper para scroll
+                    container.innerHTML = `<div class="mermaid-scroll-wrapper">${svg}</div>`;
+                    
+                    // Funciones post-render (Luces Mermaid)
+                    setupGroupHighlight(container); 
+                    if (bindFunctions) { bindFunctions(container); }
+                    
+                } catch (error) {
+                    console.error(error);
+                    container.innerHTML = `<div class="text-red-600 p-4 border border-red-300 rounded bg-red-50"><strong>Error:</strong> ${error.message}</div>`;
+                }
+
+                if(!mermaidDiagrams[key]) return;
+                // Loading...
+                container.innerHTML = '<div class="flex flex-col items-center justify-center h-full"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div></div>';
+                
+                try {
+                    await new Promise(r => setTimeout(r, 50));
+                    const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
+                    const { svg, bindFunctions } = await mermaid.render(id, mermaidDiagrams[key]);
+                    container.innerHTML = `<div class="mermaid-scroll-wrapper">${svg}</div>`;
+                    setupGroupHighlight(container); 
+                    if (bindFunctions) bindFunctions(container);
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+        
+        // --- 5. FUNCIONES AUXILIARES (SE MANTIENEN) ---
+        function setupGroupHighlight(container) {
+            const nodes = container.querySelectorAll('.node');
             const colorMap = {
                 'groupCredito': 'glow-blue',
-                'groupCRM': 'glow-red',
+                'groupCRM': 'glow-orange', // Cambié a orange para que combine con CRM
                 'groupBase': 'glow-purple',
                 'groupApis': 'glow-pink',
                 'groupBases': 'glow-purple',
@@ -776,89 +1006,23 @@
             };
 
             nodes.forEach(node => {
-                // 2. Revisamos las clases de cada nodo
                 node.classList.forEach(className => {
-                    // 3. Si la clase empieza con 'group' (ej: groupVentas)
                     if (colorMap[className]) {
                         const activeColorClass = colorMap[className];
-                        
-                        // EVENTO MOUSE OVER (Entrar)
                         node.addEventListener('mouseenter', () => {
-                            // Buscar TODOS los elementos con esa misma clase
                             const related = container.querySelectorAll('.' + className);
-                            related.forEach(el => {
-                                // Forzamos el brillo añadiendo la clase CSS del Paso 1
-                                el.classList.add(activeColorClass);
-                            });
+                            related.forEach(el => el.classList.add(activeColorClass));
                         });
-
-                        // EVENTO MOUSE OUT (Salir)
                         node.addEventListener('mouseleave', () => {
                             const related = container.querySelectorAll('.' + className);
-                            related.forEach(el => {
-                                el.classList.remove(activeColorClass);
-                            });
+                            related.forEach(el => el.classList.remove(activeColorClass));
                         });
                     }
                 });
             });
         }
-        // Función de renderizado
-        async function renderDiagram(key) {
-            const container = document.getElementById('diagram-container');
-            const backBtn = document.getElementById('back-button-container');
-            const legend = document.getElementById('legend'); // Ahora esto funcionará porque pusimos el ID en el HTML
-            const instruction = document.getElementById('instruction-text');
-
-            // Validación de seguridad por si la llave no existe
-            if (!diagrams[key]) {
-                console.error("Diagrama no encontrado:", key);
-                return;
-            }
-
-            // Definimos 
-            const definition = diagrams[key];
-
-            // Lógica de interfaz (Mostrar/Ocultar botón de regreso)
-            if (key === 'general') {
-                backBtn.classList.add('hidden');
-                if(legend) legend.classList.remove('hidden'); // Check de seguridad
-                instruction.textContent = 'Navega por el diagrama general y haz clic en los roles para ver sus detalles.';
-            } else {
-                backBtn.classList.remove('hidden');
-                if(legend) legend.classList.add('hidden'); // Check de seguridad
-                instruction.textContent = 'Viendo detalles del rol. Haz clic en "Volver" para regresar.';
-            }
-
-            // Feedback visual de carga
-            container.innerHTML = '<div class="flex flex-col items-center"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div><p class="mt-2 text-gray-500">Generando gráfico...</p></div>';
-
-            try {
-                // Esperamos un poco para que el DOM respire
-                await new Promise(r => setTimeout(r, 50));
-                
-                // Generar ID único para evitar conflictos de caché de Mermaid
-                const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
-                // Renderizar (Ahora 'definition' ya existe)
-                const { svg, bindFunctions } = await mermaid.render(id, definition);
-                //1. Inserta el SVG
-                container.innerHTML = svg;
-                //2. Se activan las luces del SVG 
-                setupGroupHighlight(container); 
-                //3. Vinculamos los clicks
-                if (bindFunctions) {
-                    bindFunctions(container);
-                }
-                
-            } catch (error) {
-                console.error(error);
-                container.innerHTML = `<div class="text-red-600 p-4 border border-red-300 rounded bg-red-50">
-                    <strong>Error de renderizado:</strong><br/>${error.message}
-                </div>`;
-            }
-        }   
         
-        // Iniciar con el diagrama general
+        // Iniciar
         document.addEventListener('DOMContentLoaded', () => {
             renderDiagram('general');
         });
