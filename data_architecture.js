@@ -266,7 +266,7 @@ const mermaidDiagrams = {
         end
         
         subgraph SG_Cuentas ["CUENTAS DE SERVICIO"]
-            CUENTA(["Cuenta Externa"]):::glowBlue
+            CUENTA(["Cuenta Externa"]):::glowGreen
         end
 
         FP --> SA(["Acceso: Auditoría"])
