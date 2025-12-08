@@ -38,22 +38,28 @@
             display: block;
         }
 
+
         /* Cursor de mano para todos los nodos */
         g.node { cursor: pointer !important; }
         g.node, g.node > * { transition: all 0.4s ease; }
 
-        /* --- LUCES ESPECÍFICAS MERMAID --- */
-        .glow-blue { filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.8)) !important; }
-        .glow-blue :is(rect, circle, polygon, path, ellipse) { stroke: #2196F3 !important; stroke-width: 3px !important; fill: #E3F2FD !important; }
-
-        .glow-orange { filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; }
-        .glow-orange :is(path, rect, circle, ellipse, polygon) { stroke: #FF9800 !important; stroke-width: 3px !important; fill: #FFF3E0 !important; }
-
-        .glow-purple { filter: drop-shadow(0 0 15px rgba(156, 39, 176, 0.9)) !important; }
-        .glow-purple :is(path, rect, circle, ellipse, polygon) { stroke: #9C27B0 !important; stroke-width: 4px !important; fill: #F3E5F5 !important; }
-
-        .glow-pink { filter: drop-shadow(0 0 10px rgba(233, 30, 99, 0.9)) !important; }
-        .glow-pink :is(path, rect, circle, ellipse, polygon) { stroke: #f0afd3 !important; stroke-width: 2% !important; fill: #fff0f5 !important; }
+        /* --- TUS ESTILOS DE MERMAID (Se mantienen igual) --- */
+        .glowGreen:hover :is(rect, circle, polygon, path, ellipse) {
+            filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.9)) !important; 
+            stroke: #2E7D32 !important; stroke-width: 2px !important;
+        }
+        .glowYellow:hover :is(rect, circle, polygon, path, ellipse) {
+            filter: drop-shadow(0 0 10px rgba(251, 192, 45, 0.9)) !important;
+            stroke: #F57F17 !important; stroke-width: 2px !important;
+        }
+        .glowBlue:hover :is(rect, circle, polygon, path, ellipse) {
+            filter: drop-shadow(0 0 10px rgba(33, 150, 243, 0.9)) !important; 
+            stroke: #1565C0 !important; stroke-width: 2px !important;
+        }
+        .glowOrange:hover :is(rect, circle, polygon, path, ellipse) {
+            filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; 
+            stroke: #FF9800 !important; stroke-width: 3px !important;
+        }
 
         .loading { animation: pulse 1.5s infinite; }
         @keyframes pulse { 50% { opacity: .5; } }
