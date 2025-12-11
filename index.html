@@ -286,6 +286,57 @@
                     }]
                 };
 
+                // ... después del bloque de 'base_raw' ...
+
+            // --- NUEVO CASO: FLUJO DE CRÉDITOS Y REESTRUCTURAS ---
+            } else if (key === 'creditos_flow') {
+                
+                const chartDiv = document.createElement('div');
+                chartDiv.style.width = '100%';
+                chartDiv.style.height = '100%';
+                container.appendChild(chartDiv);
+                
+                myChartInstance = echarts.init(chartDiv);
+
+                const optionSankeyCreditos = {
+                    title: {
+                        text: 'Consolidación de Créditos y Reestructuras (Silver)',
+                        left: 'center',
+                        textStyle: { color: '#333', fontSize: 18 }
+                    },
+                    tooltip: { trigger: 'item', triggerOn: 'mousemove' },
+                    series: [{
+                        type: 'sankey',
+                        data: echartDataCreditos.nodes,
+                        links: echartDataCreditos.links,
+                        
+                        left: '5%', right: '25%', top: '15%', bottom: '10%', // Margen derecho para textos
+                        nodeWidth: 20,
+                        nodeGap: 16,
+                        layoutIterations: 32,
+                        
+                        itemStyle: { borderWidth: 1, borderColor: '#aaa' },
+                        lineStyle: { color: 'gradient', curveness: 0.5, opacity: 0.4 },
+                        
+                        label: {
+                            position: 'right',
+                            color: '#000',
+                            fontSize: 12,
+                            fontWeight: 'bold',
+                            formatter: '{b}'
+                        },
+                        emphasis: {
+                            focus: 'adjacency',
+                            itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.5)' },
+                            lineStyle: { opacity: 0.8, width: 3 }
+                        }
+                    }]
+                };
+
+                myChartInstance.setOption(optionSankeyCreditos);
+                window.addEventListener('resize', () => myChartInstance.resize());
+        
+//
                 myChartInstance.setOption(optionSankey);
                 window.addEventListener('resize', () => myChartInstance.resize());
 

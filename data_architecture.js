@@ -269,6 +269,10 @@ const mermaidDiagrams = {
             CUENTA(["Cuenta Externa"]):::glowGreen
         end
 
+        subgraph SG_Plataforma 
+            NOCRED[("Silver: Créditos<br/>& Reestructuras)]:::glowBlue
+        end
+
         FP --> SA(["Acceso: Auditoría"])
         SA ==> ID
         FP -.-> SP(["Acceso: Sólo Lectura"]) 
@@ -330,6 +334,7 @@ const mermaidDiagrams = {
         click CUENTA call showDetail("cuenta") "Ver detalle Cuenta"
         click DWH call showDetail("base_raw") "Ver detalle Base Raw"
         click FP call showDetail("fuente_prim") "Ver detalle Fuentes Primarias"
+        click NOCRED call showDetail("creditos_flow") "Ver detalle NOCRED"
     `,
     ingeniero: `graph LR
         title[Rol: INGENIERO DE DATOS]
@@ -632,4 +637,60 @@ const mermaidDiagrams = {
         style P4 fill:#FFF3E0,stroke:#FFCC80,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
         style P5 fill:#F1F8E9,stroke:#C5E1A5,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
     `,
+};
+// DATOS PARA EL FLUJO DE CRÉDITOS (SANKEY ORDENADO)
+const echartDataCreditos = {
+    nodes: [
+        // --- NIVEL 1: FUENTES FINANCIERAS (CORE) - NARANJA ---
+        { name: 'Adamantine Suite', itemStyle: { color: '#EF6C00' } },
+        { name: 'CISHF (Histórico)', itemStyle: { color: '#EF6C00' } },
+        { name: 'Reportes Cobranza\n(Scotias/Bursas)', itemStyle: { color: '#FF9800' } },
+
+        // --- NIVEL 1.5: TABLA INTERMEDIA HISTÓRICA (El paso previo) ---
+        { name: 'Credit.Creditos\nCarteraHistorica', itemStyle: { color: '#FFF59D', borderColor: '#FBC02D' } }, // Amarillo
+
+        // --- NIVEL 2: FUENTES INFORMATIVAS (AUDITORÍA) - VERDE/GRIS ---
+        { name: 'Upnify CRM', itemStyle: { color: '#7E57C2' } }, // Morado
+        { name: 'Digyto / Folios', itemStyle: { color: '#7E57C2' } },
+
+        // --- NIVEL 2: FUENTES REESTRUCTURAS - ROSA ---
+        { name: 'Entradas Raw\nReestructuras', itemStyle: { color: '#EC407A' } },
+
+        // --- NIVEL 3: DESTINOS SILVER - AZUL ---
+        { 
+            name: 'silver.nocred_completo\n(LA VERDAD)', 
+            itemStyle: { color: '#1565C0', borderColor: '#0D47A1' } // Azul Fuerte
+        },
+        { 
+            name: 'silver.nocred\n(Auditoría)', 
+            itemStyle: { color: '#90CAF9', borderColor: '#448AFF' } // Azul Claro
+        },
+        { 
+            name: 'silver.reestructuras\n_procesadas', 
+            itemStyle: { color: '#0277BD' } // Azul Intermedio
+        }
+    ],
+    links: [
+        // --- FLUJO PRINCIPAL (CARRIL SUPERIOR) ---
+        // Las fuentes alimentan a la histórica primero (concepto lógico)
+        { source: 'Adamantine Suite', target: 'Credit.Creditos\nCarteraHistorica', value: 4 },
+        { source: 'CISHF (Histórico)', target: 'Credit.Creditos\nCarteraHistorica', value: 3 },
+        { source: 'Reportes Cobranza\n(Scotias/Bursas)', target: 'Credit.Creditos\nCarteraHistorica', value: 2 },
+        
+        // De la histórica sale la Silver Completa
+        { source: 'Credit.Creditos\nCarteraHistorica', target: 'silver.nocred_completo\n(LA VERDAD)', value: 9 },
+
+        // --- FLUJO DE AUDITORÍA (CARRIL INFERIOR) ---
+        // Estas fuentes van directo a la tabla de auditoría
+        { source: 'Upnify CRM', target: 'silver.nocred\n(Auditoría)', value: 2 },
+        { source: 'Digyto / Folios', target: 'silver.nocred\n(Auditoría)', value: 2 },
+        // Adamantine también alimenta auditoría para cruzar datos
+        { source: 'Adamantine Suite', target: 'silver.nocred\n(Auditoría)', value: 1 },
+
+        // --- FLUJO DE REESTRUCTURAS (DERIVADO) ---
+        // Las raw de reestructuras alimentan su tabla
+        { source: 'Entradas Raw\nReestructuras', target: 'silver.reestructuras\n_procesadas', value: 3 },
+        // La tabla completa alimenta contexto a las reestructuras
+        { source: 'silver.nocred_completo\n(LA VERDAD)', target: 'silver.reestructuras\n_procesadas', value: 3 }
+    ]
 };
