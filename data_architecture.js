@@ -639,66 +639,65 @@ const mermaidDiagrams = {
     `,
 };
 // DATOS PARA EL FLUJO DE CRÉDITOS Y REESTRUCTURAS (CON HISTORIA DE NEGOCIO)
+// DATOS PARA EL FLUJO DE CRÉDITOS (ORDENADO Y CON NUEVO COLOR)
 const echartDataCreditos = {
     nodes: [
-        // --- 1. FUENTES SISTEMA (CORE) - NARANJA ---
-        { name: 'Adamantine Suite', itemStyle: { color: '#EF6C00' }, 
-            descripcion: '<b>Fuente de verdad</b>' 
-        },
-
+        // --- 1. FUENTES IZQUIERDA (Ordenadas de arriba a abajo) ---
+        
+        // Fuentes Naranjas (Core)
+        { name: 'Adamantine Suite', itemStyle: { color: '#EF6C00' } },
         { name: 'CISHF (Histórico)', itemStyle: { color: '#EF6C00' } },
 
-        // --- 2. FUENTES EXCEL (COBRANZA) - VERDE ---
-        {   name: 'Rep. Cobranza\nBursas', itemStyle: { color: '#43A047' },
-            descripcion: '<b>CONTIENE:</b> Consolidado de reestructuras<br>'}, // Verde Excel
-        { name: 'Rep. Cobranza\nScotias', itemStyle: { color: '#43A047' },
-            descripcion: '<b>FUENTE DE VERDAD PRIORITARIA</b>' }, // Verde Excel
+        // Fuentes Verdes (Excel Cobranza)
+        { name: 'Rep. Cobranza\nBursas', itemStyle: { color: '#43A047' } }, 
+        { name: 'Rep. Cobranza\nScotias', itemStyle: { color: '#43A047' } }, 
 
-        // --- 3. PASO PREVIO (HISTÓRICO) - AMARILLO ---
+        // Fuentes Moradas (Auditoría)
+        { name: 'Digyto', itemStyle: { color: '#7E57C2' } }, 
+        { name: 'Upnify CRM', itemStyle: { color: '#7E57C2' } }, 
+
+        // Fuente Verde (Excel Auditoría)
+        { name: 'Folios (Excel)', itemStyle: { color: '#43A047' } },
+
+        // Fuentes Rosas (Detalle)
+        { name: 'Credit.Creditos (Detalle)', itemStyle: { color: '#EC407A' } }, 
+        { name: 'CISHF.CREDITOS (Detalle)', itemStyle: { color: '#EC407A' } }, 
+        
+        // Fuentes Verdes (Excel Reestructuras)
+        { name: 'Excel: RepCob\nBursas Reest.', itemStyle: { color: '#43A047' } }, 
+        { name: 'Excel: Consolidado\nReestructuras', itemStyle: { color: '#43A047' } },
+        
+        // Fuente Teal (Reestructuras Sistema) - NUEVO COLOR
+        { 
+            name: 'Credit.Reestructuras', 
+            itemStyle: { color: '#00897B' }, 
+            descripcion: 'Fuente: raw.reestructuras_as'
+        },
+
+        // --- 2. NODOS INTERMEDIOS Y DESTINOS (A la derecha) ---
+
+        // Paso Previo (Amarillo)
         { 
             name: 'Credit.Creditos\nCarteraHistorica', 
             itemStyle: { color: '#FBC02D' }, 
-            descripcion: '<b>FINALIDAD:</b> Mapeo de Créditos(asigna un credito_id único).<br><b>CLAVES:</b> NumeroCredito | CreditoId'
+            descripcion: '<b>FINALIDAD:</b> Mapeo de Créditos.<br><b>CLAVES:</b> NumeroCredito | CreditoId'
         },
 
-        // --- 4. FUENTES AUDITORÍA ---
-        { name: 'Digyto', itemStyle: { color: '#7E57C2' } }, // Morado
-        { name: 'Upnify CRM', itemStyle: { color: '#7E57C2' },
-            descripcion: 'Productos' }, // Morado
-        { name: 'Folios (Excel)', itemStyle: { color: '#43A047' } }, // Verde Excel
-
-        // --- 5. TABLAS RAW ESPECÍFICAS (ENRIQUECIMIENTO) ---
-        { name: 'Credit.Creditos (Detalle)', itemStyle: { color: '#EC407A' },
-            descripcion: '<b>PROVIENE:</b> raw.creditos_as<br><b>CLAVES:</b> CreditoId | CreditoAnteriorId' }, // Rosa (Sistema)
-        { name: 'CISHF.CREDITOS (Detalle)', itemStyle: { color: '#EC407A' }, 
-            descripcion: '<b>PROVIENE:</b> raw.creditos_cishf<br><b>CLAVES:</b> nocred | nocredant' }, // Rosa (Sistema)
-        
-        // Excels de Reestructuras en VERDE
-        { name: 'Excel: RepCob\nBursas Reestructuras.', itemStyle: { color: '#43A047' }, 
-            descripcion: '<b>PROVIENE:</b> raw.repcob_bursas_reestructuras<br><b>CLAVES:</b> NOCRED' }, 
-        { name: 'Excel: Consolidado\nReestructuras', itemStyle: { color: '#43A047' },
-            descripcion: '<b>PROVIENE:</b> raw.reestructuras_consolidado<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' },
-        
-        { name: 'Credit.Reestructuras', itemStyle: { color: '#00897B' }, 
-            descripcion: '<b>PROVIENE:</b> raw.reestructuras_as<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' }, // Rosa Oscuro (Sistema)
-
-        // --- 6. TABLAS SILVER (ESCALA DE AZULES) ---
-        
-        // A. Auditoría / Inconsistencias -> CIAN
+        // Silver Auditoría (Cian)
         { 
             name: 'silver.nocred', 
             itemStyle: { color: '#00BCD4', borderColor: '#0097A7' }, 
             descripcion: '<b>OBJETIVO:</b> Reporte de Inconsistencias.<br><b>CLAVES:</b> numero_credito | administrador | credito_id'
         },
 
-        // B. Consolidación Completa -> AZUL REAL
+        // Silver Completo (Azul Real)
         { 
             name: 'silver.nocred_completo', 
             itemStyle: { color: '#1565C0', borderColor: '#0D47A1', borderWidth: 2 }, 
             descripcion: '<b>OBJETIVO:</b> Consolidación Maestra.<br><b>CLAVES:</b> numero_credito | administrador | credito_id | cred'
         },
 
-        // C. Reestructuras Procesadas -> ÍNDIGO PROFUNDO
+        // Silver Final (Índigo)
         { 
             name: 'silver.reestructuras\n_procesadas', 
             itemStyle: { color: '#283593', borderColor: '#1A237E', borderWidth: 2 }, 
@@ -722,12 +721,12 @@ const echartDataCreditos = {
         { source: 'silver.nocred', target: 'silver.nocred_completo', value: 6 },
         { source: 'Credit.Creditos (Detalle)', target: 'silver.nocred_completo', value: 2 },
         { source: 'CISHF.CREDITOS (Detalle)', target: 'silver.nocred_completo', value: 2 },
-        { source: 'Excel: RepCob\nBursas Reestructuras.', target: 'silver.nocred_completo', value: 1 },
+        { source: 'Excel: RepCob\nBursas Reest.', target: 'silver.nocred_completo', value: 1 },
         { source: 'Excel: Consolidado\nReestructuras', target: 'silver.nocred_completo', value: 1 },
 
         // --- PASO 4: FINAL (REESTRUCTURAS PROCESADAS) ---
         { source: 'silver.nocred_completo', target: 'silver.reestructuras\n_procesadas', value: 5 },
-        { source: 'Excel: RepCob\nBursas Reestructuras.', target: 'silver.reestructuras\n_procesadas', value: 1 },
+        { source: 'Excel: RepCob\nBursas Reest.', target: 'silver.reestructuras\n_procesadas', value: 1 },
         { source: 'Excel: Consolidado\nReestructuras', target: 'silver.reestructuras\n_procesadas', value: 1 },
         { source: 'Credit.Reestructuras', target: 'silver.reestructuras\n_procesadas', value: 2 }
     ]
