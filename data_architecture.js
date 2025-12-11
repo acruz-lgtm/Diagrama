@@ -640,6 +640,7 @@ const mermaidDiagrams = {
 };
 // DATOS PARA EL FLUJO DE CRÉDITOS Y REESTRUCTURAS (CON HISTORIA DE NEGOCIO)
 // DATOS PARA EL FLUJO DE CRÉDITOS (ORDENADO Y CON NUEVO COLOR)
+// DATOS PARA EL FLUJO DE CRÉDITOS (ORDENADO Y CON NUEVO COLOR)
 const echartDataCreditos = {
     nodes: [
         // --- 1. FUENTES IZQUIERDA (Ordenadas de arriba a abajo) ---
