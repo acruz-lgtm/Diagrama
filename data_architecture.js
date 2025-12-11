@@ -642,34 +642,45 @@ const mermaidDiagrams = {
 const echartDataCreditos = {
     nodes: [
         // --- 1. FUENTES SISTEMA (CORE) - NARANJA ---
-        { name: 'Adamantine Suite', itemStyle: { color: '#EF6C00' } },
+        { name: 'Adamantine Suite', itemStyle: { color: '#EF6C00' }, 
+            descripcion: '<b>Fuente de verdad</b>' 
+        },
+
         { name: 'CISHF (Histórico)', itemStyle: { color: '#EF6C00' } },
 
         // --- 2. FUENTES EXCEL (COBRANZA) - VERDE ---
-        { name: 'Rep. Cobranza\nBursas', itemStyle: { color: '#43A047' } }, // Verde Excel
-        { name: 'Rep. Cobranza\nScotias', itemStyle: { color: '#43A047' } }, // Verde Excel
+        {   name: 'Rep. Cobranza\nBursas', itemStyle: { color: '#43A047' },
+            descripcion: '<b>CONTIENE:</b> Consolidado de reestructuras<br>'}, // Verde Excel
+        { name: 'Rep. Cobranza\nScotias', itemStyle: { color: '#43A047' },
+            descripcion: '<b>FUENTE DE VERDAD PRIORITARIA</b>' }, // Verde Excel
 
         // --- 3. PASO PREVIO (HISTÓRICO) - AMARILLO ---
         { 
             name: 'Credit.Creditos\nCarteraHistorica', 
             itemStyle: { color: '#FBC02D' }, 
-            descripcion: '<b>FINALIDAD:</b> Mapeo de Créditos.<br><b>CLAVES:</b> NumeroCredito | CreditoId'
+            descripcion: '<b>FINALIDAD:</b> Mapeo de Créditos(asigna un credito_id único).<br><b>CLAVES:</b> NumeroCredito | CreditoId'
         },
 
         // --- 4. FUENTES AUDITORÍA ---
         { name: 'Digyto', itemStyle: { color: '#7E57C2' } }, // Morado
-        { name: 'Upnify CRM', itemStyle: { color: '#7E57C2' } }, // Morado
+        { name: 'Upnify CRM', itemStyle: { color: '#7E57C2' },
+            descripcion: 'Productos' }, // Morado
         { name: 'Folios (Excel)', itemStyle: { color: '#43A047' } }, // Verde Excel
 
         // --- 5. TABLAS RAW ESPECÍFICAS (ENRIQUECIMIENTO) ---
-        { name: 'Credit.Creditos (Detalle)', itemStyle: { color: '#EC407A' } }, // Rosa (Sistema)
-        { name: 'CISHF.CREDITOS (Detalle)', itemStyle: { color: '#EC407A' } }, // Rosa (Sistema)
+        { name: 'Credit.Creditos (Detalle)', itemStyle: { color: '#EC407A' },
+            descripcion: '<b>PROVIENE:</b> raw.creditos_as<br><b>CLAVES:</b> CreditoId | CreditoAnteriorId' }, // Rosa (Sistema)
+        { name: 'CISHF.CREDITOS (Detalle)', itemStyle: { color: '#EC407A' }, 
+            descripcion: '<b>PROVIENE:</b> raw.creditos_cishf<br><b>CLAVES:</b> nocred | nocredant' }, // Rosa (Sistema)
         
         // Excels de Reestructuras en VERDE
-        { name: 'Excel: RepCob\nBursas Reest.', itemStyle: { color: '#43A047' } }, 
-        { name: 'Excel: Consolidado\nReestructuras', itemStyle: { color: '#43A047' } },
+        { name: 'Excel: RepCob\nBursas Reestructuras.', itemStyle: { color: '#43A047' }, 
+            descripcion: '<b>PROVIENE:</b> raw.repcob_bursas_reestructuras<br><b>CLAVES:</b> NOCRED' }, 
+        { name: 'Excel: Consolidado\nReestructuras', itemStyle: { color: '#43A047' },
+            descripcion: '<b>PROVIENE:</b> raw.reestructuras_consolidado<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' },
         
-        { name: 'Credit.Reestructuras', itemStyle: { color: '#C2185B' } }, // Rosa Oscuro (Sistema)
+        { name: 'Credit.Reestructuras', itemStyle: { color: '#C2185B' }, 
+            descripcion: '<b>PROVIENE:</b> raw.reestructuras_as<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' }, // Rosa Oscuro (Sistema)
 
         // --- 6. TABLAS SILVER (ESCALA DE AZULES) ---
         
