@@ -722,7 +722,7 @@ const echartDataCreditos = {
         { source: 'silver.nocred', target: 'silver.nocred_completo', value: 6 },
         { source: 'Credit.Creditos (Detalle)', target: 'silver.nocred_completo', value: 2 },
         { source: 'CISHF.CREDITOS (Detalle)', target: 'silver.nocred_completo', value: 2 },
-        { source: 'Excel: RepCob\nBursas Reest.', target: 'silver.nocred_completo', value: 1 },
+        { source: 'Excel: RepCob\nBursas Reestructuras.', target: 'silver.nocred_completo', value: 1 },
         { source: 'Excel: Consolidado\nReestructuras', target: 'silver.nocred_completo', value: 1 },
 
         // --- PASO 4: FINAL (REESTRUCTURAS PROCESADAS) ---
