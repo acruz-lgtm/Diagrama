@@ -82,16 +82,16 @@ const echartDataFuentes = {
                 // --- RAMA CISHF (ROJO) ---
                 {
                     name: "CISHF\nBase de Datos",
-                    itemStyle: { color: '#EF9A9A' },
+                    itemStyle: { color: '#F44336' },
                     emphasis: {
-                        itemStyle: { color: '#F44336', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#F44336' },
-                        label: { backgroundColor: '#FFEBEE', borderColor: '#F44336', borderWidth: 1, color: '#B71C1C', fontWeight: 'bold' }
+                        itemStyle: { color: '#D32F2F', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#D32F2F' },
+                        label: { backgroundColor: '#FFCDD2', borderColor: '#D32F2F', borderWidth: 1, color: '#B71C1C', fontWeight: 'bold' }
                     },
                     children: [
                         { 
                             name: "raw.reportes\n_mora21",
-                            itemStyle: { color: '#EF9A9A' },
-                            lineStyle: { color: '#EF9A9A', width: 2 } // LÍNEA ROJA
+                            itemStyle: { color: '#F44336' },
+                            lineStyle: { color: '#F44336', width: 2 } // LÍNEA ROJA
                         }
                     ]
                 }
