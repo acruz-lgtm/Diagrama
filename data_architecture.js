@@ -679,7 +679,7 @@ const echartDataCreditos = {
         { name: 'Excel: Consolidado\nReestructuras', itemStyle: { color: '#43A047' },
             descripcion: '<b>PROVIENE:</b> raw.reestructuras_consolidado<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' },
         
-        { name: 'Credit.Reestructuras', itemStyle: { color: '#C2185B' }, 
+        { name: 'Credit.Reestructuras', itemStyle: { color: '#00897B' }, 
             descripcion: '<b>PROVIENE:</b> raw.reestructuras_as<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' }, // Rosa Oscuro (Sistema)
 
         // --- 6. TABLAS SILVER (ESCALA DE AZULES) ---
@@ -727,7 +727,7 @@ const echartDataCreditos = {
 
         // --- PASO 4: FINAL (REESTRUCTURAS PROCESADAS) ---
         { source: 'silver.nocred_completo', target: 'silver.reestructuras\n_procesadas', value: 5 },
-        { source: 'Excel: RepCob\nBursas Reest.', target: 'silver.reestructuras\n_procesadas', value: 1 },
+        { source: 'Excel: RepCob\nBursas Reestructuras.', target: 'silver.reestructuras\n_procesadas', value: 1 },
         { source: 'Excel: Consolidado\nReestructuras', target: 'silver.reestructuras\n_procesadas', value: 1 },
         { source: 'Credit.Reestructuras', target: 'silver.reestructuras\n_procesadas', value: 2 }
     ]
