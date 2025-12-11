@@ -210,8 +210,6 @@
                             fontWeight: 'bold'
                         }
                     }
-                    
-                    // NOTA: Ya no ponemos "lineStyle: { color: ... }" global aquí, cada hijo ya trae su propio color.
                 }]
             };
                 myChartInstance.setOption(option); // Asegúrate que esta variable 'option' exista aquí
@@ -285,10 +283,10 @@
                         }
                     }]
                 };
+                myChartInstance.setOption(optionSankey);
+                window.addEventListener('resize', () => myChartInstance.resize());
 
-                // ... después del bloque de 'base_raw' ...
-
-            // --- NUEVO CASO: FLUJO DE CRÉDITOS Y REESTRUCTURAS ---
+            // --- CASO C: FLUJO DE CRÉDITOS Y REESTRUCTURAS ---
             } else if (key === 'creditos_flow') {
                 
                 const chartDiv = document.createElement('div');
@@ -332,11 +330,10 @@
                         }
                     }]
                 };
-
                 myChartInstance.setOption(optionSankeyCreditos);
                 window.addEventListener('resize', () => myChartInstance.resize());
 
-            // --- CASO C: MERMAID
+            // --- CASO D: MERMAID
 
             } else {
                 // 1. Limpieza: Si había un chart de ECharts, lo destruimos para liberar memoria

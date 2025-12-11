@@ -270,7 +270,7 @@ const mermaidDiagrams = {
         end
 
         subgraph SG_Plataforma 
-            NOCRED[("Silver: Créditos<br/>& Reestructuras)]:::glowBlue
+            NOCRED[("Silver: Créditos<br/>& Reestructuras")]:::glowBlue
         end
 
         FP --> SA(["Acceso: Auditoría"])
