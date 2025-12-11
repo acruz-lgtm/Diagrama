@@ -638,59 +638,101 @@ const mermaidDiagrams = {
         style P5 fill:#F1F8E9,stroke:#C5E1A5,stroke-width:2px,stroke-dasharray: 5 5,rx:5,ry:5
     `,
 };
-// DATOS PARA EL FLUJO DE CRÉDITOS (SANKEY ORDENADO)
+// DATOS PARA EL FLUJO DE CRÉDITOS Y REESTRUCTURAS (CON HISTORIA DE NEGOCIO)
 const echartDataCreditos = {
     nodes: [
-        // --- NIVEL 1: FUENTES FINANCIERAS (CORE) - NARANJA ---
-        { name: 'Adamantine Suite', itemStyle: { color: '#EF6C00' } },
-        { name: 'CISHF (Histórico)', itemStyle: { color: '#EF6C00' } },
-        { name: 'Reportes Cobranza\n(Scotias/Bursas)', itemStyle: { color: '#FF9800' } },
-
-        // --- NIVEL 1.5: TABLA INTERMEDIA HISTÓRICA (El paso previo) ---
-        { name: 'Credit.Creditos\nCarteraHistorica', itemStyle: { color: '#FFF59D', borderColor: '#FBC02D' } }, // Amarillo
-
-        // --- NIVEL 2: FUENTES INFORMATIVAS (AUDITORÍA) - VERDE/GRIS ---
-        { name: 'Upnify CRM', itemStyle: { color: '#7E57C2' } }, // Morado
-        { name: 'Digyto / Folios', itemStyle: { color: '#7E57C2' } },
-
-        // --- NIVEL 2: FUENTES REESTRUCTURAS - ROSA ---
-        { name: 'Entradas Raw\nReestructuras', itemStyle: { color: '#EC407A' } },
-
-        // --- NIVEL 3: DESTINOS SILVER - AZUL ---
+        // --- 1. FUENTES DE AUDITORÍA (Izquierda Arriba) ---
         { 
-            name: 'silver.nocred_completo\n(LA VERDAD)', 
-            itemStyle: { color: '#1565C0', borderColor: '#0D47A1' } // Azul Fuerte
+            name: 'Upnify -> Productos', 
+            itemStyle: { color: '#7E57C2' } // Morado
         },
         { 
-            name: 'silver.nocred\n(Auditoría)', 
-            itemStyle: { color: '#90CAF9', borderColor: '#448AFF' } // Azul Claro
+            name: 'Folios (Excel)', 
+            itemStyle: { color: '#7E57C2' } 
         },
+        { 
+            name: 'Digyto', 
+            itemStyle: { color: '#7E57C2' } 
+        },
+
+        // --- 2. FUENTES "CORE" (Izquierda Abajo - La Verdad) ---
+        { 
+            name: 'Credit.Creditos (AS)', 
+            itemStyle: { color: '#EF6C00' }, // Naranja
+            descripcion: 'Fuente: raw.creditos_as<br>Clave: Creditold | CreditoAnteriorId'
+        },
+        { 
+            name: 'CISHF.CREDITOS', 
+            itemStyle: { color: '#EF6C00' },
+            descripcion: 'Fuente: raw.creditos_cishf<br>Clave: nocred | nocredant'
+        },
+
+        // --- 3. FUENTES DE REESTRUCTURAS (Centro - Doble Propósito) ---
+        { 
+            name: 'Reportes Cobranza\nBursas (Reest)', 
+            itemStyle: { color: '#EC407A' }, // Rosa
+            descripcion: 'Fuente: raw.repcob_bursas_reestructuras<br>Aporta datos de NOCRED'
+        },
+        { 
+            name: 'Consolidado\nReestructuras', 
+            itemStyle: { color: '#EC407A' },
+            descripcion: 'Fuente: raw.reestructuras_consolidado<br>Clave: CRÉDITO ADAMANTINE | ANTERIOR'
+        },
+        { 
+            name: 'Credit.Reestructuras', 
+            itemStyle: { color: '#EC407A' },
+            descripcion: 'Fuente: raw.reestructuras_as'
+        },
+
+        // --- 4. TABLAS SILVER (DESTINOS CON LÓGICA) ---
+        
+        // A. La Tabla de "Paso" (Auditoría)
+        { 
+            name: 'silver.nocred\n(Inconsistencias)', 
+            itemStyle: { color: '#90CAF9', borderColor: '#448AFF' }, // Azul Claro
+            descripcion: '<b>OBJETIVO:</b> Reporte de inconsistencias.<br>Detecta créditos no encontrados o con distinto administrador.'
+        },
+
+        // B. La Tabla MAESTRA
+        { 
+            name: 'silver.nocred_completo', 
+            itemStyle: { color: '#1565C0', borderColor: '#0D47A1', borderWidth: 3 }, // Azul Fuerte (Destacado)
+            descripcion: '<b>TABLA MAESTRA:</b> Consolidación por reestructuras.<br>Permite seguimiento histórico, etapas legales y cálculo de recovery.'
+        },
+
+        // C. La Tabla de DETALLE
         { 
             name: 'silver.reestructuras\n_procesadas', 
-            itemStyle: { color: '#0277BD' } // Azul Intermedio
+            itemStyle: { color: '#0277BD' }, // Azul Intermedio
+            descripcion: 'Detalle técnico de reestructuras.<br>Campos: cred, credito_id, credito_anterior_id.'
         }
     ],
     links: [
-        // --- FLUJO PRINCIPAL (CARRIL SUPERIOR) ---
-        // Las fuentes alimentan a la histórica primero (concepto lógico)
-        { source: 'Adamantine Suite', target: 'Credit.Creditos\nCarteraHistorica', value: 4 },
-        { source: 'CISHF (Histórico)', target: 'Credit.Creditos\nCarteraHistorica', value: 3 },
-        { source: 'Reportes Cobranza\n(Scotias/Bursas)', target: 'Credit.Creditos\nCarteraHistorica', value: 2 },
+        // --- FLUJO 1: ALIMENTACIÓN DE AUDITORÍA ---
+        // Upnify, Folios y Digyto van a silver.nocred para revisión
+        { source: 'Upnify -> Productos', target: 'silver.nocred\n(Inconsistencias)', value: 1 },
+        { source: 'Folios (Excel)', target: 'silver.nocred\n(Inconsistencias)', value: 1 },
+        { source: 'Digyto', target: 'silver.nocred\n(Inconsistencias)', value: 1 },
+
+        // --- FLUJO 2: CONSOLIDACIÓN MAESTRA (Hacia nocred_completo) ---
+        // 2.1 Desde Auditoría (El flujo limpio pasa)
+        { source: 'silver.nocred\n(Inconsistencias)', target: 'silver.nocred_completo', value: 3 },
         
-        // De la histórica sale la Silver Completa
-        { source: 'Credit.Creditos\nCarteraHistorica', target: 'silver.nocred_completo\n(LA VERDAD)', value: 9 },
+        // 2.2 Fuentes Core Directas
+        { source: 'Credit.Creditos (AS)', target: 'silver.nocred_completo', value: 4 },
+        { source: 'CISHF.CREDITOS', target: 'silver.nocred_completo', value: 3 },
 
-        // --- FLUJO DE AUDITORÍA (CARRIL INFERIOR) ---
-        // Estas fuentes van directo a la tabla de auditoría
-        { source: 'Upnify CRM', target: 'silver.nocred\n(Auditoría)', value: 2 },
-        { source: 'Digyto / Folios', target: 'silver.nocred\n(Auditoría)', value: 2 },
-        // Adamantine también alimenta auditoría para cruzar datos
-        { source: 'Adamantine Suite', target: 'silver.nocred\n(Auditoría)', value: 1 },
+        // 2.3 Fuentes Reestructuras (Aportan al Maestro)
+        { source: 'Reportes Cobranza\nBursas (Reest)', target: 'silver.nocred_completo', value: 2 },
+        { source: 'Consolidado\nReestructuras', target: 'silver.nocred_completo', value: 2 },
 
-        // --- FLUJO DE REESTRUCTURAS (DERIVADO) ---
-        // Las raw de reestructuras alimentan su tabla
-        { source: 'Entradas Raw\nReestructuras', target: 'silver.reestructuras\n_procesadas', value: 3 },
-        // La tabla completa alimenta contexto a las reestructuras
-        { source: 'silver.nocred_completo\n(LA VERDAD)', target: 'silver.reestructuras\n_procesadas', value: 3 }
+        // --- FLUJO 3: DETALLE DE REESTRUCTURAS (Hacia reestructuras_procesadas) ---
+        // Las mismas fuentes de reestructuras alimentan la tabla de detalle
+        { source: 'Reportes Cobranza\nBursas (Reest)', target: 'silver.reestructuras\n_procesadas', value: 2 },
+        { source: 'Consolidado\nReestructuras', target: 'silver.reestructuras\n_procesadas', value: 2 },
+        { source: 'Credit.Reestructuras', target: 'silver.reestructuras\n_procesadas', value: 3 },
+
+        // Conexión Lógica: El maestro alimenta contexto al detalle
+        { source: 'silver.nocred_completo', target: 'silver.reestructuras\n_procesadas', value: 5 }
     ]
 };

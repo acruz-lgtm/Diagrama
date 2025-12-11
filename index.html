@@ -299,19 +299,29 @@
                 const optionSankeyCreditos = {
                     title: {
                         text: 'Flujo de Consolidación: Créditos & Reestructuras',
-                        subtext: 'Pasa el mouse para ver el detalle del flujo',
+                        subtext: 'Fuente de Verdad vs. Reporte de Inconsistencias',
                         left: 'center',
                         textStyle: { color: '#333', fontSize: 18 }
                     },
                     tooltip: { 
                         trigger: 'item', 
                         triggerOn: 'mousemove',
-                        // TIP: Tooltip personalizado para contar la historia
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                        borderColor: '#333',
+                        textStyle: { color: '#000' },
+                        // --- AQUÍ ESTÁ LA MAGIA DE LA HISTORIA ---
                         formatter: function (params) {
-                            if (params.dataType === 'edge') {
+                            // Si es un NODO (Cajita)
+                            if (params.dataType === 'node') {
+                                // Buscamos si tiene descripción en los datos
+                                const descripcion = params.data.descripcion 
+                                    ? `<br/><div style="margin-top:5px; font-size:11px; color:#555; max-width:200px; white-space:normal;">${params.data.descripcion}</div>` 
+                                    : '';
+                                return `<div style="font-size:14px; font-weight:bold; color:${params.color}">${params.name}</div>${descripcion}`;
+                            } 
+                            // Si es una LÍNEA (Conexión)
+                            else {
                                 return `${params.data.source} <br/>  ➡ alimenta a ➡  <br/> ${params.data.target}`;
-                            } else {
-                                return `<b>${params.name}</b>`;
                             }
                         }
                     },
@@ -320,48 +330,32 @@
                         data: echartDataCreditos.nodes,
                         links: echartDataCreditos.links,
                         
-                        // DISEÑO RESPONSIVO
+                        // Diseño
                         left: '5%', right: '25%', top: '15%', bottom: '10%',
                         nodeWidth: 25,
-                        nodeGap: 20,
+                        nodeGap: 16,
+                        layoutIterations: 0, // Mantiene el orden estricto que definimos
                         
-                        // TRUCO 1: Evita que los nodos salten y se crucen las líneas
-                        layoutIterations: 0, 
-                        
-                        // ESTILO DE LOS NODOS (Cajitas)
                         itemStyle: { 
                             borderWidth: 1, 
-                            borderColor: '#666',
-                            shadowBlur: 5
+                            borderColor: '#666' 
                         },
-                        
-                        // ESTILO DE LAS LÍNEAS (Ríos)
                         lineStyle: { 
-                            color: 'source', // Hereda el color de la fuente (Naranja/Rosa/Morado)
+                            color: 'source', 
                             curveness: 0.5, 
-                            opacity: 0.3 // TRUCO 2: Muy transparente para que no sature
+                            opacity: 0.3 // Transparencia para limpieza visual
                         },
-                        
-                        // ETIQUETAS
                         label: {
                             position: 'right',
                             color: '#333',
-                            fontSize: 12,
+                            fontSize: 11,
                             fontWeight: '600',
                             formatter: '{b}'
                         },
-                        
-                        // TRUCO 3: AL PASAR EL MOUSE (LA MAGIA)
                         emphasis: {
-                            focus: 'adjacency', // Solo ilumina la ruta conectada
-                            itemStyle: {
-                                shadowBlur: 20,
-                                shadowColor: 'rgba(0,0,0,0.8)'
-                            },
-                            lineStyle: { 
-                                opacity: 0.9, // Se vuelve sólido y brillante
-                                width: 4 
-                            }
+                            focus: 'adjacency',
+                            itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.8)' },
+                            lineStyle: { opacity: 0.8, width: 4 }
                         }
                     }]
                 };
