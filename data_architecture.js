@@ -3,7 +3,7 @@
 const echartDataFuentes = {
     name: "Fuentes\nPrimarias",
     // Nodo Central (Azul)
-    itemStyle: { color: '#0000FF', borderColor: '#fff', shadowBlur: 10 },
+    itemStyle: { color: '#EF6C00', borderColor: '#fff', shadowBlur: 10 },
     label: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
     children: [
         {
