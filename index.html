@@ -298,35 +298,70 @@
 
                 const optionSankeyCreditos = {
                     title: {
-                        text: 'Consolidación de Créditos y Reestructuras (Silver)',
+                        text: 'Flujo de Consolidación: Créditos & Reestructuras',
+                        subtext: 'Pasa el mouse para ver el detalle del flujo',
                         left: 'center',
                         textStyle: { color: '#333', fontSize: 18 }
                     },
-                    tooltip: { trigger: 'item', triggerOn: 'mousemove' },
+                    tooltip: { 
+                        trigger: 'item', 
+                        triggerOn: 'mousemove',
+                        // TIP: Tooltip personalizado para contar la historia
+                        formatter: function (params) {
+                            if (params.dataType === 'edge') {
+                                return `${params.data.source} <br/>  ➡ alimenta a ➡  <br/> ${params.data.target}`;
+                            } else {
+                                return `<b>${params.name}</b>`;
+                            }
+                        }
+                    },
                     series: [{
                         type: 'sankey',
                         data: echartDataCreditos.nodes,
                         links: echartDataCreditos.links,
                         
-                        left: '5%', right: '25%', top: '15%', bottom: '10%', // Margen derecho para textos
-                        nodeWidth: 20,
-                        nodeGap: 16,
-                        layoutIterations: 32,
+                        // DISEÑO RESPONSIVO
+                        left: '5%', right: '25%', top: '15%', bottom: '10%',
+                        nodeWidth: 25,
+                        nodeGap: 20,
                         
-                        itemStyle: { borderWidth: 1, borderColor: '#aaa' },
-                        lineStyle: { color: 'gradient', curveness: 0.5, opacity: 0.4 },
+                        // TRUCO 1: Evita que los nodos salten y se crucen las líneas
+                        layoutIterations: 0, 
                         
+                        // ESTILO DE LOS NODOS (Cajitas)
+                        itemStyle: { 
+                            borderWidth: 1, 
+                            borderColor: '#666',
+                            shadowBlur: 5
+                        },
+                        
+                        // ESTILO DE LAS LÍNEAS (Ríos)
+                        lineStyle: { 
+                            color: 'source', // Hereda el color de la fuente (Naranja/Rosa/Morado)
+                            curveness: 0.5, 
+                            opacity: 0.3 // TRUCO 2: Muy transparente para que no sature
+                        },
+                        
+                        // ETIQUETAS
                         label: {
                             position: 'right',
-                            color: '#000',
+                            color: '#333',
                             fontSize: 12,
-                            fontWeight: 'bold',
+                            fontWeight: '600',
                             formatter: '{b}'
                         },
+                        
+                        // TRUCO 3: AL PASAR EL MOUSE (LA MAGIA)
                         emphasis: {
-                            focus: 'adjacency',
-                            itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.5)' },
-                            lineStyle: { opacity: 0.8, width: 3 }
+                            focus: 'adjacency', // Solo ilumina la ruta conectada
+                            itemStyle: {
+                                shadowBlur: 20,
+                                shadowColor: 'rgba(0,0,0,0.8)'
+                            },
+                            lineStyle: { 
+                                opacity: 0.9, // Se vuelve sólido y brillante
+                                width: 4 
+                            }
                         }
                     }]
                 };
