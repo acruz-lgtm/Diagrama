@@ -269,7 +269,7 @@ const mermaidDiagrams = {
             CUENTA(["Cuenta Externa"]):::glowGreen
         end
 
-        subgraph SG_Plataforma 
+        subgraph SG_Plataforma ["ETL"]
             NOCRED[("Silver: Créditos<br/>& Reestructuras")]:::glowBlue
         end
 
@@ -281,6 +281,7 @@ const mermaidDiagrams = {
         ID --> PAU(["Acceso Único: Gestión"]) 
         PAU --> SG_Plataforma
         DWH --> SL(["Acceso: Sólo Lectura"])
+        DWH --> NOCRED
         SL --> AN
         SL --> CD 
         SL --> SG_Integracion

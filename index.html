@@ -363,6 +363,46 @@
                 myChartInstance.setOption(optionSankeyCreditos);
                 window.addEventListener('resize', () => myChartInstance.resize());
 
+                //LEYENDA DEL DIAGRAMA (SE ACTUALIZA SOLO)
+                const legendContainer = document.getElementById('legend');
+                if (legendContainer) {
+                    legendContainer.classList.remove('hidden'); // Aseguramos que se vea
+                    legendContainer.innerHTML = `
+                        <h3 class="font-bold text-gray-800 mb-2 text-center">Guía de Linaje (Origen del Dato):</h3>
+                        <div class="flex flex-wrap justify-center gap-6 text-sm">
+                            <div class="flex items-center">
+                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #EF6C00;"></span>
+                                <span class="text-gray-700 font-medium">Adamantine (Core)</span>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #ee5a5aff;"></span>
+                                <span class="text-gray-700 font-medium">CISHF</span>
+                            </div>
+
+                            <div class="flex items-center">
+                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #FBC02D;"></span>
+                                <span class="text-gray-700 font-medium">Consolidado (Mix)</span>
+                            </div>
+
+                            <div class="flex items-center">
+                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #a9da24ff;"></span>
+                                <span class="text-gray-700 font-medium">Excel Manual</span>
+                            </div>
+
+                            <div class="flex items-center">
+                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #7E57C2;"></span>
+                                <span class="text-gray-700 font-medium">Auditoría (CRM/Digyto)</span>
+                            </div>
+
+                            <div class="flex items-center">
+                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #1565C0;"></span>
+                                <span class="text-gray-700 font-medium">Plataforma Silver</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
             // --- CASO D: MERMAID
 
             } else {
