@@ -662,7 +662,7 @@ const echartDataCreditos = {
         // NUEVA FUENTE: Tabla de Inconsistencias
         { 
             name: 'Auxiliar:\nInconsistencias', 
-            itemStyle: { color: '#fa526eff' }, // Naranja rojizo (Alerta)
+            itemStyle: { color: '#f32d2dff' }, // Naranja rojizo (Alerta)
             descripcion: 'Tabla auxiliar para forzar cruces o reportar errores conocidos.'
         },
 
@@ -678,7 +678,7 @@ const echartDataCreditos = {
         // 2. NUEVO NODO: Consolidado (Viene de CISHF y Reportes)
         { 
             name: 'Consolidado\n(CISHF + Reps)', 
-            itemStyle: { color: '#f8ca57ff' }, // Amarillo un poco más claro
+            itemStyle: { color: '#FBC02D' }, // Amarillo un poco más claro
             descripcion: '<b>ORIGEN:</b> Fusión de CISHF y Reportes de Cobranza.'
         },
 
@@ -687,9 +687,9 @@ const echartDataCreditos = {
             descripcion: '<b>TABLA:</b> raw.creditos_as<br><b>CLAVES:</b> CreditoId | CreditoAnteriorI' }, 
         { name: 'CISHF.CREDITOS', itemStyle: { color: '#EF5350' },
             descripcion: '<b>TABLA:</b> raw.creditos_cishf<br><b>CLAVES:</b> nocred | nocredant' }, 
-        { name: 'RepCob\nBursas Reestructuras.', itemStyle: { color: '#4ac579ff' },
+        { name: 'RepCob\nBursas Reestructuras.', itemStyle: { color: '#a9da24ff' },
             descripcion: '<b>TABLA:</b> raw.repcob_bursas_reestructuras<br><b>CLAVES:</b> NOCRED' }, 
-        { name: 'Consolidado\nReestructuras', itemStyle: { color: '#5dad75ff' }, 
+        { name: 'Consolidado\nReestructuras', itemStyle: { color: '#5df349ff' }, 
             descripcion: '<b>TABLA:</b> raw.reestructuras_consolidado<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' },
         { name: 'Credit.Reestructuras', itemStyle: { color: '#009688' }, 
             descripcion: '<b>TABLA:</b> raw.reestructuras_as<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' }, 
