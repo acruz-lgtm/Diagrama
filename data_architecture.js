@@ -644,23 +644,26 @@ const echartDataCreditos = {
         // --- COLUMNA 1: FUENTES PRIMARIAS ---
         
         // Rama A (Adamantine)
-        { name: 'Adamantine Suite', itemStyle: { color: '#EF6C00' } }, // Naranja
+        { name: 'Adamantine Suite', itemStyle: { color: '#EF6C00' }, // Naranja
+            descripcion: '<b>Fuente de verdad</b>' }, 
 
         // Rama B (Consolidado)
-        { name: 'CISHF (Histórico)', itemStyle: { color: '#EF6C00' } },
-        { name: 'Rep. Cobranza\nBursas', itemStyle: { color: '#43A047' } }, // Verde
-        { name: 'Rep. Cobranza\nScotias', itemStyle: { color: '#43A047' } }, // Verde
+        { name: 'CISHF (Histórico)', itemStyle: { color: '#D32F2F' } },
+        { name: 'Rep. Cobranza\nBursas', itemStyle: { color: '#2E7D32' },
+            descripcion: '<b>Fuente de verdad</b><b>CONTIENE:</b>Liquidaciones | Reestructuras | Daciones | Cesiones | REOs <br>'}, // Verde
+        { name: 'Rep. Cobranza\nScotias', itemStyle: { color: '#43A047' },
+            descripcion: '<b>Fuente de verdad prioritaria' }, // Verde
 
         // Fuentes Auditoría
-        { name: 'Digyto', itemStyle: { color: '#7E57C2' } }, // Morado
-        { name: 'Upnify CRM', itemStyle: { color: '#7E57C2' } }, 
-        { name: 'Folios (Excel)', itemStyle: { color: '#43A047' } }, 
+        { name: 'Digyto', itemStyle: { color: '#6A1B9A' } }, // Morado
+        { name: 'Upnify CRM', itemStyle: { color: '#AB47BC' } }, 
+        { name: 'Folios', itemStyle: { color: '#81C784' } }, 
         
         // NUEVA FUENTE: Tabla de Inconsistencias
         { 
             name: 'Auxiliar:\nInconsistencias', 
-            itemStyle: { color: '#FF7043' }, // Naranja rojizo (Alerta)
-            descripcion: 'Tabla manual o auxiliar para forzar cruces o reportar errores conocidos.'
+            itemStyle: { color: '#fa526eff' }, // Naranja rojizo (Alerta)
+            descripcion: 'Tabla auxiliar para forzar cruces o reportar errores conocidos.'
         },
 
         // --- COLUMNA 2: PRE-PROCESAMIENTO ---
@@ -668,23 +671,28 @@ const echartDataCreditos = {
         // 1. Histórica (Solo viene de Adamantine)
         { 
             name: 'Credit.Creditos\nCarteraHistorica', 
-            itemStyle: { color: '#FBC02D' }, // Amarillo
+            itemStyle: { color: '#FFB74D' }, // Amarillo
             descripcion: '<b>ORIGEN:</b> Exclusivo de Adamantine.<br><b>CLAVES:</b> NumeroCredito | CreditoId'
         },
 
         // 2. NUEVO NODO: Consolidado (Viene de CISHF y Reportes)
         { 
             name: 'Consolidado\n(CISHF + Reps)', 
-            itemStyle: { color: '#FFCA28' }, // Amarillo un poco más claro
+            itemStyle: { color: '#FBC02D' }, // Amarillo un poco más claro
             descripcion: '<b>ORIGEN:</b> Fusión de CISHF y Reportes de Cobranza.'
         },
 
         // --- COLUMNA 3: ENRIQUECIMIENTO (DETALLES) ---
-        { name: 'Credit.Creditos (Detalle)', itemStyle: { color: '#EC407A' } }, 
-        { name: 'CISHF.CREDITOS (Detalle)', itemStyle: { color: '#EC407A' } }, 
-        { name: 'Excel: RepCob\nBursas Reest.', itemStyle: { color: '#43A047' } }, 
-        { name: 'Excel: Consolidado\nReestructuras', itemStyle: { color: '#43A047' } },
-        { name: 'Credit.Reestructuras', itemStyle: { color: '#00897B' } }, 
+        { name: 'Credit.Creditos', itemStyle: { color: '#FFB74D' }, 
+            descripcion: '<b>TABLA:</b> raw.creditos_as<br><b>CLAVES:</b> CreditoId | CreditoAnteriorI' }, 
+        { name: 'CISHF.CREDITOS', itemStyle: { color: '#EF5350' },
+            descripcion: '<b>TABLA:</b> raw.creditos_cishf<br><b>CLAVES:</b> nocred | nocredant' }, 
+        { name: 'RepCob\nBursas Reestructuras.', itemStyle: { color: '#00692fff' },
+            descripcion: '<b>TABLA:</b> raw.repcob_bursas_reestructuras<br><b>CLAVES:</b> NOCRED' }, 
+        { name: 'Consolidado\nReestructuras', itemStyle: { color: '#00897B' }, 
+            descripcion: '<b>TABLA:</b> raw.reestructuras_consolidado<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' },
+        { name: 'Credit.Reestructuras', itemStyle: { color: '#009688' }, 
+            descripcion: '<b>TABLA:</b> raw.reestructuras_as<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' }, 
 
         // --- COLUMNA 4: TABLAS SILVER (AZULES) ---
         
@@ -725,22 +733,22 @@ const echartDataCreditos = {
         { source: 'Consolidado\n(CISHF + Reps)', target: 'silver.nocred', value: 6 },
         // 3. Vienen las fuentes de Auditoría
         { source: 'Digyto', target: 'silver.nocred', value: 1 },
-        { source: 'Folios (Excel)', target: 'silver.nocred', value: 1 },
+        { source: 'Folios', target: 'silver.nocred', value: 1 },
         { source: 'Upnify CRM', target: 'silver.nocred', value: 1 },
         { source: 'Auxiliar:\nInconsistencias', target: 'silver.nocred', value: 1 },
 
         // --- FLUJO HACIA NOCRED_COMPLETO ---
         { source: 'silver.nocred', target: 'silver.nocred_completo', value: 8 },
         // Enriquecimiento
-        { source: 'Credit.Creditos (Detalle)', target: 'silver.nocred_completo', value: 2 },
-        { source: 'CISHF.CREDITOS (Detalle)', target: 'silver.nocred_completo', value: 2 },
-        { source: 'Excel: RepCob\nBursas Reest.', target: 'silver.nocred_completo', value: 1 },
-        { source: 'Excel: Consolidado\nReestructuras', target: 'silver.nocred_completo', value: 1 },
+        { source: 'Credit.Creditos', target: 'silver.nocred_completo', value: 2 },
+        { source: 'CISHF.CREDITOS', target: 'silver.nocred_completo', value: 2 },
+        { source: 'RepCob\nBursas Reestructuras.', target: 'silver.nocred_completo', value: 1 },
+        { source: 'Consolidado\nReestructuras', target: 'silver.nocred_completo', value: 1 },
 
         // --- FLUJO HACIA REESTRUCTURAS PROCESADAS ---
         { source: 'silver.nocred_completo', target: 'silver.reestructuras\n_procesadas', value: 5 },
-        { source: 'Excel: RepCob\nBursas Reest.', target: 'silver.reestructuras\n_procesadas', value: 1 },
-        { source: 'Excel: Consolidado\nReestructuras', target: 'silver.reestructuras\n_procesadas', value: 1 },
+        { source: 'RepCob\nBursas Reestructuras.', target: 'silver.reestructuras\n_procesadas', value: 1 },
+        { source: 'Consolidado\nReestructuras', target: 'silver.reestructuras\n_procesadas', value: 1 },
         { source: 'Credit.Reestructuras', target: 'silver.reestructuras\n_procesadas', value: 2 }
     ]
 };
