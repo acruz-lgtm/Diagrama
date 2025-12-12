@@ -281,7 +281,7 @@ const mermaidDiagrams = {
         ID --> PAU(["Acceso Único: Gestión"]) 
         PAU --> SG_Plataforma
         DWH --> SL(["Acceso: Sólo Lectura"])
-        DWH --> NOCRED
+        DWH --> SG_Plataforma
         SL --> AN
         SL --> CD 
         SL --> SG_Integracion
