@@ -648,10 +648,10 @@ const echartDataCreditos = {
             descripcion: '<b>Fuente de verdad</b>' }, 
 
         // Rama B (Consolidado)
-        { name: 'CISHF (Histórico)', itemStyle: { color: '#D32F2F' } },
-        { name: 'Rep. Cobranza\nBursas', itemStyle: { color: '#2E7D32' },
-            descripcion: '<b>Fuente de verdad</b><b>CONTIENE:</b>Liquidaciones | Reestructuras | Daciones | Cesiones | REOs <br>'}, // Verde
-        { name: 'Rep. Cobranza\nScotias', itemStyle: { color: '#43A047' },
+        { name: 'CISHF (Histórico)', itemStyle: { color: '#ee5a5aff' } },
+        { name: 'Rep. Cobranza\nBursas', itemStyle: { color: '#a2d613ff' },
+            descripcion: '<b>Fuente de verdad</b><br><b>CONTIENE: </b>Liquidaciones | Reestructuras | Daciones | Cesiones | REOs <br>'}, // Verde
+        { name: 'Rep. Cobranza\nScotias', itemStyle: { color: '#46f82fff' },
             descripcion: '<b>Fuente de verdad prioritaria' }, // Verde
 
         // Fuentes Auditoría
@@ -678,7 +678,7 @@ const echartDataCreditos = {
         // 2. NUEVO NODO: Consolidado (Viene de CISHF y Reportes)
         { 
             name: 'Consolidado\n(CISHF + Reps)', 
-            itemStyle: { color: '#FBC02D' }, // Amarillo un poco más claro
+            itemStyle: { color: '#f8ca57ff' }, // Amarillo un poco más claro
             descripcion: '<b>ORIGEN:</b> Fusión de CISHF y Reportes de Cobranza.'
         },
 
@@ -687,9 +687,9 @@ const echartDataCreditos = {
             descripcion: '<b>TABLA:</b> raw.creditos_as<br><b>CLAVES:</b> CreditoId | CreditoAnteriorI' }, 
         { name: 'CISHF.CREDITOS', itemStyle: { color: '#EF5350' },
             descripcion: '<b>TABLA:</b> raw.creditos_cishf<br><b>CLAVES:</b> nocred | nocredant' }, 
-        { name: 'RepCob\nBursas Reestructuras.', itemStyle: { color: '#00692fff' },
+        { name: 'RepCob\nBursas Reestructuras.', itemStyle: { color: '#4ac579ff' },
             descripcion: '<b>TABLA:</b> raw.repcob_bursas_reestructuras<br><b>CLAVES:</b> NOCRED' }, 
-        { name: 'Consolidado\nReestructuras', itemStyle: { color: '#00897B' }, 
+        { name: 'Consolidado\nReestructuras', itemStyle: { color: '#5dad75ff' }, 
             descripcion: '<b>TABLA:</b> raw.reestructuras_consolidado<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' },
         { name: 'Credit.Reestructuras', itemStyle: { color: '#009688' }, 
             descripcion: '<b>TABLA:</b> raw.reestructuras_as<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' }, 
