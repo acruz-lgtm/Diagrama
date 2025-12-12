@@ -60,7 +60,19 @@
             filter: drop-shadow(0 0 10px rgba(255, 152, 0, 0.8)) !important; 
             stroke: #FF9800 !important; stroke-width: 3px !important;
         }
+        /* --- 5. BRILLO LILA (Para el DWH Central) --- */
+        .glowLilac:hover :is(rect, circle, polygon, path, ellipse) {
+            filter: drop-shadow(0 0 10px rgba(156, 39, 176, 0.9)) !important; 
+            stroke: #7B1FA2 !important; /* Morado fuerte */
+            stroke-width: 3px !important;
+        }
 
+        /* --- 6. BRILLO SILVER INTENSO (Para la conexión de Créditos) --- */
+        .glowSilver:hover :is(rect, circle, polygon, path, ellipse) {
+            filter: drop-shadow(0 0 15px rgba(48, 63, 159, 0.8)) !important; 
+            stroke: #1A237E !important; /* Azul Rey muy oscuro */
+            stroke-width: 3px !important;
+        }
         .loading { animation: pulse 1.5s infinite; }
         @keyframes pulse { 50% { opacity: .5; } }
     </style>

@@ -218,10 +218,29 @@ const echartDataDWH = {
 const mermaidDiagrams = {
     general: `%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 60, 'rankSpacing': 60, 'curve': 'basis'}} }%%
         flowchart TB
-        classDef glowGreen fill:#C8E6C9,stroke:#66BB6A,stroke-width:1px
-        classDef glowYellow fill:#FFF9C4,stroke:#FDD835,stroke-width:1px
-        classDef glowBlue fill:#BBDEFB,stroke:#42A5F5,stroke-width:1px
+        
+        %% --- DEFINICIÓN DE CLASES ---
+        
+        %% 1. Verde (Roles Análisis)
+        classDef glowGreen fill:#C8E6C9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+        
+        %% 2. Amarillo (Ingeniería)
+        classDef glowYellow fill:#FFF9C4,stroke:#FBC02D,stroke-width:2px,color:#F57F17
+        
+        %% 3. Azul Plataforma (Web/APIs)
+        classDef glowBlue fill:#BBDEFB,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+        
+        %% 4. Naranja (Fuentes)
+        classDef glowOrange fill:#FFE0B2,stroke:#EF6C00,stroke-width:2px,color:#E65100
+        
+        %% 5. LILA (DWH Central)
+        classDef glowLilac fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+        
+        %% 6. AZUL SILVER (Conexión Sankey)
+        classDef glowSilver fill:#7986CB,stroke:#303F9F,stroke-width:2px,color:#FFFFFF
 
+        %% --- ESTRUCTURA ---
+        
         subgraph SG_Fuente ["FUENTE DE DATOS"]
             direction TB
             FP[("Fuentes Primarias")]:::glowOrange
@@ -236,7 +255,8 @@ const mermaidDiagrams = {
         end
         
         subgraph SG_Plataforma ["PLATAFORMA CENTRAL"]
-            DWH[("Raw & Silver<br/>PostgreSQL")]:::glowBlue
+            %% AQUI APLICAMOS EL LILA
+            DWH[("Raw & Silver<br/>PostgreSQL")]:::glowLilac
         end
         
         subgraph SG_Trabajo ["ROLES DE EXPLORACIÓN"]
@@ -254,7 +274,7 @@ const mermaidDiagrams = {
         end
         
         subgraph SG_Prod_Plat ["PLATAFORMA DE PRODUCCIÓN"]
-            APIS[("API de Producción")]
+            APIS[("API de Producción")]:::glowBlue
         end
         
         subgraph SG_Prod_Rol ["ROL DE PRODUCCIÓN"]
@@ -262,29 +282,36 @@ const mermaidDiagrams = {
         end
         
         subgraph SG_Web ["PLATAFORMA WEB"]
-            WEB[("Plataforma WEB")]
+            WEB[("Plataforma WEB")]:::glowBlue
         end
         
         subgraph SG_Cuentas ["CUENTAS DE SERVICIO"]
-            CUENTA(["Cuenta Externa"]):::glowGreen
+            CUENTA(["Cuenta Externa"]):::glowBlue
         end
 
-        subgraph SG_Plataforma ["ETL"]
-            NOCRED[("Silver: Créditos<br/>& Reestructuras")]:::glowBlue
+        %% Nodo especial para el Sankey de Créditos
+        subgraph SG_Silver_Detalle ["DETALLES"]
+            %% AQUI APLICAMOS EL AZUL SILVER
+            NOCRED[("Silver: Créditos Reestructurados")]:::glowSilver
         end
 
+        %% --- RELACIONES ---
         FP --> SA(["Acceso: Auditoría"])
         SA ==> ID
         FP -.-> SP(["Acceso: Sólo Lectura"]) 
         SP ==> SG_Exploracion
         AD -.-> ID 
         ID --> PAU(["Acceso Único: Gestión"]) 
+        
         PAU --> SG_Plataforma
+        
         DWH --> SL(["Acceso: Sólo Lectura"])
-        DWH --> SG_Plataforma
         SL --> AN
         SL --> CD 
         SL --> SG_Integracion
+        
+        %% Conexión Lógica
+        DWH -.-> SG_Silver_Detalle 
         
         AN -.-> SG_Integracion
         CD -.-> SG_Integracion
@@ -301,30 +328,25 @@ const mermaidDiagrams = {
         WEB --> WB(["Acceso: Sólo a la WEB"])
         WB --> SG_Cuentas
 
-        style SG_Fuente fill:#FFE0B2,stroke:#FFA726
-        style SG_Exploracion fill:#C8E6C9,stroke:#66BB6A
-        style SG_Principal fill:#FFF9C4,stroke:#FDD835
-        style SG_Plataforma fill:#BBDEFB,stroke:#42A5F5
-        style SG_Trabajo fill:#C8E6C9,stroke:#66BB6A
-        style STRA fill:#C8E6C9,stroke:#66BB6A
-        style SG_Integracion fill:#FFF9C4,stroke:#FDD835
-        style SG_Prod_Plat fill:#BBDEFB,stroke:#42A5F5
-        style SG_Prod_Rol fill:#FFF9C4,stroke:#FDD835
-        style SG_Web fill:#BBDEFB,stroke:#42A5F5
-        style SG_Cuentas fill:#C8E6C9,stroke:#66BB6A
+        %% --- ESTILOS DE FONDO ---
+        style SG_Fuente fill:#FFF3E0,stroke:#FFB74D,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Exploracion fill:#E8F5E9,stroke:#81C784,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Trabajo fill:#E8F5E9,stroke:#81C784,stroke-width:2px,stroke-dasharray: 5 5
+        style STRA fill:#E8F5E9,stroke:#81C784,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Principal fill:#FFFDE7,stroke:#FFF176,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Integracion fill:#FFFDE7,stroke:#FFF176,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Prod_Rol fill:#FFFDE7,stroke:#FFF176,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Plataforma fill:#F3E5F5,stroke:#CE93D8,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Prod_Plat fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Web fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Cuentas fill:#E3F2FD,stroke:#64B5F6,stroke-width:2px,stroke-dasharray: 5 5
+        style SG_Silver_Detalle fill:#E3F2FD,stroke:#1565C0,stroke-width:1px,stroke-dasharray: 2 2
 
-        classDef whiteNode fill:#FFFFFF,stroke:#333,stroke-width:1px;
-        class FP,AD,ID,DWH,APIS,WEB,AN,CD,AND,CDD,DB,DF,CUENTA whiteNode;
-        
-        classDef accessNode fill:#FFCCBC,stroke:#E64A19,stroke-width:2px,color:#000000
+        classDef accessNode fill:#FFCCBC,stroke:#D84315,stroke-width:1px,color:#BF360C
         class SA,SP,PAU,SL,ACCE,ACCESO,WB accessNode
 
-        style FP fill:#FFFFFF,stroke:#E65100,stroke-width:2px,color:#D84315,font-weight:bold
-        style DWH fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
-        style APIS fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
-        style WEB fill:#FFFFFF,stroke:#1565C0,stroke-width:2px,color:#0D47A1,font-weight:bold
-
-        click ID call showDetail("ingeniero") "Ver detalle Ingeniero de Datos"
+        %% INTERACTIVIDAD
+        click ID call showDetail("ingeniero") "Ver detalle Ingeniero"
         click AD call showDetail("arquitecto") "Ver detalle Arquitecto"
         click AN call showDetail("analista") "Ver detalle Analista"
         click CD call showDetail("cientifico") "Ver detalle Científico"
@@ -334,8 +356,8 @@ const mermaidDiagrams = {
         click CDD call showDetail("cientifi") "Ver detalle Cientifico"
         click CUENTA call showDetail("cuenta") "Ver detalle Cuenta"
         click DWH call showDetail("base_raw") "Ver detalle Base Raw"
-        click FP call showDetail("fuente_prim") "Ver detalle Fuentes Primarias"
-        click NOCRED call showDetail("creditos_flow") "Ver detalle NOCRED"
+        click FP call showDetail("fuente_prim") "Ver detalle Fuentes"
+        click NOCRED call showDetail("creditos_flow") "Ver Flujo Créditos"
     `,
     ingeniero: `graph LR
         title[Rol: INGENIERO DE DATOS]
