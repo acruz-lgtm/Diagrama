@@ -237,7 +237,7 @@ const mermaidDiagrams = {
         classDef glowLilac fill:#E1BEE7,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
         
         %% 6. AZUL SILVER (Conexión Sankey)
-        classDef glowSilver fill:#7986CB,stroke:#303F9F,stroke-width:2px,color:#FFFFFF
+        classDef glowSilver fill:#C5CAE9,stroke:#303F9F,stroke-width:2px,color:#1A237E
 
         %% --- ESTRUCTURA ---
         
@@ -292,7 +292,7 @@ const mermaidDiagrams = {
         %% Nodo especial para el Sankey de Créditos
         subgraph SG_Silver_Detalle ["DETALLES"]
             %% AQUI APLICAMOS EL AZUL SILVER
-            NOCRED[("Silver: Créditos Reestructurados")]:::glowSilver
+            NOCRED[("Silver: Reestructurados")]:::glowSilver
         end
 
         %% --- RELACIONES ---

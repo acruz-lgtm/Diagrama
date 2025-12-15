@@ -38,12 +38,11 @@
             display: block;
         }
 
-
         /* Cursor de mano para todos los nodos */
         g.node { cursor: pointer !important; }
         g.node, g.node > * { transition: all 0.4s ease; }
 
-        /* --- TUS ESTILOS DE MERMAID (Se mantienen igual) --- */
+        /* --- ESTILOS DE MERMAID --- */
         .glowGreen:hover :is(rect, circle, polygon, path, ellipse) {
             filter: drop-shadow(0 0 10px rgba(76, 175, 80, 0.9)) !important; 
             stroke: #2E7D32 !important; stroke-width: 2px !important;
@@ -66,10 +65,9 @@
             stroke: #7B1FA2 !important; /* Morado fuerte */
             stroke-width: 3px !important;
         }
-
         /* --- 6. BRILLO SILVER INTENSO (Para la conexión de Créditos) --- */
         .glowSilver:hover :is(rect, circle, polygon, path, ellipse) {
-            filter: drop-shadow(0 0 15px rgba(48, 63, 159, 0.8)) !important; 
+            filter: drop-shadow(0 0 10px rgba(48, 63, 159, 0.6)) !important; 
             stroke: #1A237E !important; /* Azul Rey muy oscuro */
             stroke-width: 3px !important;
         }
@@ -99,14 +97,7 @@
             </div>
 
         <div id="legend" class="mt-8 p-4 bg-white rounded shadow border-l-4 border-yellow-400 text-sm text-gray-600 max-w-3xl mx-auto">
-            <h3 class="font-bold text-gray-800 mb-1">Guía de Colores:</h3>
-            <div class="flex flex-wrap justify-center gap-4">
-                <span class="flex items-center"><span class="w-4 h-4 bg-[#FFE0B2] border border-orange-300 mr-2 rounded"></span> Fuentes de Datos</span>
-                <span class="flex items-center"><span class="w-4 h-4 bg-[#C8E6C9] border border-green-300 mr-2 rounded"></span> Roles de Análisis</span>
-                <span class="flex items-center"><span class="w-4 h-4 bg-[#FFF9C4] border border-yellow-300 mr-2 rounded"></span> Ingeniería</span>
-                <span class="flex items-center"><span class="w-4 h-4 bg-[#BBDEFB] border border-blue-300 mr-2 rounded"></span> Plataforma</span>
             </div>
-        </div>
     </div>
 
     <script>
@@ -120,7 +111,6 @@
 
         // Variable global para guardar la instancia del gráfico ECharts
         let myChartInstance = null;
-
 
         // Función Global para manejar el click
         window.showDetail = function(key) {
@@ -146,11 +136,11 @@
                     legend.innerHTML = `
                         <h3 class="font-bold text-gray-800 mb-1">Guía de Colores:</h3>
                         <div class="flex flex-wrap justify-center gap-4">
-                            <span class="flex items-center"><span class="w-4 h-4 bg-[#FFE0B2] border border-orange-300 mr-2 rounded"></span> Fuentes (Naranja)</span>
-                            <span class="flex items-center"><span class="w-4 h-4 bg-[#E1BEE7] border border-purple-300 mr-2 rounded"></span> DWH Central (Lila)</span>
-                            <span class="flex items-center"><span class="w-4 h-4 bg-[#BBDEFB] border border-blue-600 mr-2 rounded"></span> Plataforma/Silver (Azul)</span>
-                            <span class="flex items-center"><span class="w-4 h-4 bg-[#C8E6C9] border border-green-300 mr-2 rounded"></span> Análisis (Verde)</span>
-                            <span class="flex items-center"><span class="w-4 h-4 bg-[#FFF9C4] border border-yellow-300 mr-2 rounded"></span> Ingeniería (Amarillo)</span>
+                            <span class="flex items-center"><span class="w-4 h-4 bg-[#FFE0B2] border border-orange-300 mr-2 rounded"></span> Fuentes</span>
+                            <span class="flex items-center"><span class="w-4 h-4 bg-[#E1BEE7] border border-purple-300 mr-2 rounded"></span> DWH Central</span>
+                            <span class="flex items-center"><span class="w-4 h-4 bg-[#BBDEFB] border border-blue-600 mr-2 rounded"></span> Base Silver</span>
+                            <span class="flex items-center"><span class="w-4 h-4 bg-[#C8E6C9] border border-green-300 mr-2 rounded"></span> Roles de Análisis</span>
+                            <span class="flex items-center"><span class="w-4 h-4 bg-[#FFF9C4] border border-yellow-300 mr-2 rounded"></span> Roles de Ingeniería</span>
                         </div>
                     `;
                 }
@@ -159,7 +149,6 @@
                 // MODO CRÉDITOS: Botón visible, Leyenda ESPECÍFICA (La inyectamos más abajo)
                 backBtn.classList.remove('hidden');
                 instruction.textContent = 'Viendo flujo de consolidación. Haz clic en "Volver" para regresar.';
-                
                 // (La leyenda se llena al final de este bloque en el código de ECharts)
             
             } else {
@@ -168,7 +157,7 @@
                 instruction.textContent = 'Viendo detalles. Haz clic en "Volver" para regresar.';
             }
 
-            // 2. Limpieza previa
+            // 2. Limpieza previa de Echarts
             if (myChartInstance) {
                 myChartInstance.dispose();
                 myChartInstance = null;
@@ -204,45 +193,23 @@
                     
                     // Estilos de Etiquetas
                     label: {
-                        position: 'top',
-                        verticalAlign: 'middle',
-                        align: 'center',
-                        fontSize: 11,
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)', 
-                        borderColor: '#ccc',
-                        borderWidth: 0,
-                        borderRadius: 4,
-                        padding: [3, 5],
-                        distance: 8
+                        position: 'top', verticalAlign: 'middle', align: 'center', fontSize: 11,
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)', borderColor: '#ccc', borderWidth: 0, borderRadius: 4, padding: [3, 5], distance: 8
                     },
                     
                     leaves: {
                         label: {
-                            position: 'right',
-                            verticalAlign: 'middle',
-                            align: 'left',
-                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                            padding: [2, 4],
-                            borderRadius: 3
+                            position: 'right', verticalAlign: 'middle', align: 'left',
+                            backgroundColor: 'rgba(255, 255, 255, 0.8)', padding: [2, 4], borderRadius: 3
                         }
                     },
 
                     // Énfasis: "Prender" la ruta
                     emphasis: {
-                        focus: 'descendant', // IMPORTANTE: Esto apaga lo que no estás tocando
-                        blurScope: 'coordinateSystem', 
-                        
+                        focus: 'descendant', blurScope: 'coordinateSystem', 
                         // Al hacer hover en un hijo (tabla), forzamos que brille
-                        itemStyle: {
-                            shadowBlur: 20,
-                            shadowColor: 'rgba(0,0,0,0.5)'
-                        },
-                        lineStyle: {
-                            width: 5 // La línea se hace más gorda al pasar el mouse
-                        },
-                        label: {
-                            fontWeight: 'bold'
-                        }
+                        itemStyle: { shadowBlur: 20, shadowColor: 'rgba(0,0,0,0.5)' },
+                        lineStyle: { width: 5 }, label: { fontWeight: 'bold' }
                     }
                 }]
             };
@@ -257,7 +224,6 @@
                 chartDiv.style.width = '100%';
                 chartDiv.style.height = '100%';
                 container.appendChild(chartDiv);
-                
                 myChartInstance = echarts.init(chartDiv);
 
                 const optionSankey = {
@@ -303,7 +269,7 @@
                             formatter: '{b}' // Muestra el nombre
                         },
                         
-                        // --- LA MAGIA: ILUMINAR RUTA ---
+                        // --- ILUMINAR RUTA ---
                         emphasis: {
                             focus: 'adjacency', // Al tocar uno, se iluminan sus padres y sus hijos
                             itemStyle: {
@@ -320,9 +286,8 @@
                 myChartInstance.setOption(optionSankey);
                 window.addEventListener('resize', () => myChartInstance.resize());
 
-            // --- CASO C: FLUJO DE CRÉDITOS Y REESTRUCTURAS ---
+            // --- CASO C: FLUJO DE CRÉDITOS (SANKEY LINAJE)---
             } else if (key === 'creditos_flow') {
-                
                 const chartDiv = document.createElement('div');
                 chartDiv.style.width = '100%';
                 chartDiv.style.height = '100%';
@@ -334,15 +299,11 @@
                     title: {
                         text: 'Flujo de Consolidación: Créditos & Reestructuras',
                         subtext: 'Fuente de Verdad vs. Reporte de Inconsistencias',
-                        left: 'center',
-                        textStyle: { color: '#333', fontSize: 18 }
+                        left: 'center', textStyle: { color: '#333', fontSize: 18 }
                     },
                     tooltip: { 
-                        trigger: 'item', 
-                        triggerOn: 'mousemove',
-                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                        borderColor: '#333',
-                        textStyle: { color: '#000' },
+                        trigger: 'item', triggerOn: 'mousemove',
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)', borderColor: '#333', textStyle: { color: '#000' },
                         // --- AQUÍ ESTÁ LA MAGIA DE LA HISTORIA ---
                         formatter: function (params) {
                             // Si es un NODO (Cajita)
@@ -363,32 +324,14 @@
                         type: 'sankey',
                         data: echartDataCreditos.nodes,
                         links: echartDataCreditos.links,
-                        
                         // Diseño
-                        left: '2%', right: '10%', top: '10%', bottom: '5%',
-                        nodeWidth: 30,
-                        nodeGap: 25,
-                        nodeAlign: 'right',
+                        left: '2%', right: '10%', top: '10%', bottom: '5%', nodeWidth: 30, nodeGap: 25, nodeAlign: 'right',
                         layoutIterations: 32, // Mantiene el orden estricto que definimos
-                        
-                        itemStyle: { 
-                            borderWidth: 1, 
-                            borderColor: '#666' 
+                        itemStyle: { borderWidth: 1, borderColor: '#666' },
+                        lineStyle: { color: 'gradient', curveness: 0.5, opacity: 0.4}, // Transparencia para limpieza visual  
+                        label: { position: 'right', color: '#333', fontSize: 11, fontWeight: '600', formatter: '{b}'
                         },
-                        lineStyle: { 
-                            color: 'gradient', 
-                            curveness: 0.5, 
-                            opacity: 0.4 // Transparencia para limpieza visual
-                        },
-                        label: {
-                            position: 'right',
-                            color: '#333',
-                            fontSize: 11,
-                            fontWeight: '600',
-                            formatter: '{b}'
-                        },
-                        emphasis: {
-                            focus: 'adjacency',
+                        emphasis: { focus: 'adjacency', 
                             itemStyle: { shadowBlur: 10, shadowColor: 'rgba(0,0,0,0.8)' },
                             lineStyle: { opacity: 0.8, width: 4 }
                         }
@@ -397,42 +340,19 @@
                 myChartInstance.setOption(optionSankeyCreditos);
                 window.addEventListener('resize', () => myChartInstance.resize());
 
-                //LEYENDA DEL DIAGRAMA (SE ACTUALIZA SOLO)
+                //LEYENDA DE SANKEY LINAJE 
                 const legendContainer = document.getElementById('legend');
                 if (legendContainer) {
                     legendContainer.classList.remove('hidden'); // Aseguramos que se vea
                     legendContainer.innerHTML = `
                         <h3 class="font-bold text-gray-800 mb-2 text-center">Guía de Linaje (Origen de Datos):</h3>
                         <div class="flex flex-wrap justify-center gap-6 text-sm">
-                            <div class="flex items-center">
-                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #EF6C00;"></span>
-                                <span class="text-gray-700 font-medium">Adamantine Suite</span>
-                            </div>
-                            
-                            <div class="flex items-center">
-                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #ee5a5aff;"></span>
-                                <span class="text-gray-700 font-medium">CISHF</span>
-                            </div>
-
-                            <div class="flex items-center">
-                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #FBC02D;"></span>
-                                <span class="text-gray-700 font-medium">Consolidado</span>
-                            </div>
-
-                            <div class="flex items-center">
-                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #a9da24ff;"></span>
-                                <span class="text-gray-700 font-medium">Excel Manual</span>
-                            </div>
-
-                            <div class="flex items-center">
-                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #7E57C2;"></span>
-                                <span class="text-gray-700 font-medium">Auditoría (CRM/Digyto)</span>
-                            </div>
-
-                            <div class="flex items-center">
-                                <span class="w-4 h-4 rounded-full mr-2" style="background-color: #1565C0;"></span>
-                                <span class="text-gray-700 font-medium">Plataforma Silver</span>
-                            </div>
+                            <div class="flex items-center"><span class="w-4 h-4 rounded-full mr-2" style="background-color: #EF6C00;"></span><span class="text-gray-700 font-medium">Adamantine Suite</span></div>
+                            <div class="flex items-center"><span class="w-4 h-4 rounded-full mr-2" style="background-color: #ee5a5aff;"></span><span class="text-gray-700 font-medium">CISHF</span></div>
+                            <div class="flex items-center"><span class="w-4 h-4 rounded-full mr-2" style="background-color: #FBC02D;"></span><span class="text-gray-700 font-medium">Tabla Consolidado</span></div>
+                            <div class="flex items-center"><span class="w-4 h-4 rounded-full mr-2" style="background-color: #a9da24ff;"></span><span class="text-gray-700 font-medium">Excel Manual</span></div>
+                            <div class="flex items-center"><span class="w-4 h-4 rounded-full mr-2" style="background-color: #7E57C2;"></span><span class="text-gray-700 font-medium">Auditoría (CRM/Digyto)</span></div>
+                            <div class="flex items-center"><span class="w-4 h-4 rounded-full mr-2" style="background-color: #1565C0;"></span><span class="text-gray-700 font-medium">Plataforma Silver</span></div>
                         </div>
                     `;
                 }
@@ -445,18 +365,14 @@
                     myChartInstance.dispose();
                     myChartInstance = null;
                 }
-
                 // 2. Validación Mermaid
                 if (!mermaidDiagrams[key]) {
                     console.error("Diagrama no encontrado:", key);
                     return;
                 }
-
                 const definition = mermaidDiagrams[key];
-                
                 // 3. Loading
                 container.innerHTML = '<div class="flex flex-col items-center justify-center h-full"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-700"></div><p class="mt-2 text-gray-500">Generando gráfico...</p></div>';
-
                 try {
                     await new Promise(r => setTimeout(r, 50));
                     const id = 'mermaid-' + Math.random().toString(36).substr(2, 9);
