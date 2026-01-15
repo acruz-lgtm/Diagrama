@@ -714,8 +714,6 @@ const echartDataCreditos = {
             descripcion: '<b>TABLA:</b> raw.repcob_bursas_reestructuras<br><b>CLAVES:</b> NOCRED' }, 
         { name: 'Consolidado\nReestructuras', itemStyle: { color: '#5df349ff' }, 
             descripcion: '<b>TABLA:</b> raw.reestructuras_consolidado<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' },
-        { name: 'Credit.Reestructuras', itemStyle: { color: '#009688' }, 
-            descripcion: '<b>TABLA:</b> raw.reestructuras_as<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' }, 
 
         // --- COLUMNA 4: TABLAS SILVER (AZULES) ---
         
@@ -734,11 +732,7 @@ const echartDataCreditos = {
         },
 
         // C. Reestructuras Procesadas
-        { 
-            name: 'silver.reestructuras\n_procesadas', 
-            itemStyle: { color: '#283593', borderColor: '#1A237E', borderWidth: 2 }, 
-            descripcion: '<b>FINALIDAD:</b> Gestión de reestructuras y convenios.'
-        }
+        
     ],
     links: [
         // --- RAMA A: ADAMANTINE -> HISTÓRICA ---
@@ -768,10 +762,5 @@ const echartDataCreditos = {
         { source: 'RepCob\nBursas Reestructuras.', target: 'silver.nocred_completo', value: 1 },
         { source: 'Consolidado\nReestructuras', target: 'silver.nocred_completo', value: 1 },
 
-        // --- FLUJO HACIA REESTRUCTURAS PROCESADAS ---
-        { source: 'silver.nocred_completo', target: 'silver.reestructuras\n_procesadas', value: 5 },
-        { source: 'RepCob\nBursas Reestructuras.', target: 'silver.reestructuras\n_procesadas', value: 1 },
-        { source: 'Consolidado\nReestructuras', target: 'silver.reestructuras\n_procesadas', value: 1 },
-        { source: 'Credit.Reestructuras', target: 'silver.reestructuras\n_procesadas', value: 2 }
     ]
 };
