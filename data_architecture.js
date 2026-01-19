@@ -111,12 +111,31 @@ const echartDataFuentes = {
                     },
                     children: [
                         { 
-                            name: "raw.negociaciones",
+                            name: "Reporte de Scotias",
                             itemStyle: { color: '#90CAF9' },
-                            lineStyle: { color: '#90CAF9', width: 2 } // LÍNEA AZUL
-                        },
+                            lineStyle: { color: '#90CAF9', width: 2 },
+                            children: [
+                                {name: "APIS ADJUDICADOS PROYECTOS",
+                                itemStyle: { color: '#90CAF9' },
+                                lineStyle: { color: '#90CAF9', width: 2 },
+                                }, 
+                                {name: "APIS HIPOTECARIO AA INVER MEX",
+                                itemStyle: { color: '#90CAF9' },
+                                lineStyle: { color: '#90CAF9', width: 2 },
+                                }, 
+                                {name: "SCOTIABANK PROYECTOS",
+                                itemStyle: { color: '#90CAF9' },
+                                lineStyle: { color: '#90CAF9', width: 2 },
+                                },
+                                {name: "SCOTIABANK AA INVER MEX",
+                                itemStyle: { color: '#90CAF9' },
+                                lineStyle: { color: '#90CAF9', width: 2 },
+                                }
+                            ]
+                        }
+                        ,
                         { 
-                            name: "raw.flujos\n_residenciales",
+                            name: "Reporte de Bursas",
                             itemStyle: { color: '#90CAF9' },
                             lineStyle: { color: '#90CAF9', width: 2 }
                         },
