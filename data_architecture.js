@@ -156,7 +156,7 @@ const echartDataFuentes = {
                                 {name: "F430",
                                 itemStyle: { color: '#90CAF9' },
                                 lineStyle: { color: '#90CAF9', width: 2 },
-                                },
+                                }
                             ]
                         }
                     ]
@@ -193,8 +193,8 @@ const echartDataFuentes = {
                     ]
                 }
             ]
-        },
-    ],
+        }
+    ]
 };
 
 // DATOS PARA EL DWH (SANKEY DIAGRAM)
