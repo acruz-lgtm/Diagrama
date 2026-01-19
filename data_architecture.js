@@ -48,32 +48,49 @@ const echartDataFuentes = {
                     },
                     children: [
                         { 
-                            name: "raw.upnify\n_ventas",
-                            itemStyle: { color: '#CE93D8' }, // Bolita morada
-                            lineStyle: { color: '#CE93D8', width: 2 } // LÍNEA MORADA
+                            name: "Upnify comercialización",  // LÍNEA MORADA
+                            itemStyle: { color: '#CE93D8' }, 
+                            lineStyle: { color: '#CE93D8', width: 2 },
+                            children: [
+                                {name: "Prospectos",
+                                itemStyle: { color: '#CE93D8' }, 
+                                lineStyle: { color: '#CE93D8', width: 2 },
+                                }, 
+                                {name: "Oportunidades",
+                                itemStyle: { color: '#CE93D8' }, 
+                                lineStyle: { color: '#CE93D8', width: 2 },
+                                }, 
+                                {name: "Pagos completos",
+                                itemStyle: { color: '#CE93D8' }, 
+                                lineStyle: { color: '#CE93D8', width: 2 },
+                                },
+                                {name: "Pagos Bursas con inversión y administradas",
+                                itemStyle: { color: '#CE93D8' }, 
+                                lineStyle: { color: '#CE93D8', width: 2 },
+                                }
+                            ]  
                         },
                         { 
-                            name: "raw.upnify\n_prospectos",
+                            name: "Upnify crédito individual",
                             itemStyle: { color: '#CE93D8' },
-                            lineStyle: { color: '#CE93D8', width: 2 }
+                            lineStyle: { color: '#CE93D8', width: 2 },
+                            children: [
+                                {name: "Prospectos",
+                                itemStyle: { color: '#CE93D8' }, 
+                                lineStyle: { color: '#CE93D8', width: 2 },
+                                }, 
+                                {name: "Oportunidades",
+                                itemStyle: { color: '#CE93D8' }, 
+                                lineStyle: { color: '#CE93D8', width: 2 },
+                                }, 
+                                {name: "Pagos completos",
+                                itemStyle: { color: '#CE93D8' }, 
+                                lineStyle: { color: '#CE93D8', width: 2 },
+                                }
+                            ]
                         },
                         { 
-                            name: "raw.upnify\n_oportunidades",
-                            itemStyle: { color: '#CE93D8' },
-                            lineStyle: { color: '#CE93D8', width: 2 }
-                        },
-                        { 
-                            name: "raw.upnify\n_productos",
-                            itemStyle: { color: '#CE93D8' },
-                            lineStyle: { color: '#CE93D8', width: 2 }
-                        },
-                        { 
-                            name: "raw.upnify\n_seguimientos",
-                            itemStyle: { color: '#CE93D8' },
-                            lineStyle: { color: '#CE93D8', width: 2 }
-                        },
-                        { 
-                            name: "raw.upnify\n_prod_oportunidades",
+                            name: "Pipeline Upnify",
                             itemStyle: { color: '#CE93D8' },
                             lineStyle: { color: '#CE93D8', width: 2 }
                         }
