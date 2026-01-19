@@ -193,8 +193,8 @@ const echartDataFuentes = {
                     ]
                 }
             ]
-        }
-    ]
+        },
+    ],
 };
 
 // DATOS PARA EL DWH (SANKEY DIAGRAM)
