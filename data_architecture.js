@@ -22,17 +22,22 @@ const echartDataFuentes = {
                     // HIJOS: Aquí definimos que sus líneas sean ROSAS siempre
                     children: [
                         { 
-                            name: "raw.creditos_as",
-                            itemStyle: { color: '#F48FB1' }, // Bolita rosa
-                            lineStyle: { color: '#F48FB1', width: 2 } // LÍNEA ROSA
+                            name: "Credit",
+                            itemStyle: { color: '#F48FB1' },  // LÍNEA ROSA
+                            lineStyle: { color: '#F48FB1', width: 2 },
+                            children: [
+                                {name: "Pagos",
+                                itemStyle: { color: '#F48FB1' }, 
+                                lineStyle: { color: '#F48FB1', width: 2 },
+                                }]
                         },
                         { 
-                            name: "raw.creditos\n_historica",
+                            name: "Credit.Creditos\n Cartera Historica",
                             itemStyle: { color: '#F48FB1' },
                             lineStyle: { color: '#F48FB1', width: 2 }
                         },
                         { 
-                            name: "raw.bitacora\n_judicial",
+                            name: "Legal",
                             itemStyle: { color: '#F48FB1' },
                             lineStyle: { color: '#F48FB1', width: 2 }
                         }
@@ -106,9 +111,16 @@ const echartDataFuentes = {
                     },
                     children: [
                         { 
-                            name: "raw.reportes\n_mora21",
+                            name: "Cobranza",
                             itemStyle: { color: '#F44336' },
-                            lineStyle: { color: '#F44336', width: 2 } // LÍNEA ROJA
+                            lineStyle: { color: '#F44336', width: 2 },
+                            children: [
+                            { 
+                                name: "Reporte Mora 21",
+                                itemStyle: { color: '#F44336' },
+                                lineStyle: { color: '#F44336', width: 2 },
+                                }
+                            ] // LÍNEA ROJA
                         }
                     ]
                 }
