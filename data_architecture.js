@@ -5,7 +5,6 @@ const { Children } = require("react");
 // Variable de datos con colores manuales para asegurar que las líneas se pinten
 const echartDataFuentes = {
     name: "Fuentes\nPrimarias",
-    // Nodo Central (Azul)
     itemStyle: { color: '#EF6C00', borderColor: '#fff', shadowBlur: 10 },
     label: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
     children: [
@@ -17,17 +16,15 @@ const echartDataFuentes = {
                 {
                     name: "Adamantine Suite\nCréditos",
                     itemStyle: { color: '#F48FB1' }, 
-                    // Configuración del Padre
                     emphasis: {
                         itemStyle: { color: '#E91E63', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#E91E63' },
                         label: { backgroundColor: '#FCE4EC', borderColor: '#E91E63', borderWidth: 1, color: '#880E4F', fontWeight: 'bold' }
                     },
-                    // HIJOS: Aquí definimos que sus líneas sean ROSAS siempre
                     children: [
                         { 
                             name: "raw.creditos_as",
-                            itemStyle: { color: '#F48FB1' }, // Bolita rosa
-                            lineStyle: { color: '#F48FB1', width: 2 } // LÍNEA ROSA
+                            itemStyle: { color: '#F48FB1' },
+                            lineStyle: { color: '#F48FB1', width: 2 }
                         },
                         { 
                             name: "raw.creditos\n_historica",
@@ -50,36 +47,12 @@ const echartDataFuentes = {
                         label: { backgroundColor: '#F3E5F5', borderColor: '#9C27B0', borderWidth: 1, color: '#4A148C', fontWeight: 'bold' }
                     },
                     children: [
-                        { 
-                            name: "raw.upnify\n_ventas",
-                            itemStyle: { color: '#CE93D8' }, // Bolita morada
-                            lineStyle: { color: '#CE93D8', width: 2 } // LÍNEA MORADA
-                        },
-                        { 
-                            name: "raw.upnify\n_prospectos",
-                            itemStyle: { color: '#CE93D8' },
-                            lineStyle: { color: '#CE93D8', width: 2 }
-                        },
-                        { 
-                            name: "raw.upnify\n_oportunidades",
-                            itemStyle: { color: '#CE93D8' },
-                            lineStyle: { color: '#CE93D8', width: 2 }
-                        },
-                        { 
-                            name: "raw.upnify\n_productos",
-                            itemStyle: { color: '#CE93D8' },
-                            lineStyle: { color: '#CE93D8', width: 2 }
-                        },
-                        { 
-                            name: "raw.upnify\n_seguimientos",
-                            itemStyle: { color: '#CE93D8' },
-                            lineStyle: { color: '#CE93D8', width: 2 }
-                        },
-                        { 
-                            name: "raw.upnify\n_prod_oportunidades",
-                            itemStyle: { color: '#CE93D8' },
-                            lineStyle: { color: '#CE93D8', width: 2 }
-                        }
+                        { name: "raw.upnify\n_ventas", itemStyle: { color: '#CE93D8' }, lineStyle: { color: '#CE93D8', width: 2 } },
+                        { name: "raw.upnify\n_prospectos", itemStyle: { color: '#CE93D8' }, lineStyle: { color: '#CE93D8', width: 2 } },
+                        { name: "raw.upnify\n_oportunidades", itemStyle: { color: '#CE93D8' }, lineStyle: { color: '#CE93D8', width: 2 } },
+                        { name: "raw.upnify\n_productos", itemStyle: { color: '#CE93D8' }, lineStyle: { color: '#CE93D8', width: 2 } },
+                        { name: "raw.upnify\n_seguimientos", itemStyle: { color: '#CE93D8' }, lineStyle: { color: '#CE93D8', width: 2 } },
+                        { name: "raw.upnify\n_prod_oportunidades", itemStyle: { color: '#CE93D8' }, lineStyle: { color: '#CE93D8', width: 2 } }
                     ]
                 },
                 // --- RAMA CISHF (ROJO) ---
@@ -94,7 +67,7 @@ const echartDataFuentes = {
                         { 
                             name: "raw.reportes\n_mora21",
                             itemStyle: { color: '#F44336' },
-                            lineStyle: { color: '#F44336', width: 2 } // LÍNEA ROJA
+                            lineStyle: { color: '#F44336', width: 2 }
                         }
                     ]
                 }
@@ -118,22 +91,10 @@ const echartDataFuentes = {
                             itemStyle: { color: '#90CAF9' },
                             lineStyle: { color: '#90CAF9', width: 2 },
                             children: [
-                                {name: "APIS ADJUDICADOS PROYECTOS",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                }, 
-                                {name: "APIS HIPOTECARIO AA INVER MEX",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                }, 
-                                {name: "SCOTIABANK PROYECTOS",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                },
-                                {name: "SCOTIABANK AA INVER MEX",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                }
+                                {name: "APIS ADJUDICADOS PROYECTOS", itemStyle: { color: '#90CAF9' } }, 
+                                {name: "APIS HIPOTECARIO AA INVER MEX", itemStyle: { color: '#90CAF9' } }, 
+                                {name: "SCOTIABANK PROYECTOS", itemStyle: { color: '#90CAF9' } },
+                                {name: "SCOTIABANK AA INVER MEX", itemStyle: { color: '#90CAF9' } }
                             ]
                         },
                         { 
@@ -141,22 +102,10 @@ const echartDataFuentes = {
                             itemStyle: { color: '#90CAF9' },
                             lineStyle: { color: '#90CAF9', width: 2 },
                             children: [
-                                {name: "F243264",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                },
-                                {name: "F238864",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                },
-                                {name: "F234036",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                },
-                                {name: "F430",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                }
+                                {name: "F243264", itemStyle: { color: '#90CAF9' } },
+                                {name: "F238864", itemStyle: { color: '#90CAF9' } },
+                                {name: "F234036", itemStyle: { color: '#90CAF9' } },
+                                {name: "F430", itemStyle: { color: '#90CAF9' } }
                             ]
                         }
                     ]
@@ -170,26 +119,10 @@ const echartDataFuentes = {
                         label: { backgroundColor: '#E8F5E9', borderColor: '#4CAF50', borderWidth: 1, color: '#1B5E20', fontWeight: 'bold' }
                     },
                     children: [
-                        { 
-                            name: "Inventario General",
-                            itemStyle: { color: '#A5D6A7' },
-                            lineStyle: { color: '#A5D6A7', width: 2 } 
-                        },
-                        { 
-                            name: "Folios de Cómite",
-                            itemStyle: { color: '#A5D6A7' },
-                            lineStyle: { color: '#A5D6A7', width: 2 }
-                        },
-                        { 
-                            name: "Catálogo entidades federativas",
-                            itemStyle: { color: '#A5D6A7' },
-                            lineStyle: { color: '#A5D6A7', width: 2 }
-                        }, 
-                        { 
-                            name: "Catálogo codigo_postal",
-                            itemStyle: { color: '#A5D6A7' },
-                            lineStyle: { color: '#A5D6A7', width: 2 }
-                        }
+                        { name: "Inventario General", itemStyle: { color: '#A5D6A7' } },
+                        { name: "Folios de Cómite", itemStyle: { color: '#A5D6A7' } },
+                        { name: "Catálogo entidades federativas", itemStyle: { color: '#A5D6A7' } }, 
+                        { name: "Catálogo codigo_postal", itemStyle: { color: '#A5D6A7' } }
                     ]
                 }
             ]
