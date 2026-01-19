@@ -1,4 +1,7 @@
 // --- 2. DATOS PARA ECHARTS (NUEVO: TRADUCCIÓN DE TU MINDMAP) ---
+
+const { Children } = require("react");
+
 // Variable de datos con colores manuales para asegurar que las líneas se pinten
 const echartDataFuentes = {
     name: "Fuentes\nPrimarias",
@@ -132,22 +135,29 @@ const echartDataFuentes = {
                                 lineStyle: { color: '#90CAF9', width: 2 },
                                 }
                             ]
-                        }
-                        ,
+                        },
                         { 
                             name: "Reporte de Bursas",
                             itemStyle: { color: '#90CAF9' },
-                            lineStyle: { color: '#90CAF9', width: 2 }
-                        },
-                        { 
-                            name: "raw.consolidado",
-                            itemStyle: { color: '#90CAF9' },
-                            lineStyle: { color: '#90CAF9', width: 2 }
-                        },
-                        { 
-                            name: "raw.inmuebles",
-                            itemStyle: { color: '#90CAF9' },
-                            lineStyle: { color: '#90CAF9', width: 2 }
+                            lineStyle: { color: '#90CAF9', width: 2 },
+                            children: [
+                                {name: "F243264",
+                                itemStyle: { color: '#90CAF9' },
+                                lineStyle: { color: '#90CAF9', width: 2 },
+                                },
+                                {name: "F238864",
+                                itemStyle: { color: '#90CAF9' },
+                                lineStyle: { color: '#90CAF9', width: 2 },
+                                },
+                                {name: "F234036",
+                                itemStyle: { color: '#90CAF9' },
+                                lineStyle: { color: '#90CAF9', width: 2 },
+                                },
+                                {name: "F430",
+                                itemStyle: { color: '#90CAF9' },
+                                lineStyle: { color: '#90CAF9', width: 2 },
+                                },
+                            ]
                         }
                     ]
                 },
@@ -161,17 +171,22 @@ const echartDataFuentes = {
                     },
                     children: [
                         { 
-                            name: "raw.inventario",
+                            name: "Inventario General",
                             itemStyle: { color: '#A5D6A7' },
-                            lineStyle: { color: '#A5D6A7', width: 2 } // LÍNEA VERDE
+                            lineStyle: { color: '#A5D6A7', width: 2 } 
                         },
                         { 
-                            name: "raw.geo\n_codigo_postal",
+                            name: "Folios de Cómite",
                             itemStyle: { color: '#A5D6A7' },
                             lineStyle: { color: '#A5D6A7', width: 2 }
                         },
                         { 
-                            name: "raw.geo\n_entidades",
+                            name: "Catálogo entidades federativas",
+                            itemStyle: { color: '#A5D6A7' },
+                            lineStyle: { color: '#A5D6A7', width: 2 }
+                        }, 
+                        { 
+                            name: "Catálogo codigo_postal",
                             itemStyle: { color: '#A5D6A7' },
                             lineStyle: { color: '#A5D6A7', width: 2 }
                         }
