@@ -169,62 +169,39 @@ const echartDataFuentes = {
                 // --- RAMA COBRANZA (AZUL) ---
                 {
                     name: "Reportes de\nCobranza",
-                    itemStyle: { color: '#90CAF9' },
+                    itemStyle: { color: '#4DB6AC' }, // Turquesa/Cian
                     emphasis: {
-                        itemStyle: { color: '#2196F3', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#2196F3' },
-                        label: { backgroundColor: '#E3F2FD', borderColor: '#2196F3', borderWidth: 1, color: '#0D47A1', fontWeight: 'bold' }
+                        itemStyle: { color: '#009688', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#009688' },
+                        label: { backgroundColor: '#E0F2F1', borderColor: '#009688', borderWidth: 1, color: '#004D40', fontWeight: 'bold' }
                     },
                     children: [
                         { 
                             name: "Reporte de Scotias",
-                            itemStyle: { color: '#90CAF9' },
-                            lineStyle: { color: '#90CAF9', width: 2 },
+                            itemStyle: { color: '#4DB6AC' },
+                            lineStyle: { color: '#4DB6AC', width: 2 },
                             children: [
-                                {name: "APIS ADJUDICADOS PROYECTOS",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                }, 
-                                {name: "APIS HIPOTECARIO AA INVER MEX",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                }, 
-                                {name: "SCOTIABANK PROYECTOS",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                },
-                                {name: "SCOTIABANK AA INVER MEX",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                }
+                                {name: "APIS ADJUDICADOS PROYECTOS", itemStyle: { color: '#4DB6AC' } }, 
+                                {name: "APIS HIPOTECARIO AA INVER MEX", itemStyle: { color: '#4DB6AC' } },
+                                {name: "SCOTIABANK PROYECTOS", itemStyle: { color: '#4DB6AC' } },
+                                {name: "SCOTIABANK AA INVER MEX", itemStyle: { color: '#4DB6AC' } }
                             ]
                         },
                         { 
                             name: "Reporte de Bursas",
-                            itemStyle: { color: '#90CAF9' },
-                            lineStyle: { color: '#90CAF9', width: 2 }, children: [
-                                {name: "F243264",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                },
-                                {name: "F238864",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                },
-                                {name: "F234036",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                },
-                                {name: "F430",
-                                itemStyle: { color: '#90CAF9' },
-                                lineStyle: { color: '#90CAF9', width: 2 },
-                                },
+                            itemStyle: { color: '#4DB6AC' },
+                            lineStyle: { color: '#4DB6AC', width: 2 },
+                            children: [
+                                {name: "F243264", itemStyle: { color: '#4DB6AC' } },
+                                {name: "F238864", itemStyle: { color: '#4DB6AC' } },
+                                {name: "F234036", itemStyle: { color: '#4DB6AC' } }, 
+                                {name: "F430", itemStyle: { color: '#4DB6AC' } },
                             ]
                         },
                     ]
                 },
                 // --- RAMA CATALOGOS (VERDE) ---
                 {
-                    name: "Catálogos\n/CSV Excel",
+                    name: "Catálogos/\nCSV Excel",
                     itemStyle: { color: '#A5D6A7' }, 
                     emphasis: {
                         itemStyle: { color: '#4CAF50', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#4CAF50' },
