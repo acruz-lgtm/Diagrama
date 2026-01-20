@@ -164,74 +164,54 @@ const echartDataFuentes = {
         },
         {
             name: "ArchivosLocales\ny Reportes",
-            itemStyle: { color: '#AED581' },
+            itemStyle: { color: '#aad677' },
             children: [
+                // --- RAMA CATALOGOS (VERDE) ---
+                {
+                    name: "Catálogos/\nCSV Excel",
+                    itemStyle: { color: '#B2FF59' }, 
+                    emphasis: {
+                        itemStyle: { color: '#76FF03', borderColor: '#fff', borderWidth: 2, shadowBlur: 20 },
+                        label: { backgroundColor: '#F1F8E9', borderColor: '#76FF03', borderWidth: 1, color: '#33691E', fontWeight: 'bold' }
+                    },
+                    children: [
+                        { name: "Inventario General", itemStyle: { color: '#B2FF59' }, lineStyle: { color: '#B2FF59', width: 2 } },
+                        { name: "Folios de Cómite", itemStyle: { color: '#B2FF59' }, lineStyle: { color: '#B2FF59', width: 2 } },
+                        { name: "Catálogo entidades federativas", itemStyle: { color: '#B2FF59' }, lineStyle: { color: '#B2FF59', width: 2 } }, 
+                        { name: "Catálogo codigo postal", itemStyle: { color: '#B2FF59' }, lineStyle: { color: '#B2FF59', width: 2 } },
+                        { name: "Pipeline", itemStyle: { color: '#B2FF59' }, lineStyle: { color: '#B2FF59', width: 2 } }
+                    ]
+                },
                 // --- RAMA COBRANZA (AZUL) ---
                 {
                     name: "Reportes de\nCobranza",
-                    itemStyle: { color: '#25b68a' }, // Turquesa/Cian
+                    itemStyle: { color: '#00796B' }, // Turquesa/Cian
                     emphasis: {
-                        itemStyle: { color: '#009688', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#009688' },
-                        label: { backgroundColor: '#E0F2F1', borderColor: '#009688', borderWidth: 1, color: '#004D40', fontWeight: 'bold' }
+                        itemStyle: { color: '#004D40', borderColor: '#fff', borderWidth: 2, shadowBlur: 20 },
+                        label: { backgroundColor: '#E0F2F1', borderColor: '#004D40', borderWidth: 1, color: '#002420', fontWeight: 'bold' }
                     },
                     children: [
                         { 
                             name: "Reporte de Scotias",
-                            itemStyle: { color: '#4DB6AC' },
-                            lineStyle: { color: '#4DB6AC', width: 2 },
+                            itemStyle: { color: '#00796B' },
+                            lineStyle: { color: '#00796B', width: 2 },
                             children: [
-                                {name: "APIS ADJUDICADOS PROYECTOS", itemStyle: { color: '#4DB6AC' }, lineStyle: { color: '#4DB6AC', width: 2 } }, 
-                                {name: "APIS HIPOTECARIO AA INVER MEX", itemStyle: { color: '#4DB6AC' } },
-                                {name: "SCOTIABANK PROYECTOS", itemStyle: { color: '#4DB6AC' } },
-                                {name: "SCOTIABANK AA INVER MEX", itemStyle: { color: '#4DB6AC' } }
+                                {name: "APIS ADJUDICADOS PROYECTOS", itemStyle: { color: '#00796B' }, lineStyle: { color: '#00796B', width: 2 } }, 
+                                {name: "APIS HIPOTECARIO AA INVER MEX", itemStyle: { color: '#00796B' }, lineStyle: { color: '#00796B', width: 2 } },
+                                {name: "SCOTIABANK PROYECTOS", itemStyle: { color: '#00796B' }, lineStyle: { color: '#00796B', width: 2 } },
+                                {name: "SCOTIABANK AA INVER MEX", itemStyle: { color: '#00796B' }, lineStyle: { color: '#00796B', width: 2 } }
                             ]
                         },
                         { 
                             name: "Reporte de Bursas",
-                            itemStyle: { color: '#4DB6AC' }, 
-                            lineStyle: { color: '#4DB6AC', width: 2 },
+                            itemStyle: { color: '#00796B' }, 
+                            lineStyle: { color: '#00796B', width: 2 },
                             children: [
-                                {name: "F243264", itemStyle: { color: '#4DB6AC' } },
-                                {name: "F238864", itemStyle: { color: '#4DB6AC' } },
-                                {name: "F234036", itemStyle: { color: '#4DB6AC' } }, 
-                                {name: "F430", itemStyle: { color: '#4DB6AC' } },
+                                {name: "F243264", itemStyle: { color: '#00796B' }, lineStyle: { color: '#00796B', width: 2 } },
+                                {name: "F238864", itemStyle: { color: '#00796B' }, lineStyle: { color: '#00796B', width: 2 } },
+                                {name: "F234036", itemStyle: { color: '#00796B' }, lineStyle: { color: '#00796B', width: 2 } }, 
+                                {name: "F430", itemStyle: { color: '#00796B' }, lineStyle: { color: '#00796B', width: 2 } },
                             ]
-                        },
-                    ]
-                },
-                // --- RAMA CATALOGOS (VERDE) ---
-                {
-                    name: "Catálogos/\nCSV Excel",
-                    itemStyle: { color: '#A5D6A7' }, 
-                    emphasis: {
-                        itemStyle: { color: '#4CAF50', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#4CAF50' },
-                        label: { backgroundColor: '#E8F5E9', borderColor: '#4CAF50', borderWidth: 1, color: '#1B5E20', fontWeight: 'bold' }
-                    },
-                    children: [
-                        { 
-                            name: "Inventario General",
-                            itemStyle: { color: '#A5D6A7' },
-                            lineStyle: { color: '#A5D6A7', width: 2 } 
-                        },
-                        { 
-                            name: "Folios de Cómite",
-                            itemStyle: { color: '#A5D6A7' },
-                            lineStyle: { color: '#A5D6A7', width: 2 }
-                        },
-                        { 
-                            name: "Catálogo entidades federativas",
-                            itemStyle: { color: '#A5D6A7' },
-                            lineStyle: { color: '#A5D6A7', width: 2 }
-                        }, 
-                        { 
-                            name: "Catálogo codigo postal",
-                            itemStyle: { color: '#A5D6A7' },
-                            lineStyle: { color: '#A5D6A7', width: 2 }
-                        },
-                        {
-                            name: "Pipeline", 
-                            itemStyle: { color: '#A5D6A7' },
-                            lineStyle: { color: '#A5D6A7', width: 2 }
                         }
                     ]
                 }
