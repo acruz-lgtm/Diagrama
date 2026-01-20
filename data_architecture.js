@@ -26,7 +26,7 @@ const echartDataFuentes = {
                             itemStyle: { color: '#F48FB1' },  // LÍNEA ROSA
                             lineStyle: { color: '#F48FB1', width: 2 },
                             children: [
-                                {name: "Pagos",
+                                {name: "Pagos (no oficiales)",
                                 itemStyle: { color: '#F48FB1' }, 
                                 lineStyle: { color: '#F48FB1', width: 2 },
                                 }]
@@ -95,7 +95,7 @@ const echartDataFuentes = {
                             ]
                         },
                         { 
-                            name: "Pipeline Upnify",
+                            name: "Jurídico",
                             itemStyle: { color: '#CE93D8' },
                             lineStyle: { color: '#CE93D8', width: 2 }
                         }
@@ -103,7 +103,7 @@ const echartDataFuentes = {
                 },
                 // --- RAMA CISHF (ROJO) ---
                 {
-                    name: "CISHF\nBase de Datos",
+                    name: "CISHF\nAdministración Maestra",
                     itemStyle: { color: '#F44336' },
                     emphasis: {
                         itemStyle: { color: '#D32F2F', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#D32F2F' },
@@ -126,6 +126,37 @@ const echartDataFuentes = {
                             name: "Histórico",
                             itemStyle: { color: '#F44336' },
                             lineStyle: { color: '#F44336', width: 2 }
+                        }
+                    ]
+                },
+                // RAMA DIGYTO 
+                {
+                    name: "Digyto\nGestiones",
+                    itemStyle: { color: '#26C6DA' }, // Turquesa/Cian
+                    emphasis: {
+                        itemStyle: { color: '#00ACC1', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#00ACC1' },
+                        label: { backgroundColor: '#E0F7FA', borderColor: '#00ACC1', borderWidth: 1, color: '#006064', fontWeight: 'bold' }
+                    },
+                    children: [
+                        {
+                            name: "Gestiones totales",
+                            itemStyle: { color: '#26C6DA' }, 
+                            lineStyle: { color: '#26C6DA', width: 2 } 
+                        },
+                        {
+                            name: "Contactos nuevos",
+                            itemStyle: { color: '#26C6DA' }, 
+                            lineStyle: { color: '#26C6DA', width: 2 } 
+                        },
+                        {
+                            name: "Gestiones con contacto",
+                            itemStyle: { color: '#26C6DA' }, 
+                            lineStyle: { color: '#26C6DA', width: 2 } 
+                        },
+                        {
+                            name: "Créditos con contacto",
+                            itemStyle: { color: '#26C6DA' }, 
+                            lineStyle: { color: '#26C6DA', width: 2 } 
                         }
                     ]
                 }
@@ -188,7 +219,7 @@ const echartDataFuentes = {
                                 lineStyle: { color: '#90CAF9', width: 2 },
                                 },
                             ]
-                        }
+                        },
                     ]
                 },
                 // --- RAMA CATALOGOS (VERDE) ---
@@ -217,6 +248,11 @@ const echartDataFuentes = {
                         }, 
                         { 
                             name: "Catálogo codigo postal",
+                            itemStyle: { color: '#A5D6A7' },
+                            lineStyle: { color: '#A5D6A7', width: 2 }
+                        },
+                        {
+                            name: Pipeline, 
                             itemStyle: { color: '#A5D6A7' },
                             lineStyle: { color: '#A5D6A7', width: 2 }
                         }
