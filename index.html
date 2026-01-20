@@ -175,7 +175,7 @@
                 
                 const option = {
                 title: {
-                text: 'Gráfico de Red de Fuentes Primarias',
+                text: 'Gráfico de Fuentes Primarias',
                 left: 'center',
                 textStyle: { color: '#333' }
                     },
@@ -183,10 +183,14 @@
                 series: [{
                     type: 'tree',
                     data: [echartDataFuentes], // Usamos los datos nuevos
-                    
+
+                    layout: 'orthogonal',
+                    orientation: 'LR',
                     roam: true, 
-                    top: '10%', bottom: '10%', left: '10%', right: '10%',
-                    layout: 'radial',
+                    expandAndCollapse: false, 
+                    initialTreeDepth: -1, 
+
+                    top: '10%', bottom: '10%', left: '10%', right: '15%',
                     symbol: 'circle',
                     symbolSize: 12, 
                     animationDurationUpdate: 500,
