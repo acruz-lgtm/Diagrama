@@ -252,7 +252,7 @@ const echartDataFuentes = {
                             lineStyle: { color: '#A5D6A7', width: 2 }
                         },
                         {
-                            name: Pipeline, 
+                            name: "Pipeline", 
                             itemStyle: { color: '#A5D6A7' },
                             lineStyle: { color: '#A5D6A7', width: 2 }
                         }
