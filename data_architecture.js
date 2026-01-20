@@ -121,6 +121,11 @@ const echartDataFuentes = {
                                 lineStyle: { color: '#F44336', width: 2 },
                                 }
                             ] // LÍNEA ROJA
+                        },
+                        {
+                            name: "Histórico",
+                            itemStyle: { color: '#F44336' },
+                            lineStyle: { color: '#F44336', width: 2 }
                         }
                     ]
                 }
@@ -188,7 +193,7 @@ const echartDataFuentes = {
                 },
                 // --- RAMA CATALOGOS (VERDE) ---
                 {
-                    name: "Catálogos\nCSV Excel",
+                    name: "Catálogos\n/CSV Excel",
                     itemStyle: { color: '#A5D6A7' }, 
                     emphasis: {
                         itemStyle: { color: '#4CAF50', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#4CAF50' },
@@ -211,7 +216,7 @@ const echartDataFuentes = {
                             lineStyle: { color: '#A5D6A7', width: 2 }
                         }, 
                         { 
-                            name: "Catálogo codigo_postal",
+                            name: "Catálogo codigo postal",
                             itemStyle: { color: '#A5D6A7' },
                             lineStyle: { color: '#A5D6A7', width: 2 }
                         }
@@ -791,7 +796,13 @@ const echartDataCreditos = {
         },
 
         // C. Reestructuras Procesadas
-        
+        {   name: 'Credit.Reestructuras', itemStyle: { color: '#009688' }, 
+            descripcion: '<b>TABLA:</b> raw.reestructuras_as<br><b>CLAVES:</b> CRÉDITO ADAMANTINE | CRÉDITO ANTERIOR' }, 
+        { 
+            name: 'silver.reestructuras\n_procesadas', 
+            itemStyle: { color: '#283593', borderColor: '#1A237E', borderWidth: 2 }, 
+            descripcion: '<b>FINALIDAD:</b> Gestión de reestructuras y convenios.'
+        }
     ],
     links: [
         // --- RAMA A: ADAMANTINE -> HISTÓRICA ---
@@ -821,5 +832,10 @@ const echartDataCreditos = {
         { source: 'RepCob\nBursas Reestructuras.', target: 'silver.nocred_completo', value: 1 },
         { source: 'Consolidado\nReestructuras', target: 'silver.nocred_completo', value: 1 },
 
+        // --- FLUJO HACIA REESTRUCTURAS PROCESADAS ---
+        { source: 'silver.nocred_completo', target: 'silver.reestructuras\n_procesadas', value: 5 },
+        { source: 'RepCob\nBursas Reestructuras.', target: 'silver.reestructuras\n_procesadas', value: 1 },
+        { source: 'Consolidado\nReestructuras', target: 'silver.reestructuras\n_procesadas', value: 1 },
+        { source: 'Credit.Reestructuras', target: 'silver.reestructuras\n_procesadas', value: 2 }
     ]
 };
