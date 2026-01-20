@@ -2,13 +2,16 @@
 // Variable de datos con colores manuales para asegurar que las líneas se pinten
 const echartDataFuentes = {
     name: "Fuentes\nPrimarias",
-    // Nodo Central (Azul)
     itemStyle: { color: '#EF6C00', borderColor: '#fff', shadowBlur: 10 },
     label: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
+    emphasis: { itemStyle: { color: '#FF6D00', borderColor: '#fff', borderWidth: 3, shadowBlur: 35, shadowColor: '#BF360C'},
+    label: {backgroundColor: '#FFF3E0', borderColor: '#E65100', borderWidth: 2, color: '#BF360C', fontWeight: 'bold', fontSize: 16 } },
     children: [
         {
             name: "APIs y Bases de Datos\nOperacionales",
             itemStyle: { color: '#FFF176' },
+            emphasis: { itemStyle: { color: '#FDD835', borderColor: '#fff', borderWidth: 2, shadowBlur: 25, shadowColor: '#FBC02D'},
+            label: { backgroundColor: '#FFFDE7', borderColor: '#FBC02D', borderWidth: 1, color: '#F57F17', fontWeight: 'bold'} },
             children: [
                 // --- RAMA ADAMANTINE (ROSA) ---
                 {
@@ -163,8 +166,10 @@ const echartDataFuentes = {
             ]
         },
         {
-            name: "ArchivosLocales\ny Reportes",
-            itemStyle: { color: '#aad677' },
+            name: "Archivos Locales\ny Reportes",
+            itemStyle: { color: '#AED581' },
+            emphasis: { itemStyle: { color: '#7CB342', borderColor: '#fff', borderWidth: 2, shadowBlur: 25, shadowColor: '#558B2F'},
+            label: { backgroundColor: '#F1F8E9', borderColor: '#689F38', borderWidth: 1, color: '#33691E', fontWeight: 'bold'} },
             children: [
                 // --- RAMA CATALOGOS (VERDE) ---
                 {
