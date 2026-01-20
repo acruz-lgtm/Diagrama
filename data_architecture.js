@@ -169,7 +169,7 @@ const echartDataFuentes = {
                 // --- RAMA COBRANZA (AZUL) ---
                 {
                     name: "Reportes de\nCobranza",
-                    itemStyle: { color: '#4DB6AC' }, // Turquesa/Cian
+                    itemStyle: { color: '#25b68a' }, // Turquesa/Cian
                     emphasis: {
                         itemStyle: { color: '#009688', borderColor: '#fff', borderWidth: 2, shadowBlur: 20, shadowColor: '#009688' },
                         label: { backgroundColor: '#E0F2F1', borderColor: '#009688', borderWidth: 1, color: '#004D40', fontWeight: 'bold' }
@@ -180,7 +180,7 @@ const echartDataFuentes = {
                             itemStyle: { color: '#4DB6AC' },
                             lineStyle: { color: '#4DB6AC', width: 2 },
                             children: [
-                                {name: "APIS ADJUDICADOS PROYECTOS", itemStyle: { color: '#4DB6AC' } }, 
+                                {name: "APIS ADJUDICADOS PROYECTOS", itemStyle: { color: '#4DB6AC' }, lineStyle: { color: '#4DB6AC', width: 2 } }, 
                                 {name: "APIS HIPOTECARIO AA INVER MEX", itemStyle: { color: '#4DB6AC' } },
                                 {name: "SCOTIABANK PROYECTOS", itemStyle: { color: '#4DB6AC' } },
                                 {name: "SCOTIABANK AA INVER MEX", itemStyle: { color: '#4DB6AC' } }
@@ -188,7 +188,7 @@ const echartDataFuentes = {
                         },
                         { 
                             name: "Reporte de Bursas",
-                            itemStyle: { color: '#4DB6AC' },
+                            itemStyle: { color: '#4DB6AC' }, 
                             lineStyle: { color: '#4DB6AC', width: 2 },
                             children: [
                                 {name: "F243264", itemStyle: { color: '#4DB6AC' } },
